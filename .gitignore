@@ -1,0 +1,14 @@
+hs_err_pid*
+.gradle/
+.idea
+/logs
+*.log
+/build
+*/build
+/out
+/.idea/
+*.db
+*.so
+generated/
+*.zip
+*.csv

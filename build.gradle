@@ -16,8 +16,7 @@ targetCompatibility = 1.8
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-//    compile "org.apache.sshd:sshd-core:2.5.1"
-    compile 'com.jcraft:jsch:0.1.55'
+    compile "com.jcraft:jsch:0.1.55"
 
     testCompile "junit:junit:4.13.2"
 }

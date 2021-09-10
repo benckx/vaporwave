@@ -1,9 +1,11 @@
 package be.encelade.vaporwave.services
 
 import be.encelade.vaporwave.model.LsEntry
+import be.encelade.vaporwave.model.RemoteRom
+import be.encelade.vaporwave.services.ExtensionMap.romExtensions
 import org.joda.time.format.DateTimeFormat
 
-class LSParser {
+object LSParser {
 
     private val parser = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm:ss.SSSSSSSSS Z").withZoneUTC()
 
@@ -26,6 +28,18 @@ class LSParser {
                     val filePath = split.subList(i, split.size).joinToString(" ").removePrefix("/roms")
 
                     LsEntry(dateTime, fileSize, filePath)
+                }
+    }
+
+    fun toRemoteRoms(entries: List<LsEntry>): List<RemoteRom> {
+        return entries
+                .filter { entry -> entry.isConsole() }
+                .filter { entry -> romExtensions.contains(entry.extension()) }
+                .groupBy { entry -> entry.console()!! }
+                .flatMap { (console, consoleEntries) ->
+                    consoleEntries
+                            .groupBy { it.simpleFileName() }
+                            .map { (fileName, entries) -> RemoteRom(console, fileName, entries) }
                 }
     }
 

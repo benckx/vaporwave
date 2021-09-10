@@ -19,7 +19,8 @@ data class LsEntry(val lastModified: DateTime,
      * @return filePath without extension or folder
      */
     fun simpleFileName(): String {
-        return filePath.split(".").first().split("/").last()
+        val extension = filePath.split(".").last()
+        return filePath.removeSuffix(".$extension").split("/").last()
     }
 
     fun extension(): String {

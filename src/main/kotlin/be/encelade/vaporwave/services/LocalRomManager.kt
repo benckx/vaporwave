@@ -1,6 +1,8 @@
 package be.encelade.vaporwave.services
 
 import be.encelade.vaporwave.model.LocalRom
+import be.encelade.vaporwave.model.RemoteRom
+import be.encelade.vaporwave.model.RomSyncStatus
 import be.encelade.vaporwave.services.ExtensionMap.consoleKeys
 import be.encelade.vaporwave.services.ExtensionMap.getExtensionPerConsole
 import java.io.File
@@ -27,7 +29,22 @@ class LocalRomManager(localRomFolder: String) {
                             .groupBy { it.nameWithoutExtension }
                             .map { (simpleFileName, files) -> LocalRom(consoleFolder.name, simpleFileName, files) }
                 }
-                .map { localRom -> localRom.attachCompanionFile() }
+                .map { localRom -> localRom.attachCompanionFiles() }
+    }
+
+    fun calculateSyncStatus(remoteRoms: List<RemoteRom>, localRoms: List<LocalRom> = listLocalRoms()): RomSyncStatus {
+        val synced = localRoms.filter { localRom -> remoteRoms.find { remoteRom -> areEquals(localRom, remoteRom) } != null }
+        val notOnDevice = localRoms.filterNot { localRom -> remoteRoms.find { remoteRom -> areEquals(localRom, remoteRom) } != null }
+        val notOnLocal = remoteRoms.filterNot { remoteRom -> localRoms.find { localRom -> areEquals(localRom, remoteRom) } != null }
+        return RomSyncStatus(synced, notOnDevice, notOnLocal)
+    }
+
+    companion object {
+
+        fun areEquals(localRom: LocalRom, remoteRom: RemoteRom): Boolean {
+            return localRom.console == remoteRom.console && localRom.simpleFileName == remoteRom.simpleFileName
+        }
+
     }
 
 }

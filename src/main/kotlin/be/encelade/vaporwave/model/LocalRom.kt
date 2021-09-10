@@ -12,7 +12,8 @@ class LocalRom(console: String, simpleFileName: String, entries: List<File>) :
     /**
      * Playstation *.cue files also have a bin (large)
      */
-    fun attachCompanionFile(): LocalRom {
+    // TODO: wrong: open the cue file
+    fun attachCompanionFiles(): LocalRom {
         val mustAddBinFile =
                 console == "psx" &&
                         entries.size == 1 &&

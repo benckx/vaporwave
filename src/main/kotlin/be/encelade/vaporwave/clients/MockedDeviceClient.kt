@@ -3,12 +3,12 @@ package be.encelade.vaporwave.clients
 import org.apache.commons.io.FileUtils.readFileToString
 import java.io.File
 
-class MockedDeviceClient : DeviceClient {
+class MockedDeviceClient(private val mockDataFileName: String = "ls-result-test-01") : DeviceClient {
 
     override fun isReachable() = true
 
     override fun listRomFolderFiles(): String {
-        return readFileToString(File("data/ls-result-test-01"), "UTF-8")
+        return readFileToString(File("data/$mockDataFileName"), "UTF-8")
     }
 
 }

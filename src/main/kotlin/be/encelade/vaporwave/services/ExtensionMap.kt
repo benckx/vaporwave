@@ -16,12 +16,14 @@ object ExtensionMap {
         val lines = FileUtils.readLines(file, "UTF-8").map { it.trim() }.filterNot { it.isEmpty() }
         map = lines.associate { entry ->
             val split = entry.split(";")
-            val extensions = split[1].replace(" ", ",").split(",").map { it.trim() }
-            split[0] to extensions
+            val extensions = split[1].split(",").map { it.removePrefix(".") }.map { it.trim() }
+            split[0] to extensions.distinct().sorted()
         }
 
         consoleKeys = map.keys
         romExtensions = map.values.flatten().map { it.removePrefix(".") }.toSet()
     }
+
+    fun getExtensionPerConsole(console: String) = map[console].orEmpty()
 
 }

@@ -1,5 +1,10 @@
 package be.encelade.vaporwave.model
 
-data class RemoteRom(val console: String,
-                     val simpleFileName: String,
-                     val entries: List<LsEntry>)
+class RemoteRom(console: String, simpleFileName: String, entries: List<LsEntry>) :
+        Rom<LsEntry>(console, simpleFileName, entries) {
+
+    override fun toString(): String {
+        return "Remote" + super.toString()
+    }
+
+}

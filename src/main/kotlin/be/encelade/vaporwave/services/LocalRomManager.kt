@@ -1,9 +1,11 @@
 package be.encelade.vaporwave.services
 
+import be.encelade.vaporwave.model.LocalRom
 import be.encelade.vaporwave.services.ExtensionMap.consoleKeys
+import be.encelade.vaporwave.services.ExtensionMap.getExtensionPerConsole
 import java.io.File
 
-class LocalRomManager(private val localRomFolder: String) {
+class LocalRomManager(localRomFolder: String) {
 
     private val folder = File(localRomFolder)
 
@@ -14,11 +16,18 @@ class LocalRomManager(private val localRomFolder: String) {
     }
 
     @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-    fun listLocalRoms() {
-        folder
+    fun listLocalRoms(): List<LocalRom> {
+        return folder
                 .listFiles()
                 .filter { it.isDirectory && consoleKeys.contains(it.name) }
-                .forEach { println(it) }
+                .flatMap { consoleFolder ->
+                    consoleFolder
+                            .listFiles()
+                            .filter { getExtensionPerConsole(consoleFolder.name).contains(it.extension) }
+                            .groupBy { it.nameWithoutExtension }
+                            .map { (simpleFileName, files) -> LocalRom(consoleFolder.name, simpleFileName, files) }
+                }
+                .map { localRom -> localRom.attachCompanionFile() }
     }
 
 }

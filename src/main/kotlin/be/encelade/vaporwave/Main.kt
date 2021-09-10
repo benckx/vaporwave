@@ -8,5 +8,5 @@ fun main() {
     client.listRoms().forEach { println(it) }
 
     val manager = LocalRomManager("/home/benoit/roms")
-    manager.listLocalRoms()
+    manager.listLocalRoms().forEach { println(it) }
 }

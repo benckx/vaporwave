@@ -1,0 +1,122 @@
+-rwxrwxrwx 1 root root       222 2021-09-08 08:54:43.000000000 -0400 /roms/atari800/gamelist.xml
+-rwxrwxrwx 1 root root       180 2021-09-08 08:54:43.000000000 -0400 /roms/atarilynx/gamelist.xml
+-rwxrwxrwx 1 root root       684 2021-09-08 08:55:17.000000000 -0400 /roms/bios/scummvm.ini
+-rwxrwxrwx 1 root root         0 2021-09-08 08:54:43.000000000 -0400 /roms/easyrpg/menu.ldb
+-rwxrwxrwx 1 root root   6623588 2003-05-30 21:47:30.000000000 -0400 /roms/gba/Castlevania - Aria of Sorrow.gba
+-rwxrwxrwx 1 root root   4194304 2002-11-07 09:54:12.000000000 -0500 /roms/gba/Contra Advance - the Alien Wars EX.gba
+-rwxrwxrwx 1 root root   4194304 2003-04-11 11:39:42.000000000 -0400 /roms/gba/Daredevil.gba
+-rwxrwxrwx 1 root root   8388608 2020-08-28 18:48:10.000000000 -0400 /roms/gba/Donkey Kong Country 1.gba
+-rwxrwxrwx 1 root root   8388608 2020-08-28 18:48:12.000000000 -0400 /roms/gba/Donkey Kong Country 2.gba
+-rwxrwxrwx 1 root root   8388608 2006-09-28 08:32:18.000000000 -0400 /roms/gba/FIFA 2007.gba
+-rwxrwxrwx 1 root root       373 2021-09-08 17:26:00.000000000 -0400 /roms/gba/gamelist.xml
+-rwxrwxrwx 1 root root       220 2021-09-08 13:13:05.000000000 -0400 /roms/gba/gamelist.xml.old
+-rwxrwxrwx 1 root root  15937712 2020-08-28 18:48:06.000000000 -0400 /roms/gba/Kirby And The Amazing Mirror.gba
+-rwxrwxrwx 1 root root   8269968 2020-08-28 18:48:06.000000000 -0400 /roms/gba/Kirby Nightmare In Dreamland.gba
+-rwxrwxrwx 1 root root   4194304 2020-08-28 18:48:00.000000000 -0400 /roms/gba/Mario Kart.gba
+-rwxrwxrwx 1 root root   7754240 2020-08-28 18:48:24.000000000 -0400 /roms/gba/MegaMan & Bass.gba
+-rwxrwxrwx 1 root root   8342416 2020-08-28 18:48:22.000000000 -0400 /roms/gba/Megaman Zero 1.gba
+-rwxrwxrwx 1 root root   8388480 2020-08-28 18:48:22.000000000 -0400 /roms/gba/Megaman Zero 2.gba
+-rwxrwxrwx 1 root root   8388608 2020-08-28 18:48:22.000000000 -0400 /roms/gba/Megaman Zero 3.gba
+-rwxrwxrwx 1 root root  16777216 2020-08-28 18:48:22.000000000 -0400 /roms/gba/Megaman Zero 4.gba
+-rwxrwxrwx 1 root root   8388608 2020-08-28 18:48:24.000000000 -0400 /roms/gba/Metal Slug Advance.gba
+-rwxrwxrwx 1 root root   8388608 1996-12-24 19:32:00.000000000 -0500 /roms/gba/Metal Slug Advance (U).gba
+-rwxrwxrwx 1 root root   7990480 2020-08-28 18:48:42.000000000 -0400 /roms/gba/Metroid Fusion.gba
+-rwxrwxrwx 1 root root   8353600 2020-08-28 18:48:42.000000000 -0400 /roms/gba/Metroid Zero Mission.gba
+-rwxrwxrwx 1 root root   8388608 1996-12-24 19:32:00.000000000 -0500 /roms/gba/Need for Speed - Underground 2 (UE) (M4).gba
+-rwxrwxrwx 1 root root   8388608 1996-12-24 19:32:00.000000000 -0500 /roms/gba/Phantasy Star Collection (U).gba
+-rwxrwxrwx 1 root root  16777216 1996-12-24 19:32:00.000000000 -0500 /roms/gba/Pokemon - Emerald Version (U).gba
+-rwxrwxrwx 1 root root   8375008 2020-08-28 18:47:58.000000000 -0400 /roms/gba/Spyro 2-Season Of Flame.gba
+-rwxrwxrwx 1 root root   8307008 2020-08-28 18:47:58.000000000 -0400 /roms/gba/Spyro-Season of Ice.gba
+-rwxrwxrwx 1 root root   4094128 2020-08-28 18:48:00.000000000 -0400 /roms/gba/Super Mario Adv.gba
+-rwxrwxrwx 1 root root  16777216 1996-12-24 19:32:00.000000000 -0500 /roms/gba/Tron 2.0 - Killer App (U).gba
+-rwxrwxrwx 1 root root       512 2021-09-08 17:21:12.000000000 -0400 /roms/gba/Tron 2.0 - Killer App (U).srm
+-rwxrwxrwx 1 root root     70047 2021-09-08 17:19:21.000000000 -0400 /roms/gba/Tron 2.0 - Killer App (U).state
+-rwxrwxrwx 1 root root  16777216 1996-12-24 19:32:00.000000000 -0500 /roms/gba/Ultimate Spider-Man (U).gba
+-rwxrwxrwx 1 root root   8272000 2020-08-28 18:48:36.000000000 -0400 /roms/gba/Wario Ware Inc.gba
+-rwxrwxrwx 1 root root     32768 2021-09-08 17:25:37.000000000 -0400 /roms/gba/Wario Ware Inc.srm
+-rwxrwxrwx 1 root root     62412 2021-09-08 17:25:31.000000000 -0400 /roms/gba/Wario Ware Inc.state
+-rwxrwxrwx 1 root root  15285360 2020-08-28 18:48:36.000000000 -0400 /roms/gba/Wario Ware Twisted!.gba
+-rwxrwxrwx 1 root root     32768 1996-12-24 22:32:00.000000000 -0500 /roms/gb/Tetris (World) (Rev A).gb
+-rwxrwxrwx 1 root root       526 2021-09-08 08:54:43.000000000 -0400 /roms/launchimages/loading.ascii
+-rwxrwxrwx 1 root root     11950 2021-09-08 08:54:43.000000000 -0400 /roms/launchimages/loading.jpg
+-rwxrwxrwx 1 root root   2097152 1996-12-24 22:32:00.000000000 -0500 /roms/megadrive/Aladdin (Europe).md
+-rwxrwxrwx 1 root root    524288 2020-08-20 23:42:36.000000000 -0400 /roms/megadrive/Alien 3.bin
+-rwxrwxrwx 1 root root     65536 2021-09-08 16:57:13.000000000 -0400 /roms/megadrive/Alien 3.srm
+-rwxrwxrwx 1 root root   2097152 1996-12-24 22:32:00.000000000 -0500 /roms/megadrive/Alien Soldier (Europe).md
+-rwxrwxrwx 1 root root     65536 2021-09-08 13:05:47.000000000 -0400 /roms/megadrive/Alien Soldier (Europe).srm
+-rwxrwxrwx 1 root root   1048576 1996-12-24 22:32:00.000000000 -0500 /roms/megadrive/Castlevania - Bloodlines (USA).md
+-rwxrwxrwx 1 root root   3145728 1996-12-24 22:32:00.000000000 -0500 /roms/megadrive/Earthworm Jim (Europe).md
+-rwxrwxrwx 1 root root       932 2021-09-08 17:26:00.000000000 -0400 /roms/megadrive/gamelist.xml
+-rwxrwxrwx 1 root root       213 2021-09-08 13:13:05.000000000 -0400 /roms/megadrive/gamelist.xml.old
+-rwxrwxrwx 1 root root   1048576 1996-12-24 22:32:00.000000000 -0500 /roms/megadrive/Gunstar Heroes (Europe).md
+-rwxrwxrwx 1 root root    524288 1996-12-24 22:32:00.000000000 -0500 /roms/megadrive/Herzog Zwei (USA, Europe).md
+-rwxrwxrwx 1 root root     65536 2021-09-08 16:58:05.000000000 -0400 /roms/megadrive/Herzog Zwei (USA, Europe).srm
+-rwxrwxrwx 1 root root   2097152 2020-08-20 23:42:56.000000000 -0400 /roms/megadrive/Jurassic Park 1.bin
+-rwxrwxrwx 1 root root   4194304 2020-08-20 23:42:56.000000000 -0400 /roms/megadrive/Jurassic Park 2.bin
+-rwxrwxrwx 1 root root   2097152 2020-08-20 23:42:56.000000000 -0400 /roms/megadrive/Jurassic Park-Rampage Edition.bin
+-rwxrwxrwx 1 root root   3145728 2010-02-01 22:26:42.000000000 -0500 /roms/megadrive/Knuckles Chaotix 32X (A).bin
+-rwxrwxrwx 1 root root   3145728 1996-12-24 22:32:00.000000000 -0500 /roms/megadrive/Phantasy Star IV (USA).md
+-rwxrwxrwx 1 root root    524288 2020-08-20 23:42:36.000000000 -0400 /roms/megadrive/Robocop 3.bin
+-rwxrwxrwx 1 root root   2097152 1996-12-24 22:32:00.000000000 -0500 /roms/megadrive/Shining Force II (Europe).md
+-rwxrwxrwx 1 root root   1048576 1996-12-24 22:32:00.000000000 -0500 /roms/megadrive/Shinobi III - Return of the Ninja Master (USA).md
+-rwxrwxrwx 1 root root    524288 2020-08-20 23:42:32.000000000 -0400 /roms/megadrive/Sonic 1.bin
+-rwxrwxrwx 1 root root   1048576 2020-08-20 23:42:32.000000000 -0400 /roms/megadrive/Sonic 2.bin
+-rwxrwxrwx 1 root root   2097152 2020-08-20 23:42:32.000000000 -0400 /roms/megadrive/Sonic 3.bin
+-rwxrwxrwx 1 root root   1048576 1996-12-24 22:32:00.000000000 -0500 /roms/megadrive/Teenage Mutant Ninja Turtles - Return of the Shredder (Japan).md
+-rwxrwxrwx 1 root root   1048576 1996-12-24 22:32:00.000000000 -0500 /roms/megadrive/Teenage Mutant Ninja Turtles - The Hyperstone Heist (USA).md
+-rwxrwxrwx 1 root root     65536 2021-09-08 17:01:22.000000000 -0400 /roms/megadrive/Teenage Mutant Ninja Turtles - The Hyperstone Heist (USA).srm
+-rwxrwxrwx 1 root root   2097152 2020-08-20 23:42:58.000000000 -0400 /roms/megadrive/Teenage Mutant Ninja Turtles-Tournament Fighters.bin
+-rwxrwxrwx 1 root root   1048576 2020-08-20 23:43:10.000000000 -0400 /roms/megadrive/Terminator 2-Judgment Day.bin
+-rwxrwxrwx 1 root root   3145728 2020-08-20 23:43:12.000000000 -0400 /roms/megadrive/Vectorman 2.bin
+-rwxrwxrwx 1 root root   2097152 2020-08-20 23:42:34.000000000 -0400 /roms/megadrive/Vectorman.bin
+-rwxrwxrwx 1 root root   2097152 2020-08-20 23:42:58.000000000 -0400 /roms/megadrive/X-Men 2 - Clone Wars.bin
+-rwxrwxrwx 1 root root       296 2021-09-08 08:54:43.000000000 -0400 /roms/n64/gamelist.xml
+-rwxrwxrwx 1 root root  16777216 2004-04-21 03:46:24.000000000 -0400 /roms/n64/Star Wars - Rogue Squadron (E) (V1.1).z64
+-rwxrwxrwx 1 root root       857 2021-09-08 08:54:44.000000000 -0400 /roms/pico-8/sdl_controllers.txt
+-rwxrwxrwx 1 root root        91 2021-09-08 08:54:44.000000000 -0400 /roms/ports/2048.sh
+-rwxrwxrwx 1 root root       121 2021-09-08 08:54:44.000000000 -0400 /roms/ports/Cannonball.sh
+-rwxrwxrwx 1 root root       118 2021-09-08 08:54:44.000000000 -0400 /roms/ports/Cave Story.sh
+-rwxrwxrwx 1 root root        48 2021-09-08 08:54:51.000000000 -0400 /roms/ports/Commander Genius.sh
+-rwxrwxrwx 1 root root       168 2021-09-08 08:54:51.000000000 -0400 /roms/ports/Devilutionx.sh
+-rwxrwxrwx 1 root root       109 2021-09-08 08:54:51.000000000 -0400 /roms/ports/Doom 2.sh
+-rwxrwxrwx 1 root root       107 2021-09-08 08:54:51.000000000 -0400 /roms/ports/Doom.sh
+-rwxrwxrwx 1 root root      1449 2021-09-08 10:13:13.000000000 -0400 /roms/ports/gamelist.xml
+-rwxrwxrwx 1 root root       887 2021-09-08 08:54:51.000000000 -0400 /roms/ports/gamelist.xml.old
+-rwxrwxrwx 1 root root       102 2021-09-08 08:54:53.000000000 -0400 /roms/ports/Half-Life.sh
+-rwxrwxrwx 1 root root       180 2021-09-08 08:54:56.000000000 -0400 /roms/ports/OpenTyrian.sh
+-rwxrwxrwx 1 root root       115 2021-09-08 08:54:56.000000000 -0400 /roms/ports/Quake 2.sh
+-rwxrwxrwx 1 root root       115 2021-09-08 08:54:56.000000000 -0400 /roms/ports/Quake.sh
+-rwxrwxrwx 1 root root       107 2021-09-08 08:54:56.000000000 -0400 /roms/ports/Rick Dangerous.sh
+-rwxrwxrwx 1 root root       149 2021-09-08 08:55:11.000000000 -0400 /roms/ports/SDLPoP.sh
+-rwxrwxrwx 1 root root       380 2021-09-08 08:55:11.000000000 -0400 /roms/ports/Sonic 1.sh
+-rwxrwxrwx 1 root root       380 2021-09-08 08:55:11.000000000 -0400 /roms/ports/Sonic 2.sh
+-rwxrwxrwx 1 root root       464 2021-09-08 08:55:11.000000000 -0400 /roms/ports/Sonic CD.sh
+-rwxrwxrwx 1 root root        30 2021-09-08 08:55:15.000000000 -0400 /roms/ports/VVVVVV.sh
+-rwxrwxrwx 1 root root       111 2021-09-08 08:55:15.000000000 -0400 /roms/ports/Wolfenstein 3D.sh
+-rwxrwxrwx 1 root root       252 2021-09-08 16:52:26.000000000 -0400 /roms/psx/Castlevania - Symphony of the Night (USA).cue
+-rwxrwxrwx 1 root root 538655040 2021-09-08 16:52:26.000000000 -0400 /roms/psx/Castlevania - Symphony of the Night (USA) (Track 1).bin
+-rwxrwxrwx 1 root root  44676240 2021-09-08 16:52:26.000000000 -0400 /roms/psx/Castlevania - Symphony of the Night (USA) (Track 2).bin
+-rwxrwxrwx 1 root root 653239776 2021-09-08 16:58:34.000000000 -0400 /roms/psx/Diablo (USA) (En,Fr,De,Sv).bin
+-rwxrwxrwx 1 root root        92 2021-09-08 16:58:34.000000000 -0400 /roms/psx/Diablo (USA) (En,Fr,De,Sv).cue
+-rwxrwxrwx 1 root root 583467696 2021-09-08 17:18:27.000000000 -0400 /roms/psx/FIFA Soccer 2005 (USA) (En,Es).bin
+-rwxrwxrwx 1 root root        96 2021-09-08 17:18:27.000000000 -0400 /roms/psx/FIFA Soccer 2005 (USA) (En,Es).cue
+-rwxrwxrwx 1 root root       238 2021-09-08 11:38:21.000000000 -0400 /roms/psx/gamelist.xml
+-rwxrwxrwx 1 root root       238 2021-09-08 10:13:13.000000000 -0400 /roms/psx/gamelist.xml.old
+-rwxrwxrwx 1 root root 683030208 2021-09-08 01:12:06.000000000 -0400 /roms/psx/Legacy of Kain - Soul Reaver (USA).bin
+-rwxrwxrwx 1 root root       100 2021-09-08 01:08:40.000000000 -0400 /roms/psx/Legacy of Kain - Soul Reaver (USA).cue
+-rwxrwxrwx 1 root root    131072 2021-09-08 11:32:35.000000000 -0400 /roms/psx/Legacy of Kain - Soul Reaver (USA).srm
+-rwxrwxrwx 1 root root   1893418 2021-09-08 01:34:48.000000000 -0400 /roms/psx/Legacy of Kain - Soul Reaver (USA).state
+-rwxrwxrwx 1 root root 742611072 2021-09-08 16:57:04.000000000 -0400 /roms/psx/Medal of Honor (USA).bin
+-rwxrwxrwx 1 root root        86 2021-09-08 16:57:04.000000000 -0400 /roms/psx/Medal of Honor (USA).cue
+-rwxrwxrwx 1 root root 592217136 2021-09-07 20:21:03.000000000 -0400 /roms/psx/Mega Man X4 (USA).bin
+-rwxrwxrwx 1 root root        83 2021-09-07 20:21:03.000000000 -0400 /roms/psx/Mega Man X4 (USA).cue
+-rwxrwxrwx 1 root root 466145107 1980-01-01 01:00:00.000000000 -0500 /roms/psx/Need for Speed III - Hot Pursuit (E) [SLES-01154].bin.ecm
+-rwxrwxrwx 1 root root 701912064 2015-11-12 09:24:58.000000000 -0500 /roms/psx/Oddworld - Abe's Oddysee (Europe).bin
+-rwxrwxrwx 1 root root        99 2015-11-12 09:24:58.000000000 -0500 /roms/psx/Oddworld - Abe's Oddysee (Europe).cue
+-rwxrwxrwx 1 root root 341903184 2021-09-08 16:58:03.000000000 -0400 /roms/psx/Pandemonium 2 (USA).bin
+-rwxrwxrwx 1 root root        85 2021-09-08 16:58:03.000000000 -0400 /roms/psx/Pandemonium 2 (USA).cue
+-rwxrwxrwx 1 root root       182 2021-09-08 08:55:16.000000000 -0400 /roms/scummvm/gamelist.xml
+-rwxrwxrwx 1 root root       182 2021-09-08 08:55:16.000000000 -0400 /roms/scummvm/gamelist.xml.old
+-rwxrwxrwx 1 root root         0 2021-09-08 08:55:16.000000000 -0400 /roms/scummvm/menu.scummvm
+-rwxrwxrwx 1 root root       444 2021-09-08 08:55:16.000000000 -0400 /roms/scummvm/Scan_for_new_games.scummvm
+-rwxrwxrwx 1 root root        12 2021-09-08 08:55:17.000000000 -0400 /roms/System Volume Information/WPSettings.dat

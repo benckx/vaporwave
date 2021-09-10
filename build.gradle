@@ -16,7 +16,14 @@ targetCompatibility = 1.8
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+
+    compile "org.slf4j:slf4j-api:1.7.32"
+    compile "ch.qos.logback:logback-classic:1.2.5"
+    compile "ch.qos.logback:logback-core:1.2.5"
+
     compile "com.jcraft:jsch:0.1.55"
+    compile "joda-time:joda-time:2.10.10"
 
     testCompile "junit:junit:4.13.2"
+    testCompile "commons-io:commons-io:2.11.0"
 }

@@ -1,86 +1,86 @@
-3do                                        ;.iso,.ISO,.bin,.BIN,.chd,.CHD,.cue,.CUE
-alg                                        ;.alg,.ALG
-amiga                                      ;.adf,.ADF,.hdf,.HDF,.lha,.LHA
-amigacd32                                  ;.cue,.CUE,.ccd,.CCD,.lha,.LHA,.nrg,.NRG,.mds,.MDS,.iso,.ISO,.m3u,.M3U
-amstradcpc                                 ;.cpc,.CPC,.dsk,.DSK,.zip,.ZIP
-arcade                                     ;.zip,.ZIP,.7z,.7Z,.cue,.CUE
-astrocde                                   ;.7z,.7Z,.bin,.BIN,.cue,.CUE
-atomiswave                                 ;.7z,.7Z,.ist,.IST,.zip,.ZIP,.bin,.BIN
-atari800                                   ;.atr,.ATR,.rom,.ROM,.zip,.ZIP
-atari2600                                  ;.a26,.A26,.bin,.BIN,.zip,.ZIP
-atari5200                                  ;.a52,.A52,.zip,.ZIP
-atari7800                                  ;.a78,.A78,.zip,.ZIP
-atarijaguar                                ;.j64,.J64,.jag,.JAG,.rom,.ROM,.abs,.ABS,.cof,.COF,.bin,.BIN,.prg,.PRG
-atarilynx                                  ;.lnx,.LNX,.zip,.ZIP
-atarist                                    ;.st,.ST,.msa,.MSA,.stx,.STX,.dim,.DIM,.ipf,.IPF,.zip,.ZIP
-atarixegs                                  ;.bin,.BIN,.rom,.ROM,.xex,.XEX,.zip,.ZIP
-coleco                                     ;.rom,.ROM,.ri,.RI,.mx1,.MX1,.mx2,.MX2,.col,.COL,.dsk,.DSK,.cas,.CAS,.sg,.SG,.sc,.SC,.m3u,.M3U,.zip,.ZIP
-cps1                                       ;.zip,.ZIP,.7z,.7Z,.cue,.CUE
-cps2                                       ;.zip,.ZIP,.7z,.7Z,.cue,.CUE
-cps3                                       ;.zip,.ZIP,.7z,.7Z,.cue,.CUE
-daphne                                     ;.daphne,.DAPHNE
-doom                                       ;.wad,.WAD,.sh,.SH
-dreamcast                                  ;<del>.7z,.7Z</del>,.gdi,.GDI,.cdi,.CDI,.cue,.CUE,.chd,.CHD
-vmu                                        ;.vms,.VMS,.bin,.BIN
-easyrpg                                    ;.easyrpg,.EASYRPG,(.ldb,.LDB,prior,to,7/28/2021,update)
-fds                                        ;.nes,.NES,.unif,.UNIF,.unf,.UNF,.fds,.FDS,.zip,.ZIP,.7z,.7Z
-gb                                         ;.gb,.GB,.gbc,.GBC,.dmg,.DMG,.zip,.ZIP,.7z,.7Z
-gba                                        ;.gb,.GB,.gbc,.GBC,.gba,.GBA,.zip,.ZIP,.7z,.7Z
-gameandwatch                               ;.mgw,.MGW
-gbc                                        ;.gb,.GB,.gbc,.GBC,.dmg,.DMG,.zip,.ZIP,.7z,.7Z
-gamegear                                   ;.bin,.BIN,.gg,.GG,.zip,.ZIP,.7z,.7Z
-megadrive or genesis                       ;.mdx,.MDX,.md,.MD,.smd,.SMD,.gen,.GEN,.bin,.BIN,.zip,.ZIP,.7z,.7Z
-intellivision                              ;.bin,.BIN,.int,.INT,.zip,.ZIP,.7z,.7Z
-lowresnx                                   ;.nx,.NX
-mame2003                                   ;.zip,.ZIP,.7z,.7Z
-mame                                       ;.zip,.ZIP,.7z,.7Z,.chd,.CHD
-mastersystem                               ;.7z,.bin,.sms,.zip
-mastersystem                               ;.mp4,.avi,.mpeg,.mkv,Notes:,Up,to,720p,seems,to,perform,fine,with,limited,testing.,Support,will,be,limited,for,this,feature.,If,a,video/movie,doesn't,work,on,this,,try,a,lower,resolution,or,just,use,a,more,suitable,device,like,a,smartphone.
-msumd                                      ;.md,.MD
-msx                                        ;.cas,.CAS,.dsk,.DSK,.mx1,.MX1,.mx2,.MX2,.rom,.ROM,.zip,.ZIP
-msx2                                       ;.cas,.CAS,.dsk,.DSK,.mx1,.MX1,.mx2,.MX2,.rom,.ROM,.zip,.ZIP
-naomi                                      ;.7z,.7Z,.ist,.IST,.zip,.ZIP,.bin,.BIN,.dat,.DAT
-neogeo                                     ;.zip,.ZIP,.7z,.7Z
-neogeocd                                   ;.cue,.CUE,.chd,.CHD,.m3u,.M3U
-ngp                                        ;.ngp,.NGP,.ngc,.NGC,.zip,.ZIP
-ngpc                                       ;.ngp,.NGP,.ngc,.NGC,.zip,.ZIP
-n64                                        ;.z64,.Z64,.n64,.N64,.v64,.V64
-n64dd                                      ;.n64,.N64,.z64,.Z64
-nds                                        ;.zip,.ZIP,.nds,.NDS
-nes or famicom                             ;.nes,.NES,.zip,.ZIP
-odyssey2                                   ;.bin,.BIN
-openbor                                    ;.pak,.PAK
-pc98                                       ;.d88,.D88,.hdi,.HDI,.zip,.ZIP
-dos                                        ;.dosz,.DOSZ,.exe,.EXE,.com,.COM,.bat,.BAT,.conf,.CONF,.cue,.CUE,.iso,.ISO,.zip,.ZIP
-pcengine or turbographx                    ;.pce,.PCE,.chd,.CHD,.zip,.ZIP
-pcenginecd or turbografxcd                 ;.pce,.PCE,.ccd,.CCD,.iso,.ISO,.img,.IMG,.chd,.CHD,.cue,.CUE
-pcfx                                       ;.chd,.CHD,.zip,.ZIP,.cue,.CUE,.ccd,.CCD,.toc,.TOC
-pico-8/carts                               ;.png,.PNG,.p8,.P8
-psx                                        ;.cue,.CUE,.img,.IMG,.mdf,.MDF,.pbp,.PBP,.toc,.TOC,.cbn,.CBN,.m3u,.M3U,.ccd,.CCD,.chd,.CHD,.zip,.ZIP,.7z,.7Z,.iso,.ISO
-psp                                        ;.iso,.ISO,.cso,.CSO,.pbp,.PBP
-pspminis                                   ;.iso,.ISO,.cso,.CSO,.pbp,.PBP
-pokemonmini                                ;.min,.MIN,.zip,.ZIP
-scummvm                                    ;.scummvm,.SCUMMVM
-sega32x                                    ;.32x,.32X,.7z,.7Z,.bin,.BIN,.md,.MD,.smd,.SMD,.zip,.ZIP
-segacd                                     ;.bin,.BIN,.chd,.CHD,.cue,.CUE,.iso,.ISO
-saturn                                     ;.img,.IMG,.cue,.CUE,.chd,.CHD,.iso,.ISO,.m3u,.M3U
-sg-1000                                    ;.7z,.7Z,.bin,.BIN,.sg,.SG,.zip,.ZIP
-x1                                         ;.dx1,.DX1,.zip,.ZIP,.2d,.2D,.2hd,.2HD,.tfd,.TFD,.d88,.D88,.88d,.88D,.hdm,.HDM,.xdf,.XDF,.dup,.DUP,.cmd,.CMD
-x68000                                     ;.dim,.DIM,.m3u,.M3U
-solarus                                    ;.solarus,.SOLARUS,.zip,.ZIP
-sufami                                     ;.smc,.SMC,.zip,.ZIP,.7z,.7Z
-sgb                                        ;.gb,.GB,.gbc,.GBC,.dmg,.DMG,.zip,.ZIP,.7z,.7Z
-supergrafx                                 ;.pce,.PCE,.sgx,.SGX,.cue,.CUE,.ccd,.CCD,.chd,.CHD,.zip,.ZIP,.7z,.7Z
-snes or sfc                                ;.sfc,.SFC,.smc,.SMC,.zip,.ZIP,.7z,.7Z
-snesmsu1                                   ;.smc,.SMC,.sfc,.SFC,.zip,.ZIP,.7z,.7Z
-snes-hacks                                 ;.smc,.SMC,.fig,.FIG,.bs,.BS,.st,.ST,.sfc,.SFC,.gd3,.GD3,.gd7,.GD7,.dx2,.DX2,.bsx,.BSX,.swc,.SWC,.zip,.ZIP,.7z,.7Z
-tic80                                      ;.tic,.TIC
-ti99                                       ;.ctg,.CTG
-uzebox                                     ;.uze,.UZE
-vectrex                                    ;.vec,.VEC,.zip,.ZIP
-virtualboy                                 ;.vb,.VB,.vboy,.VBOY,.zip,.zip
+3do;.iso,.ISO,.bin,.BIN,.chd,.CHD,.cue,.CUE
+alg;.alg,.ALG
+amiga;.adf,.ADF,.hdf,.HDF,.lha,.LHA
+amigacd32;.cue,.CUE,.ccd,.CCD,.lha,.LHA,.nrg,.NRG,.mds,.MDS,.iso,.ISO,.m3u,.M3U
+amstradcpc;.cpc,.CPC,.dsk,.DSK,.zip,.ZIP
+arcade;.zip,.ZIP,.7z,.7Z,.cue,.CUE
+astrocde;.7z,.7Z,.bin,.BIN,.cue,.CUE
+atomiswave;.7z,.7Z,.ist,.IST,.zip,.ZIP,.bin,.BIN
+atari800;.atr,.ATR,.rom,.ROM,.zip,.ZIP
+atari2600;.a26,.A26,.bin,.BIN,.zip,.ZIP
+atari5200;.a52,.A52,.zip,.ZIP
+atari7800;.a78,.A78,.zip,.ZIP
+atarijaguar;.j64,.J64,.jag,.JAG,.rom,.ROM,.abs,.ABS,.cof,.COF,.bin,.BIN,.prg,.PRG
+atarilynx;.lnx,.LNX,.zip,.ZIP
+atarist;.st,.ST,.msa,.MSA,.stx,.STX,.dim,.DIM,.ipf,.IPF,.zip,.ZIP
+atarixegs;.bin,.BIN,.rom,.ROM,.xex,.XEX,.zip,.ZIP
+coleco;.rom,.ROM,.ri,.RI,.mx1,.MX1,.mx2,.MX2,.col,.COL,.dsk,.DSK,.cas,.CAS,.sg,.SG,.sc,.SC,.m3u,.M3U,.zip,.ZIP
+cps1;.zip,.ZIP,.7z,.7Z,.cue,.CUE
+cps2;.zip,.ZIP,.7z,.7Z,.cue,.CUE
+cps3;.zip,.ZIP,.7z,.7Z,.cue,.CUE
+daphne;.daphne,.DAPHNE
+doom;.wad,.WAD,.sh,.SH
+dreamcast;<del>.7z,.7Z</del>,.gdi,.GDI,.cdi,.CDI,.cue,.CUE,.chd,.CHD
+vmu;.vms,.VMS,.bin,.BIN
+easyrpg;.easyrpg,.EASYRPG,(.ldb,.LDB,prior,to,7/28/2021,update)
+fds;.nes,.NES,.unif,.UNIF,.unf,.UNF,.fds,.FDS,.zip,.ZIP,.7z,.7Z
+gb;.gb,.GB,.gbc,.GBC,.dmg,.DMG,.zip,.ZIP,.7z,.7Z
+gba;.gb,.GB,.gbc,.GBC,.gba,.GBA,.zip,.ZIP,.7z,.7Z
+gameandwatch;.mgw,.MGW
+gbc;.gb,.GB,.gbc,.GBC,.dmg,.DMG,.zip,.ZIP,.7z,.7Z
+gamegear;.bin,.BIN,.gg,.GG,.zip,.ZIP,.7z,.7Z
+megadrive or genesis;.mdx,.MDX,.md,.MD,.smd,.SMD,.gen,.GEN,.bin,.BIN,.zip,.ZIP,.7z,.7Z
+intellivision;.bin,.BIN,.int,.INT,.zip,.ZIP,.7z,.7Z
+lowresnx;.nx,.NX
+mame2003;.zip,.ZIP,.7z,.7Z
+mame;.zip,.ZIP,.7z,.7Z,.chd,.CHD
+mastersystem;.7z,.bin,.sms,.zip
+mastersystem;.mp4,.avi,.mpeg,.mkv,Notes:,Up,to,720p,seems,to,perform,fine,with,limited,testing.,Support,will,be,limited,for,this,feature.,If,a,video/movie,doesn't,work,on,this,,try,a,lower,resolution,or,just,use,a,more,suitable,device,like,a,smartphone.
+msumd;.md,.MD
+msx;.cas,.CAS,.dsk,.DSK,.mx1,.MX1,.mx2,.MX2,.rom,.ROM,.zip,.ZIP
+msx2;.cas,.CAS,.dsk,.DSK,.mx1,.MX1,.mx2,.MX2,.rom,.ROM,.zip,.ZIP
+naomi;.7z,.7Z,.ist,.IST,.zip,.ZIP,.bin,.BIN,.dat,.DAT
+neogeo;.zip,.ZIP,.7z,.7Z
+neogeocd;.cue,.CUE,.chd,.CHD,.m3u,.M3U
+ngp;.ngp,.NGP,.ngc,.NGC,.zip,.ZIP
+ngpc;.ngp,.NGP,.ngc,.NGC,.zip,.ZIP
+n64;.z64,.Z64,.n64,.N64,.v64,.V64
+n64dd;.n64,.N64,.z64,.Z64
+nds;.zip,.ZIP,.nds,.NDS
+nes or famicom;.nes,.NES,.zip,.ZIP
+odyssey2;.bin,.BIN
+openbor;.pak,.PAK
+pc98;.d88,.D88,.hdi,.HDI,.zip,.ZIP
+dos;.dosz,.DOSZ,.exe,.EXE,.com,.COM,.bat,.BAT,.conf,.CONF,.cue,.CUE,.iso,.ISO,.zip,.ZIP
+pcengine or turbographx;.pce,.PCE,.chd,.CHD,.zip,.ZIP
+pcenginecd or turbografxcd;.pce,.PCE,.ccd,.CCD,.iso,.ISO,.img,.IMG,.chd,.CHD,.cue,.CUE
+pcfx;.chd,.CHD,.zip,.ZIP,.cue,.CUE,.ccd,.CCD,.toc,.TOC
+pico-8/carts;.png,.PNG,.p8,.P8
+psx;.cue,.CUE,.img,.IMG,.mdf,.MDF,.pbp,.PBP,.toc,.TOC,.cbn,.CBN,.m3u,.M3U,.ccd,.CCD,.chd,.CHD,.zip,.ZIP,.7z,.7Z,.iso,.ISO
+psp;.iso,.ISO,.cso,.CSO,.pbp,.PBP
+pspminis;.iso,.ISO,.cso,.CSO,.pbp,.PBP
+pokemonmini;.min,.MIN,.zip,.ZIP
+scummvm;.scummvm,.SCUMMVM
+sega32x;.32x,.32X,.7z,.7Z,.bin,.BIN,.md,.MD,.smd,.SMD,.zip,.ZIP
+segacd;.bin,.BIN,.chd,.CHD,.cue,.CUE,.iso,.ISO
+saturn;.img,.IMG,.cue,.CUE,.chd,.CHD,.iso,.ISO,.m3u,.M3U
+sg-1000;.7z,.7Z,.bin,.BIN,.sg,.SG,.zip,.ZIP
+x1;.dx1,.DX1,.zip,.ZIP,.2d,.2D,.2hd,.2HD,.tfd,.TFD,.d88,.D88,.88d,.88D,.hdm,.HDM,.xdf,.XDF,.dup,.DUP,.cmd,.CMD
+x68000;.dim,.DIM,.m3u,.M3U
+solarus;.solarus,.SOLARUS,.zip,.ZIP
+sufami;.smc,.SMC,.zip,.ZIP,.7z,.7Z
+sgb;.gb,.GB,.gbc,.GBC,.dmg,.DMG,.zip,.ZIP,.7z,.7Z
+supergrafx;.pce,.PCE,.sgx,.SGX,.cue,.CUE,.ccd,.CCD,.chd,.CHD,.zip,.ZIP,.7z,.7Z
+snes or sfc;.sfc,.SFC,.smc,.SMC,.zip,.ZIP,.7z,.7Z
+snesmsu1;.smc,.SMC,.sfc,.SFC,.zip,.ZIP,.7z,.7Z
+snes-hacks;.smc,.SMC,.fig,.FIG,.bs,.BS,.st,.ST,.sfc,.SFC,.gd3,.GD3,.gd7,.GD7,.dx2,.DX2,.bsx,.BSX,.swc,.SWC,.zip,.ZIP,.7z,.7Z
+tic80;.tic,.TIC
+ti99;.ctg,.CTG
+uzebox;.uze,.UZE
+vectrex;.vec,.VEC,.zip,.ZIP
+virtualboy;.vb,.VB,.vboy,.VBOY,.zip,.zip
 supervision Extensions: .bin .BIN .zip .ZIP;.wolf,.WOLF
-wonderswan                                 ;.ws,.WS,.pc2,.PC2,.zip,.ZIP,.7z,.7Z
-wonderswancolor                            ;.wsc,.WSC,.pc2,.PC2,.zip,.ZIP,.7z,.7Z
-zx81                                       ;.p,.P,.tzx,.TZX,.zip,.ZIP
-zxspectrum                                 ;.sna,.SNA,.szx,.SZX,.z80,.Z80,.tap,.TAP,.tzx,.TZX,.gz,.GZ,.udi,.UDI,.mgt,.MGT,.img,.IMG,.trd,.TRD,.scl,.SCL,.dsk,.DSK
+wonderswan;.ws,.WS,.pc2,.PC2,.zip,.ZIP,.7z,.7Z
+wonderswancolor;.wsc,.WSC,.pc2,.PC2,.zip,.ZIP,.7z,.7Z
+zx81;.p,.P,.tzx,.TZX,.zip,.ZIP
+zxspectrum;.sna,.SNA,.szx,.SZX,.z80,.Z80,.tap,.TAP,.tzx,.TZX,.gz,.GZ,.udi,.UDI,.mgt,.MGT,.img,.IMG,.trd,.TRD,.scl,.SCL,.dsk,.DSK

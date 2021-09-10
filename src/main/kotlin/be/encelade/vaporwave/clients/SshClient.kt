@@ -1,16 +1,16 @@
-package be.encelade.vaporwave
+package be.encelade.vaporwave.clients
 
 import com.jcraft.jsch.ChannelExec
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
 import java.io.ByteArrayOutputStream
 
-class Client(private val username: String,
-             private val password: String,
-             private val host: String,
-             private val port: Int = 22) {
+class SshClient(private val username: String,
+                private val password: String,
+                private val host: String,
+                private val port: Int = 22) {
 
-    fun isOnline(): Boolean {
+    fun isReachable(): Boolean {
         return try {
             val session = JSch().getSession(username, host, port)
             session.setPassword(password)

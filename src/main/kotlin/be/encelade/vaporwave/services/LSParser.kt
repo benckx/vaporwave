@@ -9,7 +9,7 @@ object LSParser {
 
     private val parser = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm:ss.SSSSSSSSS Z").withZoneUTC()
 
-    fun parse(result: String): List<LsEntry> {
+    fun parseLsResult(result: String): List<LsEntry> {
         return result
                 .split("\n")
                 .map { it.trim() }
@@ -31,7 +31,7 @@ object LSParser {
                 }
     }
 
-    fun toRemoteRoms(entries: List<LsEntry>): List<RemoteRom> {
+    fun findRemoveRoms(entries: List<LsEntry>): List<RemoteRom> {
         return entries
                 .filter { entry -> entry.isConsole() }
                 .filter { entry -> romExtensions.contains(entry.extension()) }

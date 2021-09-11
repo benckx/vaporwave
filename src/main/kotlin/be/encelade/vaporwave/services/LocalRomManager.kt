@@ -3,6 +3,7 @@ package be.encelade.vaporwave.services
 import be.encelade.vaporwave.model.LocalRom
 import be.encelade.vaporwave.model.RemoteRom
 import be.encelade.vaporwave.model.RomSyncStatus
+import be.encelade.vaporwave.model.comparators.ConsoleAndNameRomComparator
 import be.encelade.vaporwave.services.ExtensionMap.consoleKeys
 import be.encelade.vaporwave.services.ExtensionMap.getExtensionPerConsole
 import be.encelade.vaporwave.utils.CollectionUtils.exists
@@ -38,13 +39,17 @@ class LocalRomManager(localRomFolder: String) {
         val synced = localRoms.filter { localRom -> remoteRoms.exists { remoteRom -> areEquals(localRom, remoteRom) } }
         val notOnDevice = localRoms.filterNot { localRom -> remoteRoms.exists { remoteRom -> areEquals(localRom, remoteRom) } }
         val notOnLocal = remoteRoms.filterNot { remoteRom -> localRoms.exists { localRom -> areEquals(localRom, remoteRom) } }
-        return RomSyncStatus(synced, notOnDevice, notOnLocal).reCalculateForCueFiles().sorted()
+
+        return RomSyncStatus(synced, notOnDevice, notOnLocal)
+                .reCalculateForCueFiles()
+                .sortedWith(ConsoleAndNameRomComparator)
     }
 
     companion object {
 
         fun areEquals(localRom: LocalRom, remoteRom: RemoteRom): Boolean {
-            return localRom.console == remoteRom.console && localRom.simpleFileName == remoteRom.simpleFileName
+            return localRom.console == remoteRom.console &&
+                    localRom.simpleFileName == remoteRom.simpleFileName
         }
 
     }

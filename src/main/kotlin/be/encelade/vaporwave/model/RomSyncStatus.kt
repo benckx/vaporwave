@@ -28,8 +28,11 @@ data class RomSyncStatus(val synced: List<LocalRom>,
         return RomSyncStatus(synced.distinct(), notOnDevice, cleanedNotOnLocalFolder)
     }
 
-    fun sorted(): RomSyncStatus {
-        return RomSyncStatus(synced.sorted(), notOnDevice.sorted(), notInLocalFolder.sorted())
+    fun sortedWith(comparator: Comparator<Rom<*>>): RomSyncStatus {
+        return RomSyncStatus(
+                synced.sortedWith(comparator),
+                notOnDevice.sortedWith(comparator),
+                notInLocalFolder.sortedWith(comparator))
     }
 
 }

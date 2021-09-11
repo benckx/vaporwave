@@ -7,7 +7,9 @@ import org.joda.time.format.DateTimeFormat
 
 object LSParser {
 
-    private val parser = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm:ss.SSSSSSSSS Z").withZoneUTC()
+    private val dateTimeFormat = DateTimeFormat
+            .forPattern("YYYY-MM-dd HH:mm:ss.SSSSSSSSS Z")
+            .withZoneUTC()
 
     fun parseLsResult(result: String): List<LsEntry> {
         return result
@@ -15,10 +17,10 @@ object LSParser {
                 .map { it.trim() }
                 .filterNot { it.isEmpty() }
                 .map { rawEntry ->
-                    // date
+                    // last modified date time
                     val split = rawEntry.split(" ").map { it.trim() }.filterNot { it.isEmpty() }
                     val iso = listOf(5, 6, 7).map { split[it] }.joinToString(" ")
-                    val dateTime = parser.parseDateTime(iso)
+                    val lastModified = dateTimeFormat.parseDateTime(iso)
 
                     // size
                     val fileSize = split[4].toLong()
@@ -27,7 +29,7 @@ object LSParser {
                     val i = split.indexOfFirst { it.startsWith("/roms/") }
                     val filePath = split.subList(i, split.size).joinToString(" ").removePrefix("/roms")
 
-                    LsEntry(dateTime, fileSize, filePath)
+                    LsEntry(lastModified, fileSize, filePath)
                 }
     }
 

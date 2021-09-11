@@ -1,3 +1,5 @@
+package scripts
+
 import be.encelade.vaporwave.services.ExtensionMap.EXTENSIONS_MAP_FILE
 import org.apache.commons.io.FileUtils.writeLines
 import org.jsoup.Jsoup
@@ -6,6 +8,10 @@ import java.io.File
 const val ROM_FOLDER = "Rom Folder:"
 const val EXTENSIONS = "Extensions:"
 
+/**
+ * Crawl console to roms extensions mapping data from arkos' GitHub wiki
+ * and write the result to "extensions.csv"
+ */
 fun main() {
     val url = "https://github.com/christianhaitian/arkos/wiki/ArkOS-Emulators-and-Ports-information"
     val outputLines = mutableListOf<String>()

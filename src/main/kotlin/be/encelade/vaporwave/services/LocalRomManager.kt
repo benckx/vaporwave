@@ -25,8 +25,8 @@ class LocalRomManager(localRomFolder: String) {
                 .flatMap { consoleFolder ->
                     consoleFolder
                             .listFiles()
-                            .filter { getExtensionPerConsole(consoleFolder.name).contains(it.extension) }
-                            .groupBy { it.nameWithoutExtension }
+                            .filter { file -> getExtensionPerConsole(consoleFolder.name).contains(file.extension) }
+                            .groupBy { file -> file.nameWithoutExtension }
                             .map { (simpleFileName, files) -> LocalRom(consoleFolder.name, simpleFileName, files) }
                 }
                 .map { localRom -> localRom.attachCompanionFiles() }

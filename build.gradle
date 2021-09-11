@@ -26,5 +26,18 @@ dependencies {
     compile "commons-io:commons-io:2.11.0"
 
     testCompile "junit:junit:4.13.2"
-    testCompile "org.jsoup:jsoup:1.14.1"
+    testCompile "org.jsoup:jsoup:1.14.2"
+}
+
+test {
+    useJUnit()
+    maxHeapSize = '1G'
+
+    testLogging {
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                println "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+            }
+        }
+    }
 }

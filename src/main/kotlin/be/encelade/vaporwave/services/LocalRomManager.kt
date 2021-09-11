@@ -13,9 +13,9 @@ class LocalRomManager(localRomFolder: String) {
 
     private val folder = File(localRomFolder)
 
-    init {
+    fun validate() {
         if (!folder.exists() || !folder.isDirectory) {
-            throw IllegalArgumentException("Folder $localRomFolder doesn't exist")
+            throw IllegalArgumentException("Folder $folder doesn't exist")
         }
     }
 

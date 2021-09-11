@@ -9,7 +9,7 @@ class RemoteDeviceClient : DeviceClient {
     }
 
     override fun listRomFolderFiles(): String {
-        val command = "ls -l --time-style=full-iso /roms/*/*.{srm,state}"
+        val command = "ls -l --time-style=full-iso /roms/*/*"
         return delegate.sendCommand(command)
     }
 

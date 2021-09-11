@@ -35,7 +35,7 @@ mame2003;.zip,.ZIP,.7z,.7Z
 mame;.zip,.ZIP,.7z,.7Z,.chd,.CHD
 mastersystem;.7z,.bin,.sms,.zip
 mastersystem;.mp4,.avi,.mpeg,.mkv,Notes:,Up,to,720p,seems,to,perform,fine,with,limited,testing.,Support,will,be,limited,for,this,feature.,If,a,video/movie,doesn't,work,on,this,,try,a,lower,resolution,or,just,use,a,more,suitable,device,like,a,smartphone.
-megadrive or genesis;.mdx,.MDX,.md,.MD,.smd,.SMD,.gen,.GEN,.bin,.BIN,.zip,.ZIP,.7z,.7Z
+megadrive;.mdx,.MDX,.md,.MD,.smd,.SMD,.gen,.GEN,.bin,.BIN,.zip,.ZIP,.7z,.7Z
 msumd;.md,.MD
 msx2;.cas,.CAS,.dsk,.DSK,.mx1,.MX1,.mx2,.MX2,.rom,.ROM,.zip,.ZIP
 msx;.cas,.CAS,.dsk,.DSK,.mx1,.MX1,.mx2,.MX2,.rom,.ROM,.zip,.ZIP

@@ -120,3 +120,5 @@
 -rwxrwxrwx 1 root root         0 2021-09-08 08:55:16.000000000 -0400 /roms/scummvm/menu.scummvm
 -rwxrwxrwx 1 root root       444 2021-09-08 08:55:16.000000000 -0400 /roms/scummvm/Scan_for_new_games.scummvm
 -rwxrwxrwx 1 root root        12 2021-09-08 08:55:17.000000000 -0400 /roms/System Volume Information/WPSettings.dat
+-rw------- 1 benoit benoit 1048576 2020-08-20 23:43:06.000000000 +0200 /roms/megadrive/ECCO.bin
+-rw------- 1 benoit benoit 2097152 2020-08-20 23:43:04.000000000 +0200 /roms/megadrive/Bubsy.bin

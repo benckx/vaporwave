@@ -29,6 +29,10 @@ fun main() {
             .forEach { line ->
                 if (line.startsWith(ROM_FOLDER)) {
                     romFolder = line.removePrefix(ROM_FOLDER).trim()
+
+                    if (romFolder == "megadrive or genesis") {
+                        romFolder = "megadrive"
+                    }
                 } else {
                     val extensions = line.removePrefix(EXTENSIONS).trim().replace(' ', EXTENSION_VALUE_SEPARATOR)
                     outputLines += romFolder + EXTENSION_CELL_SEPARATOR + extensions
@@ -36,5 +40,4 @@ fun main() {
             }
 
     writeLines(File(EXTENSIONS_MAP_FILE), outputLines.sorted())
-
 }

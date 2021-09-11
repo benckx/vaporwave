@@ -7,6 +7,10 @@ data class RomSyncStatus(val synced: List<LocalRom>,
                          val notOnDevice: List<LocalRom>,
                          val notInLocalFolder: List<RemoteRom>) {
 
+    /**
+     * For the [RemoteRom], we don't have the cue files content,
+     * so we use the local ones when possible.
+     */
     fun reCalculateForCueFiles(): RomSyncStatus {
         val synced = this.synced.toMutableList()
         val notOnDevice = this.notOnDevice.toMutableList()

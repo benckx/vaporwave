@@ -25,7 +25,7 @@ internal class RomCollectionPanel : JPanel() {
         tableModel.addColumn("status")
         tableModel.addColumn("console")
         tableModel.addColumn("name")
-        tableModel.addColumn("files")
+        tableModel.addColumn("rom files")
         tableModel.addColumn("total size")
         val titleColumn = 2
 

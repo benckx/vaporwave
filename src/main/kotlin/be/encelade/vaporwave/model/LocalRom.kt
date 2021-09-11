@@ -6,6 +6,10 @@ import java.io.File
 class LocalRom(console: String, simpleFileName: String, entries: List<File>) :
         Rom<File>(console, simpleFileName, entries) {
 
+    override fun totalSize(): Long {
+        return entries.sumOf { file -> file.length() }
+    }
+    
     /**
      * Add all files listed in "cue" files
      */

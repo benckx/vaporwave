@@ -41,7 +41,7 @@ internal class RomCollectionPanel : JPanel() {
     fun renderLocalRoms(localRoms: List<LocalRom>) {
         tableModel.rowCount = 0
         localRoms.forEach { localRom ->
-            tableModel.addRow(renderLocalRom("on computer", localRom))
+            tableModel.addRow(renderRom("on computer", localRom))
         }
     }
 
@@ -72,13 +72,7 @@ internal class RomCollectionPanel : JPanel() {
                     }
 
                     if (status != null && rom != null) {
-                        val row = when (rom) {
-                            is LocalRom -> renderLocalRom(status, rom)
-                            is RemoteRom -> renderRemoteRom(status, rom)
-                            else -> listOf("err").toTypedArray()
-                        }
-
-                        tableModel.addRow(row)
+                        tableModel.addRow(renderRom(status, rom))
                     }
                 }
     }
@@ -87,8 +81,9 @@ internal class RomCollectionPanel : JPanel() {
 
         const val SMALL_COLUMNS_WIDTH = 170
 
-        fun renderRom(rom: Rom<*>): Array<String> {
+        fun renderRom(status: String, rom: Rom<*>): Array<String> {
             val row = mutableListOf<String>()
+            row += status
             row += rom.console
             row += rom.simpleFileName
             row += when (rom.entries.size) {
@@ -96,22 +91,7 @@ internal class RomCollectionPanel : JPanel() {
                 1 -> "1 file"
                 else -> "${rom.entries.size} files"
             }
-            return row.toTypedArray()
-        }
-
-        fun renderLocalRom(status: String, localRom: LocalRom): Array<String> {
-            val row = mutableListOf<String>()
-            row += status
-            row += renderRom(localRom as Rom<*>)
-            row += humanReadableByteCountBin(localRom.entries.sumOf { file -> file.length() })
-            return row.toTypedArray()
-        }
-
-        fun renderRemoteRom(status: String, localRom: RemoteRom): Array<String> {
-            val row = mutableListOf<String>()
-            row += status
-            row += renderRom(localRom as Rom<*>)
-            row += humanReadableByteCountBin(localRom.entries.sumOf { entry -> entry.fileSize })
+            row += humanReadableByteCountBin(rom.totalSize())
             return row.toTypedArray()
         }
 

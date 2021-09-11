@@ -4,6 +4,8 @@ abstract class Rom<T>(val console: String,
                       val simpleFileName: String,
                       val entries: List<T>) {
 
+    abstract fun totalSize(): Long
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

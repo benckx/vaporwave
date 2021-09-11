@@ -1,7 +1,9 @@
 package be.encelade.vaporwave
 
 import be.encelade.vaporwave.clients.MockedDeviceClient
+import be.encelade.vaporwave.gui.MainGui
 import be.encelade.vaporwave.services.LocalRomManager
+import javax.swing.UIManager
 
 fun main() {
     val localRomManager = LocalRomManager("/home/benoit/roms")
@@ -25,4 +27,9 @@ fun main() {
     println()
     println("[NOT ON LOCAL]")
     syncStatus.notInLocalFolder.forEach { println(it) }
+
+    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
+    val gui = MainGui()
+    gui.loadLocalRoms(localRoms)
+    gui.isVisible = true
 }

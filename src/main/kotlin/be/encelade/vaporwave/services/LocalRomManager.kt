@@ -33,6 +33,7 @@ class LocalRomManager(localRomFolder: String) {
                             .map { (simpleFileName, files) -> LocalRom(consoleFolder.name, simpleFileName, files) }
                 }
                 .map { localRom -> localRom.attachCompanionFiles() }
+                .sortedWith(ConsoleAndNameRomComparator)
     }
 
     fun calculateSyncStatus(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>): RomSyncStatus {

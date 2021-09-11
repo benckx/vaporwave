@@ -38,7 +38,7 @@ class LocalRomManager(localRomFolder: String) {
         val synced = localRoms.filter { localRom -> remoteRoms.exists { remoteRom -> areEquals(localRom, remoteRom) } }
         val notOnDevice = localRoms.filterNot { localRom -> remoteRoms.exists { remoteRom -> areEquals(localRom, remoteRom) } }
         val notOnLocal = remoteRoms.filterNot { remoteRom -> localRoms.exists { localRom -> areEquals(localRom, remoteRom) } }
-        return RomSyncStatus(synced, notOnDevice, notOnLocal)
+        return RomSyncStatus(synced, notOnDevice, notOnLocal).reCalculateForCueFiles()
     }
 
     companion object {

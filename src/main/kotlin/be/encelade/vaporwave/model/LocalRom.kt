@@ -7,7 +7,7 @@ class LocalRom(console: String, simpleFileName: String, entries: List<File>) :
         Rom<File>(console, simpleFileName, entries) {
 
     /**
-     * Playstation *.cue files also have a bin (large)
+     * Add all files listed in "cue" files
      */
     fun attachCompanionFiles(): LocalRom {
         if (entries.size == 1 && entries.first().extension == "cue") {
@@ -17,6 +17,14 @@ class LocalRom(console: String, simpleFileName: String, entries: List<File>) :
         }
 
         return this
+    }
+
+    fun listFilesFromCue(): List<File> {
+        return entries
+                .filter { file -> file.extension == "cue" }
+                .mapNotNull { cueFile -> parseCueFile(cueFile) }
+                .flatMap { cue -> cue.files }
+                .filter { file -> entries.contains(file) }
     }
 
     private fun addFiles(files: List<File>): LocalRom {

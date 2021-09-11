@@ -26,4 +26,17 @@ abstract class Rom<T>(val console: String,
         return "Rom[$console] $simpleFileName (${entries.joinToString(", ")})"
     }
 
+    companion object {
+
+        fun matchesBy(rom: Rom<*>, console: String, simpleFileName: String): Boolean {
+            return rom.console == console && rom.simpleFileName == simpleFileName
+        }
+
+        fun areEquals(localRom: LocalRom, remoteRom: RemoteRom): Boolean {
+            return localRom.console == remoteRom.console &&
+                    localRom.simpleFileName == remoteRom.simpleFileName
+        }
+
+    }
+
 }

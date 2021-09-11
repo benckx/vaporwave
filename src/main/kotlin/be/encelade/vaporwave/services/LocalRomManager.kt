@@ -2,6 +2,7 @@ package be.encelade.vaporwave.services
 
 import be.encelade.vaporwave.model.LocalRom
 import be.encelade.vaporwave.model.RemoteRom
+import be.encelade.vaporwave.model.Rom.Companion.areEquals
 import be.encelade.vaporwave.model.RomSyncStatus
 import be.encelade.vaporwave.model.comparators.ConsoleAndNameRomComparator
 import be.encelade.vaporwave.services.ExtensionMap.consoleKeys
@@ -44,15 +45,6 @@ class LocalRomManager(localRomFolder: String) {
         return RomSyncStatus(synced, notOnDevice, notOnLocal)
                 .reCalculateForCueFiles()
                 .sortedWith(ConsoleAndNameRomComparator)
-    }
-
-    companion object {
-
-        fun areEquals(localRom: LocalRom, remoteRom: RemoteRom): Boolean {
-            return localRom.console == remoteRom.console &&
-                    localRom.simpleFileName == remoteRom.simpleFileName
-        }
-
     }
 
 }

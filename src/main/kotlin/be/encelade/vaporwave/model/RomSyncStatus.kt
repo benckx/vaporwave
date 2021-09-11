@@ -1,5 +1,8 @@
 package be.encelade.vaporwave.model
 
+import be.encelade.vaporwave.model.Rom.Companion.matchesBy
+import be.encelade.vaporwave.utils.CollectionUtils.exists
+
 data class RomSyncStatus(val synced: List<LocalRom>,
                          val notOnDevice: List<LocalRom>,
                          val notInLocalFolder: List<RemoteRom>) {
@@ -33,6 +36,18 @@ data class RomSyncStatus(val synced: List<LocalRom>,
                 synced.sortedWith(comparator),
                 notOnDevice.sortedWith(comparator),
                 notInLocalFolder.sortedWith(comparator))
+    }
+
+    fun isSync(console: String, simpleFileName: String): Boolean {
+        return synced.exists { localRom -> matchesBy(localRom, console, simpleFileName) }
+    }
+
+    fun isOnlyOnDevice(console: String, simpleFileName: String): Boolean {
+        return notInLocalFolder.exists { localRom -> matchesBy(localRom, console, simpleFileName) }
+    }
+
+    fun isOnlyOnLocal(console: String, simpleFileName: String): Boolean {
+        return notOnDevice.exists { localRom -> matchesBy(localRom, console, simpleFileName) }
     }
 
 }

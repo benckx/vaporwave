@@ -6,22 +6,35 @@ import java.io.File
 object ExtensionMap {
 
     const val EXTENSIONS_MAP_FILE = "data/extensions.csv"
+    const val EXTENSION_CELL_SEPARATOR = ';'
+    const val EXTENSION_VALUE_SEPARATOR = ','
+
     private val map: Map<String, List<String>>
 
     val consoleKeys: Set<String>
     val romExtensions: Set<String>
 
     init {
-        val file = File(EXTENSIONS_MAP_FILE)
-        val lines = FileUtils.readLines(file, "UTF-8").map { it.trim() }.filterNot { it.isEmpty() }
-        map = lines.associate { entry ->
-            val split = entry.split(";")
-            val extensions = split[1].split(",").map { it.removePrefix(".") }.map { it.trim() }
-            split[0] to extensions.distinct().sorted()
+        val csvFile = File(EXTENSIONS_MAP_FILE)
+
+        val csvLines = FileUtils
+                .readLines(csvFile, "UTF-8")
+                .map { line -> line.trim() }
+                .filterNot { line -> line.isEmpty() }
+
+        map = csvLines.associate { csvRow ->
+            val csvCells = csvRow.split(EXTENSION_CELL_SEPARATOR)
+
+            val extensions = csvCells[1]
+                    .split(EXTENSION_VALUE_SEPARATOR)
+                    .map { extension -> extension.removePrefix(".") }
+                    .map { extension -> extension.trim() }
+
+            csvCells[0] to extensions.distinct().sorted()
         }
 
         consoleKeys = map.keys
-        romExtensions = map.values.flatten().map { it.removePrefix(".") }.toSet()
+        romExtensions = map.values.flatten().toSet()
     }
 
     fun getExtensionPerConsole(console: String) = map[console].orEmpty()

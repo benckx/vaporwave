@@ -13,7 +13,7 @@ fun main() {
     localRoms.forEach { println(it) }
     remoteRoms.forEach { println(it) }
 
-    val syncStatus = localRomManager.calculateSyncStatus(remoteRoms, localRoms)
+    val syncStatus = localRomManager.calculateSyncStatus(localRoms, remoteRoms)
     println("synced -> ${syncStatus.synced.size}")
     println("not on device -> ${syncStatus.notOnDevice.size}")
     println("not on local folder -> ${syncStatus.notOnLocalFolder.size}")

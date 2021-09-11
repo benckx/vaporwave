@@ -1,6 +1,8 @@
 package scripts
 
 import be.encelade.vaporwave.services.ExtensionMap.EXTENSIONS_MAP_FILE
+import be.encelade.vaporwave.services.ExtensionMap.EXTENSION_CELL_SEPARATOR
+import be.encelade.vaporwave.services.ExtensionMap.EXTENSION_VALUE_SEPARATOR
 import org.apache.commons.io.FileUtils.writeLines
 import org.jsoup.Jsoup
 import java.io.File
@@ -28,11 +30,11 @@ fun main() {
                 if (line.startsWith(ROM_FOLDER)) {
                     romFolder = line.removePrefix(ROM_FOLDER).trim()
                 } else {
-                    val extensions = line.removePrefix(EXTENSIONS).trim().replace(" ", ",")
-                    outputLines += "$romFolder;$extensions"
+                    val extensions = line.removePrefix(EXTENSIONS).trim().replace(' ', EXTENSION_VALUE_SEPARATOR)
+                    outputLines += romFolder + EXTENSION_CELL_SEPARATOR + extensions
                 }
             }
 
-    writeLines(File(EXTENSIONS_MAP_FILE), outputLines)
+    writeLines(File(EXTENSIONS_MAP_FILE), outputLines.sorted())
 
 }

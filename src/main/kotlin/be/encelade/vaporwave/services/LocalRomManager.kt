@@ -5,6 +5,7 @@ import be.encelade.vaporwave.model.RemoteRom
 import be.encelade.vaporwave.model.RomSyncStatus
 import be.encelade.vaporwave.services.ExtensionMap.consoleKeys
 import be.encelade.vaporwave.services.ExtensionMap.getExtensionPerConsole
+import be.encelade.vaporwave.utils.CollectionUtils.exists
 import java.io.File
 
 class LocalRomManager(localRomFolder: String) {
@@ -21,7 +22,8 @@ class LocalRomManager(localRomFolder: String) {
     fun listLocalRoms(): List<LocalRom> {
         return folder
                 .listFiles()
-                .filter { it.isDirectory && consoleKeys.contains(it.name) }
+                .filter { consoleFolder -> consoleFolder.isDirectory }
+                .filter { consoleFolder -> consoleKeys.contains(consoleFolder.name) }
                 .flatMap { consoleFolder ->
                     consoleFolder
                             .listFiles()
@@ -32,10 +34,10 @@ class LocalRomManager(localRomFolder: String) {
                 .map { localRom -> localRom.attachCompanionFiles() }
     }
 
-    fun calculateSyncStatus(remoteRoms: List<RemoteRom>, localRoms: List<LocalRom> = listLocalRoms()): RomSyncStatus {
-        val synced = localRoms.filter { localRom -> remoteRoms.find { remoteRom -> areEquals(localRom, remoteRom) } != null }
-        val notOnDevice = localRoms.filterNot { localRom -> remoteRoms.find { remoteRom -> areEquals(localRom, remoteRom) } != null }
-        val notOnLocal = remoteRoms.filterNot { remoteRom -> localRoms.find { localRom -> areEquals(localRom, remoteRom) } != null }
+    fun calculateSyncStatus(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>): RomSyncStatus {
+        val synced = localRoms.filter { localRom -> remoteRoms.exists { remoteRom -> areEquals(localRom, remoteRom) } }
+        val notOnDevice = localRoms.filterNot { localRom -> remoteRoms.exists { remoteRom -> areEquals(localRom, remoteRom) } }
+        val notOnLocal = remoteRoms.filterNot { remoteRom -> localRoms.exists { localRom -> areEquals(localRom, remoteRom) } }
         return RomSyncStatus(synced, notOnDevice, notOnLocal)
     }
 

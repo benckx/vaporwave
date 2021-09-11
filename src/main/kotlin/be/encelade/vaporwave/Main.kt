@@ -30,6 +30,6 @@ fun main() {
 
     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
     val gui = MainGui()
-    gui.loadLocalRoms(localRoms)
+    gui.loadRoms(localRoms)
     gui.isVisible = true
 }

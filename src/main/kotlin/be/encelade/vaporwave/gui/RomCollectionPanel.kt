@@ -11,8 +11,8 @@ import javax.swing.table.DefaultTableModel
 internal class RomCollectionPanel : JPanel() {
 
     private val tableModel = DefaultTableModel()
-    private val list = JTable(tableModel)
-    private val scrollPane = JScrollPane(list)
+    private val table = JTable(tableModel)
+    private val scrollPane = JScrollPane(table)
 
     init {
         layout = BorderLayout()
@@ -22,9 +22,16 @@ internal class RomCollectionPanel : JPanel() {
         tableModel.addColumn("name")
         tableModel.addColumn("files")
         tableModel.addColumn("total size")
+
+        listOf(0, 2, 3)
+                .map { i -> table.columnModel.getColumn(i) }
+                .forEach { column ->
+                    column.maxWidth = SMALL_COLUMNS_WIDTH
+                    column.preferredWidth = SMALL_COLUMNS_WIDTH
+                }
     }
 
-    fun loadLocalRoms(localRoms: List<LocalRom>) {
+    fun loadRoms(localRoms: List<LocalRom>) {
         tableModel.rowCount = 0
         localRoms.forEach { localRom ->
             val row = mutableListOf<String>()
@@ -35,9 +42,15 @@ internal class RomCollectionPanel : JPanel() {
                 1 -> "1 file"
                 else -> "${localRom.entries.size} files"
             }
-            row += humanReadableByteCountBin(localRom.entries.sumOf { it.length() })
+            row += humanReadableByteCountBin(localRom.entries.sumOf { file -> file.length() })
             tableModel.addRow(row.toTypedArray())
         }
+    }
+
+    private companion object {
+
+        const val SMALL_COLUMNS_WIDTH = 170
+
     }
 
 }

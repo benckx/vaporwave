@@ -63,7 +63,7 @@ internal class RomCollectionPanel : JPanel() {
                     }
 
                     if (status != ROM_STATUS_UNKNOWN && rom != null) {
-                        tableModel.addRow(renderRom(status.capitalizedFully(), rom))
+                        tableModel.addRow(renderRom(status.lowerCase(), rom))
                     }
                 }
     }

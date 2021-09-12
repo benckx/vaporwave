@@ -12,7 +12,7 @@ class MainGui : JFrame() {
 
     init {
         title = "Vaporwave"
-        setBounds(500, 200, 1600, 1200)
+        setBounds(500, 200, 1400, 1200)
         layout = BorderLayout()
         add(romCollectionPanel, BorderLayout.CENTER)
         defaultCloseOperation = EXIT_ON_CLOSE

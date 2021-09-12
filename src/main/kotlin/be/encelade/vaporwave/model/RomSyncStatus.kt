@@ -10,7 +10,11 @@ enum class RomSyncStatus {
     ONLY_ON_LOCAL;
 
     fun capitalizedFully(): String {
-        return WordUtils.capitalizeFully(name.replace("_", " ").lowercase())
+        return WordUtils.capitalizeFully(lowerCase())
+    }
+
+    fun lowerCase(): String {
+        return name.replace("_", " ").lowercase()
     }
 
 }

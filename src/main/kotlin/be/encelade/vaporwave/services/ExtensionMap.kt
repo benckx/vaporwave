@@ -15,6 +15,7 @@ object ExtensionMap {
 
     val consoleKeys: Set<String>
     val romExtensions: Set<String>
+    val saveFilesExtension = listOf("srm", "state")
 
     init {
         val csvFile = File(EXTENSIONS_MAP_FILE)
@@ -39,6 +40,6 @@ object ExtensionMap {
         romExtensions = map.values.flatten().toSet()
     }
 
-    fun getExtensionsPerConsole(console: String) = map[console].orEmpty()
+    fun getRomExtensionsPerConsole(console: String) = map[console].orEmpty()
 
 }

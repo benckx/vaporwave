@@ -6,7 +6,8 @@ import be.encelade.vaporwave.model.roms.Rom.Companion.areEquals
 import be.encelade.vaporwave.model.roms.RomSyncDiff
 import be.encelade.vaporwave.model.roms.comparators.ConsoleAndNameRomComparator
 import be.encelade.vaporwave.services.ExtensionMap.consoleKeys
-import be.encelade.vaporwave.services.ExtensionMap.getExtensionsPerConsole
+import be.encelade.vaporwave.services.ExtensionMap.getRomExtensionsPerConsole
+import be.encelade.vaporwave.services.ExtensionMap.saveFilesExtension
 import be.encelade.vaporwave.utils.CollectionUtils.exists
 import java.io.File
 
@@ -27,14 +28,19 @@ class LocalRomManager(localRomFolder: String) {
                 .filter { consoleFolder -> consoleFolder.isDirectory }
                 .filter { consoleFolder -> consoleKeys.contains(consoleFolder.name) }
                 .flatMap { consoleFolder ->
-                    val extensionsPerConsole = getExtensionsPerConsole(consoleFolder.name)
+                    val romExtensionsForConsole = getRomExtensionsPerConsole(consoleFolder.name)
 
                     consoleFolder
                             .listFiles()
-                            .filter { file -> extensionsPerConsole.contains(file.extension) }
+                            .filter { file ->
+                                romExtensionsForConsole.contains(file.extension) ||
+                                        saveFilesExtension.contains(file.extension)
+                            }
                             .groupBy { file -> file.nameWithoutExtension }
                             .map { (simpleFileName, files) ->
-                                LocalRom(consoleFolder.name, simpleFileName, files)
+                                val romFiles = files.filter { file -> romExtensionsForConsole.contains(file.extension) }
+                                val saveFiles = files.filter { file -> saveFilesExtension.contains(file.extension) }
+                                LocalRom(consoleFolder.name, simpleFileName, romFiles, saveFiles)
                             }
                 }
                 .map { localRom -> localRom.attachCompanionFiles() }

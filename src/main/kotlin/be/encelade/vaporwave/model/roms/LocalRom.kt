@@ -3,8 +3,11 @@ package be.encelade.vaporwave.model.roms
 import be.encelade.vaporwave.services.CueParser.parseCueFile
 import java.io.File
 
-class LocalRom(console: String, simpleFileName: String, romFiles: List<File>) :
-        Rom<File>(console, simpleFileName, romFiles) {
+class LocalRom(console: String,
+               simpleFileName: String,
+               romFiles: List<File>,
+               saveFiles: List<File>) :
+        Rom<File>(console, simpleFileName, romFiles, saveFiles) {
 
     override fun romFilesSize(): Long {
         return romFiles.sumOf { file -> file.length() }
@@ -31,11 +34,12 @@ class LocalRom(console: String, simpleFileName: String, romFiles: List<File>) :
     }
 
     private fun addFiles(files: List<File>): LocalRom {
-        return LocalRom(console, simpleFileName, romFiles + files)
+        return LocalRom(console, simpleFileName, romFiles + files, saveFiles)
     }
 
     override fun toString(): String {
-        return "Local" + super.toString()
+        val filesToString = allFiles().map { file -> file.name }.joinToString(", ")
+        return "LocalRom[$console] $simpleFileName ($filesToString)"
     }
 
 }

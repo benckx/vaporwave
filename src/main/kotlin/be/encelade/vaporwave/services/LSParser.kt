@@ -3,6 +3,7 @@ package be.encelade.vaporwave.services
 import be.encelade.vaporwave.model.LsEntry
 import be.encelade.vaporwave.model.roms.RemoteRom
 import be.encelade.vaporwave.services.ExtensionMap.romExtensions
+import be.encelade.vaporwave.services.ExtensionMap.saveFilesExtension
 import org.joda.time.format.DateTimeFormat
 
 object LSParser {
@@ -36,12 +37,19 @@ object LSParser {
     fun findRemoteRoms(entries: List<LsEntry>): List<RemoteRom> {
         return entries
                 .filter { entry -> entry.isConsole() }
-                .filter { entry -> romExtensions.contains(entry.extension()) }
+                .filter { entry ->
+                    romExtensions.contains(entry.extension()) ||
+                            saveFilesExtension.contains(entry.extension())
+                }
                 .groupBy { entry -> entry.console()!! }
                 .flatMap { (console, consoleEntries) ->
                     consoleEntries
                             .groupBy { entry -> entry.simpleFileName() }
-                            .map { (fileName, entries) -> RemoteRom(console, fileName, entries) }
+                            .map { (fileName, entries) ->
+                                val romFiles = entries.filter { entry -> romExtensions.contains(entry.extension()) }
+                                val saveFiles = entries.filter { entry -> saveFilesExtension.contains(entry.extension()) }
+                                RemoteRom(console, fileName, romFiles, saveFiles)
+                            }
                 }
     }
 

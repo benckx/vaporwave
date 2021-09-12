@@ -3,36 +3,35 @@ package be.encelade.vaporwave.model.roms
 import be.encelade.vaporwave.services.CueParser.parseCueFile
 import java.io.File
 
-class LocalRom(console: String, simpleFileName: String, entries: List<File>) :
-        Rom<File>(console, simpleFileName, entries) {
+class LocalRom(console: String, simpleFileName: String, romFiles: List<File>) :
+        Rom<File>(console, simpleFileName, romFiles) {
 
-    override fun totalSize(): Long {
-        return entries.sumOf { file -> file.length() }
+    override fun romFilesSize(): Long {
+        return romFiles.sumOf { file -> file.length() }
     }
-    
+
     /**
      * Add all files listed in "cue" files
      */
     fun attachCompanionFiles(): LocalRom {
-        if (entries.size == 1 && entries.first().extension == "cue") {
-            parseCueFile(entries.first())?.let { cue ->
-                return addFiles(cue.files)
-            }
-        }
+        val filesToAdd = romFiles
+                .filter { romFile -> romFile.extension == "cue" }
+                .mapNotNull { cueFile -> parseCueFile(cueFile) }
+                .flatMap { cue -> cue.files }
 
-        return this
+        return addFiles(filesToAdd)
     }
 
     fun listFilesFromCue(): List<File> {
-        return entries
+        return romFiles
                 .filter { file -> file.extension == "cue" }
                 .mapNotNull { cueFile -> parseCueFile(cueFile) }
                 .flatMap { cue -> cue.files }
-                .filter { file -> entries.contains(file) }
+                .filter { file -> romFiles.contains(file) }
     }
 
     private fun addFiles(files: List<File>): LocalRom {
-        return LocalRom(console, simpleFileName, entries + files)
+        return LocalRom(console, simpleFileName, romFiles + files)
     }
 
     override fun toString(): String {

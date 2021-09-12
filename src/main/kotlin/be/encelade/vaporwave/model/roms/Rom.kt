@@ -2,9 +2,9 @@ package be.encelade.vaporwave.model.roms
 
 abstract class Rom<T>(val console: String,
                       val simpleFileName: String,
-                      val entries: List<T>) {
+                      val romFiles: List<T>) {
 
-    abstract fun totalSize(): Long
+    abstract fun romFilesSize(): Long
 
     fun matchesBy(console: String, simpleFileName: String): Boolean {
         return this.console == console && this.simpleFileName == simpleFileName
@@ -29,7 +29,7 @@ abstract class Rom<T>(val console: String,
     }
 
     override fun toString(): String {
-        return "Rom[$console] $simpleFileName (${entries.joinToString(", ")})"
+        return "Rom[$console] $simpleFileName (${romFiles.joinToString(", ")})"
     }
 
     companion object {

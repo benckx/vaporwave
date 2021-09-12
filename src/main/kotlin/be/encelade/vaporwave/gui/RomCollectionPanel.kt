@@ -78,12 +78,12 @@ internal class RomCollectionPanel : JPanel() {
             row += status
             row += rom.console
             row += rom.simpleFileName
-            row += when (rom.entries.size) {
+            row += when (rom.romFiles.size) {
                 0 -> "no file"
                 1 -> "1 file"
-                else -> "${rom.entries.size} files"
+                else -> "${rom.romFiles.size} files"
             }
-            row += humanReadableByteCountBin(rom.totalSize())
+            row += humanReadableByteCountBin(rom.romFilesSize())
             return row.toTypedArray()
         }
 

@@ -1,5 +1,6 @@
 package be.encelade.vaporwave.gui
 
+import be.encelade.vaporwave.clients.DeviceClient
 import be.encelade.vaporwave.model.devices.Device
 import java.awt.BorderLayout
 import java.awt.BorderLayout.CENTER
@@ -8,6 +9,7 @@ import javax.swing.JPanel
 import javax.swing.JScrollPane
 import javax.swing.JTable
 import javax.swing.table.DefaultTableModel
+import kotlin.concurrent.thread
 
 internal class DeviceListPanel : JPanel() {
 
@@ -30,7 +32,17 @@ internal class DeviceListPanel : JPanel() {
     fun renderDevices(devices: List<Device>) {
         tableModel.rowCount = 0
         devices.forEach { device ->
-            tableModel.addRow(listOf("", device.name).toTypedArray())
+            tableModel.addRow(listOf("connecting...", device.name).toTypedArray())
+        }
+
+        devices.forEach { device ->
+            thread {
+                DeviceClient.forDevice(device)?.let { client ->
+                    val i = devices.indexOf(device)
+                    val isOnline = client.isReachable()
+                    tableModel.setValueAt(if (isOnline) "online" else "offline", i, 0)
+                }
+            }
         }
     }
 

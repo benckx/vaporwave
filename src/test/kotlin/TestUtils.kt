@@ -9,7 +9,7 @@ object TestUtils {
     fun readAsRemoteRoms(filePath: String): List<RemoteRom> {
         val result = readFileToString(File(filePath), UTF_8)
         val entries = LSParser.parseLsResult(result)
-        return LSParser.findRemoveRoms(entries)
+        return LSParser.findRemoteRoms(entries)
     }
 
 }

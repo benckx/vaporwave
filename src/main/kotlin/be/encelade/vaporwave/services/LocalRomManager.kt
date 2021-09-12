@@ -6,7 +6,7 @@ import be.encelade.vaporwave.model.roms.Rom.Companion.areEquals
 import be.encelade.vaporwave.model.roms.RomSyncDiff
 import be.encelade.vaporwave.model.roms.comparators.ConsoleAndNameRomComparator
 import be.encelade.vaporwave.services.ExtensionMap.consoleKeys
-import be.encelade.vaporwave.services.ExtensionMap.getExtensionPerConsole
+import be.encelade.vaporwave.services.ExtensionMap.getExtensionsPerConsole
 import be.encelade.vaporwave.utils.CollectionUtils.exists
 import java.io.File
 
@@ -27,11 +27,15 @@ class LocalRomManager(localRomFolder: String) {
                 .filter { consoleFolder -> consoleFolder.isDirectory }
                 .filter { consoleFolder -> consoleKeys.contains(consoleFolder.name) }
                 .flatMap { consoleFolder ->
+                    val extensionsPerConsole = getExtensionsPerConsole(consoleFolder.name)
+
                     consoleFolder
                             .listFiles()
-                            .filter { file -> getExtensionPerConsole(consoleFolder.name).contains(file.extension) }
+                            .filter { file -> extensionsPerConsole.contains(file.extension) }
                             .groupBy { file -> file.nameWithoutExtension }
-                            .map { (simpleFileName, files) -> LocalRom(consoleFolder.name, simpleFileName, files) }
+                            .map { (simpleFileName, files) ->
+                                LocalRom(consoleFolder.name, simpleFileName, files)
+                            }
                 }
                 .map { localRom -> localRom.attachCompanionFiles() }
                 .sortedWith(ConsoleAndNameRomComparator)

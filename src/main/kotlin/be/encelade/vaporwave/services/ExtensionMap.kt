@@ -39,6 +39,6 @@ object ExtensionMap {
         romExtensions = map.values.flatten().toSet()
     }
 
-    fun getExtensionPerConsole(console: String) = map[console].orEmpty()
+    fun getExtensionsPerConsole(console: String) = map[console].orEmpty()
 
 }

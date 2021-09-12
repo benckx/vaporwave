@@ -33,14 +33,14 @@ object LSParser {
                 }
     }
 
-    fun findRemoveRoms(entries: List<LsEntry>): List<RemoteRom> {
+    fun findRemoteRoms(entries: List<LsEntry>): List<RemoteRom> {
         return entries
                 .filter { entry -> entry.isConsole() }
                 .filter { entry -> romExtensions.contains(entry.extension()) }
                 .groupBy { entry -> entry.console()!! }
                 .flatMap { (console, consoleEntries) ->
                     consoleEntries
-                            .groupBy { it.simpleFileName() }
+                            .groupBy { entry -> entry.simpleFileName() }
                             .map { (fileName, entries) -> RemoteRom(console, fileName, entries) }
                 }
     }

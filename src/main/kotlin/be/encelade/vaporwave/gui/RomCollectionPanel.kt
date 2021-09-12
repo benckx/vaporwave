@@ -7,6 +7,7 @@ import be.encelade.vaporwave.model.roms.Rom
 import be.encelade.vaporwave.model.roms.RomSyncDiff
 import be.encelade.vaporwave.model.roms.RomSyncStatus.*
 import be.encelade.vaporwave.model.roms.comparators.ConsoleAndNameRomComparator
+import be.encelade.vaporwave.services.SaveComparator.calculateSyncStatus
 import org.joda.time.DateTime
 import java.awt.BorderLayout
 import java.awt.BorderLayout.CENTER
@@ -64,16 +65,19 @@ internal class RomCollectionPanel : JPanel() {
                     var remoteRom: RemoteRom? = null
 
                     when (romSyncStatus) {
-                        SYNCED -> {
+                        ROM_SYNCED -> {
                             localRom = localRoms.find { rom -> rom.matchesBy(console, simpleFileName) }
                             remoteRom = remoteRoms.find { rom -> rom.matchesBy(console, simpleFileName) }
-                            // TODO: rom exists on both -> compare
+                            if (localRom != null && remoteRom != null) {
+                                val saveSyncStatus = calculateSyncStatus(localRom, remoteRom)
+                                saveStatusStr = saveSyncStatus.lowerCase()
+                            }
                         }
-                        ONLY_ON_LOCAL -> {
+                        ROM_ONLY_ON_LOCAL -> {
                             localRom = localRoms.find { rom -> rom.matchesBy(console, simpleFileName) }
                             localRom?.let { rom -> saveStatusStr = renderLocalSaveStatus(rom) }
                         }
-                        ONLY_ON_DEVICE -> {
+                        ROM_ONLY_ON_DEVICE -> {
                             remoteRom = remoteRoms.find { rom -> rom.matchesBy(console, simpleFileName) }
                             remoteRom?.let { rom -> saveStatusStr = renderRemoveSaveStatus(rom) }
                         }
@@ -112,6 +116,7 @@ internal class RomCollectionPanel : JPanel() {
             }
         }
 
+        // TODO: last modified on separate column
         fun renderLocalSaveStatus(localRom: LocalRom): String {
             return if (localRom.saveFiles.isNotEmpty()) {
                 val lastModified = DateTime(localRom.saveFiles.maxOf { file -> file.lastModified() })
@@ -121,6 +126,7 @@ internal class RomCollectionPanel : JPanel() {
             }
         }
 
+        // TODO: last modified on separate column
         fun renderRemoveSaveStatus(remoteRom: RemoteRom): String {
             return if (remoteRom.saveFiles.isNotEmpty()) {
                 val lastModified = DateTime(remoteRom.saveFiles.maxOf { file -> file.lastModified })

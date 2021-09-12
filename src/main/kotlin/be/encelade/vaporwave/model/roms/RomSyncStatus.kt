@@ -1,20 +1,14 @@
 package be.encelade.vaporwave.model.roms
 
-import org.apache.commons.text.WordUtils
-
 enum class RomSyncStatus {
 
     ROM_STATUS_UNKNOWN,
-    SYNCED,
-    ONLY_ON_DEVICE,
-    ONLY_ON_LOCAL;
-
-    fun capitalizedFully(): String {
-        return WordUtils.capitalizeFully(lowerCase())
-    }
+    ROM_SYNCED,
+    ROM_ONLY_ON_DEVICE,
+    ROM_ONLY_ON_LOCAL;
 
     fun lowerCase(): String {
-        return name.replace("_", " ").lowercase()
+        return name.removePrefix("ROM_").replace("_", " ").trim().lowercase()
     }
 
 }

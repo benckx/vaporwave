@@ -2,6 +2,7 @@ package be.encelade.vaporwave.services
 
 import org.apache.commons.io.FileUtils
 import java.io.File
+import kotlin.text.Charsets.UTF_8
 
 object ExtensionMap {
 
@@ -18,7 +19,7 @@ object ExtensionMap {
         val csvFile = File(EXTENSIONS_MAP_FILE)
 
         val csvLines = FileUtils
-                .readLines(csvFile, "UTF-8")
+                .readLines(csvFile, UTF_8)
                 .map { line -> line.trim() }
                 .filterNot { line -> line.isEmpty() }
 

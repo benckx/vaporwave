@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import org.apache.commons.io.FileUtils
+import org.apache.commons.io.FileUtils.readFileToString
 import org.apache.commons.io.FileUtils.writeStringToFile
 import java.io.File
 import kotlin.text.Charsets.UTF_8
@@ -27,7 +27,7 @@ class Mapper {
     }
 
     fun loadDevices(): List<Device> {
-        val json = FileUtils.readFileToString(deviceFile(), UTF_8)
+        val json = readFileToString(deviceFile(), UTF_8)
         return jsonMapper.readValue(json, listOfDevicesTypeRef)
     }
 

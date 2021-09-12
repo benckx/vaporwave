@@ -7,6 +7,7 @@ import be.encelade.vaporwave.model.roms.Rom
 import be.encelade.vaporwave.model.roms.RomSyncDiff
 import be.encelade.vaporwave.model.roms.RomSyncStatus.*
 import java.awt.BorderLayout
+import java.awt.BorderLayout.CENTER
 import javax.swing.JPanel
 import javax.swing.JScrollPane
 import javax.swing.JTable
@@ -20,7 +21,7 @@ internal class RomCollectionPanel : JPanel() {
 
     init {
         layout = BorderLayout()
-        add(scrollPane, BorderLayout.CENTER)
+        add(scrollPane, CENTER)
 
         tableModel.addColumn("status")
         tableModel.addColumn("console")

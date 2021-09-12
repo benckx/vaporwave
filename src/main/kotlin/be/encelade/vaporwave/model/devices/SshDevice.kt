@@ -1,3 +1,3 @@
 package be.encelade.vaporwave.model.devices
 
-class SshDevice(id: String, val conn: SshConnection) : Device(id)
+class SshDevice(name: String, val conn: SshConnection) : Device(name)

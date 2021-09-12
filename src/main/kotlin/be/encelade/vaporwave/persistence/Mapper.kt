@@ -9,6 +9,7 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.apache.commons.io.FileUtils.readFileToString
 import org.apache.commons.io.FileUtils.writeStringToFile
 import java.io.File
+import java.io.File.separator
 import kotlin.text.Charsets.UTF_8
 
 class Mapper {
@@ -19,7 +20,7 @@ class Mapper {
 
     private val listOfDevicesTypeRef = object : TypeReference<List<Device>>() {}
 
-    private fun deviceFile(): File = File("data/devices.json")
+    private fun deviceFile(): File = File("data${separator}devices.json")
 
     fun saveDevices(devices: List<Device>) {
         val json = jsonMapper.writerFor(listOfDevicesTypeRef).writeValueAsString(devices)

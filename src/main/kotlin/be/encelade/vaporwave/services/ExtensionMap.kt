@@ -2,11 +2,12 @@ package be.encelade.vaporwave.services
 
 import org.apache.commons.io.FileUtils
 import java.io.File
+import java.io.File.separator
 import kotlin.text.Charsets.UTF_8
 
 object ExtensionMap {
 
-    const val EXTENSIONS_MAP_FILE = "data/extensions.csv"
+    val EXTENSIONS_MAP_FILE = "data${separator}extensions.csv"
     const val EXTENSION_CELL_SEPARATOR = ';'
     const val EXTENSION_VALUE_SEPARATOR = ','
 

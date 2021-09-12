@@ -1,6 +1,6 @@
 package be.encelade.vaporwave.model
 
-import be.encelade.vaporwave.model.Rom.Companion.matchesBy
+import be.encelade.vaporwave.model.RomSyncStatus.*
 import be.encelade.vaporwave.utils.CollectionUtils.exists
 
 data class RomSyncDiff(val synced: List<LocalRom>,
@@ -42,16 +42,25 @@ data class RomSyncDiff(val synced: List<LocalRom>,
                 notInLocalFolder.sortedWith(comparator))
     }
 
-    fun isSync(console: String, simpleFileName: String): Boolean {
-        return synced.exists { localRom -> matchesBy(localRom, console, simpleFileName) }
+    fun findStatusBy(console: String, simpleFileName: String): RomSyncStatus {
+        return when {
+            isSync(console, simpleFileName) -> SYNCED
+            isOnlyOnLocal(console, simpleFileName) -> ONLY_ON_LOCAL
+            isOnlyOnDevice(console, simpleFileName) -> ONLY_ON_DEVICE
+            else -> ROM_STATUS_UNKNOWN
+        }
     }
 
-    fun isOnlyOnDevice(console: String, simpleFileName: String): Boolean {
-        return notInLocalFolder.exists { localRom -> matchesBy(localRom, console, simpleFileName) }
+    private fun isSync(console: String, simpleFileName: String): Boolean {
+        return synced.exists { localRom -> localRom.matchesBy(console, simpleFileName) }
     }
 
-    fun isOnlyOnLocal(console: String, simpleFileName: String): Boolean {
-        return notOnDevice.exists { localRom -> matchesBy(localRom, console, simpleFileName) }
+    private fun isOnlyOnDevice(console: String, simpleFileName: String): Boolean {
+        return notInLocalFolder.exists { localRom -> localRom.matchesBy(console, simpleFileName) }
+    }
+
+    private fun isOnlyOnLocal(console: String, simpleFileName: String): Boolean {
+        return notOnDevice.exists { localRom -> localRom.matchesBy(console, simpleFileName) }
     }
 
 }

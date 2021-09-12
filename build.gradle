@@ -11,20 +11,32 @@ repositories {
     mavenCentral()
 }
 
+def jacksonVersion = "2.12.5"
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
+    // logging
     compile "org.slf4j:slf4j-api:1.7.32"
     compile "ch.qos.logback:logback-classic:1.2.5"
     compile "ch.qos.logback:logback-core:1.2.5"
 
-    compile "com.jcraft:jsch:0.1.55"
+    // utils
     compile "joda-time:joda-time:2.10.10"
     compile "commons-io:commons-io:2.11.0"
+    compile "org.apache.commons:commons-text:1.9"
 
+    // ssh
+    compile "com.jcraft:jsch:0.1.55"
+
+    // persistence
+    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion"
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion"
+
+    // tests and scripts
     testCompile "junit:junit:4.13.2"
     testCompile "org.jsoup:jsoup:1.14.2"
 }

@@ -6,6 +6,10 @@ abstract class Rom<T>(val console: String,
 
     abstract fun totalSize(): Long
 
+    fun matchesBy(console: String, simpleFileName: String): Boolean {
+        return this.console == console && this.simpleFileName == simpleFileName
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -29,10 +33,6 @@ abstract class Rom<T>(val console: String,
     }
 
     companion object {
-
-        fun matchesBy(rom: Rom<*>, console: String, simpleFileName: String): Boolean {
-            return rom.console == console && rom.simpleFileName == simpleFileName
-        }
 
         fun areEquals(localRom: LocalRom, remoteRom: RemoteRom): Boolean {
             return localRom.console == remoteRom.console &&

@@ -4,8 +4,8 @@ import be.encelade.vaporwave.gui.GuiUtils.humanReadableByteCountBin
 import be.encelade.vaporwave.model.LocalRom
 import be.encelade.vaporwave.model.RemoteRom
 import be.encelade.vaporwave.model.Rom
-import be.encelade.vaporwave.model.Rom.Companion.matchesBy
 import be.encelade.vaporwave.model.RomSyncDiff
+import be.encelade.vaporwave.model.RomSyncStatus.*
 import java.awt.BorderLayout
 import javax.swing.JPanel
 import javax.swing.JScrollPane
@@ -53,26 +53,17 @@ internal class RomCollectionPanel : JPanel() {
                 .sortedBy { pair -> pair.second }
                 .sortedBy { pair -> pair.first }
                 .forEach { (console, simpleFileName) ->
-                    var status: String? = null
-                    var rom: Rom<*>? = null
+                    val status = syncDiff.findStatusBy(console, simpleFileName)
 
-                    when {
-                        syncDiff.isSync(console, simpleFileName) -> {
-                            status = "synced"
-                            rom = localRoms.find { localRom -> matchesBy(localRom, console, simpleFileName) }
-                        }
-                        syncDiff.isOnlyOnLocal(console, simpleFileName) -> {
-                            status = "on computer"
-                            rom = localRoms.find { localRom -> matchesBy(localRom, console, simpleFileName) }
-                        }
-                        syncDiff.isOnlyOnDevice(console, simpleFileName) -> {
-                            status = "on device"
-                            rom = remoteRoms.find { remoteRom -> matchesBy(remoteRom, console, simpleFileName) }
-                        }
+                    val rom: Rom<*>? = when (status) {
+                        SYNCED -> localRoms.find { localRom -> localRom.matchesBy(console, simpleFileName) }
+                        ONLY_ON_LOCAL -> localRoms.find { localRom -> localRom.matchesBy(console, simpleFileName) }
+                        ONLY_ON_DEVICE -> remoteRoms.find { remoteRom -> remoteRom.matchesBy(console, simpleFileName) }
+                        else -> null
                     }
 
-                    if (status != null && rom != null) {
-                        tableModel.addRow(renderRom(status, rom))
+                    if (status != ROM_STATUS_UNKNOWN && rom != null) {
+                        tableModel.addRow(renderRom(status.capitalizedFully(), rom))
                     }
                 }
     }

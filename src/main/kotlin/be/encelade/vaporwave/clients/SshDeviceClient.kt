@@ -4,15 +4,15 @@ import be.encelade.vaporwave.model.devices.SshDevice
 
 class SshDeviceClient(device: SshDevice) : DeviceClient<SshDevice>(device) {
 
-    private val delegate = SshClient(device.conn)
+    private val sshClient = SshClient(device.conn)
 
     override fun isReachable(): Boolean {
-        return delegate.isReachable()
+        return sshClient.isReachable()
     }
 
     override fun listRomFolderFiles(): String {
         val command = "ls -l --time-style=full-iso /roms/*/*"
-        return delegate.sendCommand(command)
+        return sshClient.sendCommand(command)
     }
 
 }

@@ -15,22 +15,22 @@ fun main() {
     localRoms.forEach { println(it) }
     remoteRoms.forEach { println(it) }
 
-    val syncStatus = localRomManager.calculateSyncStatus(localRoms, remoteRoms)
-    println("synced -> ${syncStatus.synced.size}")
-    println("not on device -> ${syncStatus.notOnDevice.size}")
-    println("not on local folder -> ${syncStatus.notInLocalFolder.size}")
+    val syncDiff = localRomManager.calculateSyncDiff(localRoms, remoteRoms)
+    println("synced -> ${syncDiff.synced.size}")
+    println("not on device -> ${syncDiff.notOnDevice.size}")
+    println("not on local folder -> ${syncDiff.notInLocalFolder.size}")
 
     println()
     println("[NOT ON DEVICE]")
-    syncStatus.notOnDevice.forEach { println(it) }
+    syncDiff.notOnDevice.forEach { println(it) }
 
     println()
     println("[NOT ON LOCAL]")
-    syncStatus.notInLocalFolder.forEach { println(it) }
+    syncDiff.notInLocalFolder.forEach { println(it) }
 
     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
     val gui = MainGui()
 //    gui.renderLocalRoms(localRoms)
-    gui.renderAllRoms(localRoms, remoteRoms, syncStatus)
+    gui.renderAllRoms(localRoms, remoteRoms, syncDiff)
     gui.isVisible = true
 }

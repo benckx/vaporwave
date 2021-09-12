@@ -3,15 +3,15 @@ package be.encelade.vaporwave.model
 import be.encelade.vaporwave.model.Rom.Companion.matchesBy
 import be.encelade.vaporwave.utils.CollectionUtils.exists
 
-data class RomSyncStatus(val synced: List<LocalRom>,
-                         val notOnDevice: List<LocalRom>,
-                         val notInLocalFolder: List<RemoteRom>) {
+data class RomSyncDiff(val synced: List<LocalRom>,
+                       val notOnDevice: List<LocalRom>,
+                       val notInLocalFolder: List<RemoteRom>) {
 
     /**
      * For the [RemoteRom], we don't have the cue files content,
      * so we use the local ones when possible.
      */
-    fun reCalculateForCueFiles(): RomSyncStatus {
+    fun reCalculateForCueFiles(): RomSyncDiff {
         val synced = this.synced.toMutableList()
         val notOnDevice = this.notOnDevice.toMutableList()
         val notInLocalFolder = this.notInLocalFolder.toMutableList()
@@ -32,11 +32,11 @@ data class RomSyncStatus(val synced: List<LocalRom>,
         }
 
         val cleanedNotOnLocalFolder = notInLocalFolder.filterNot { remoteRom -> toRemoveFromNotOnLocal.contains(remoteRom) }
-        return RomSyncStatus(synced.distinct(), notOnDevice, cleanedNotOnLocalFolder)
+        return RomSyncDiff(synced.distinct(), notOnDevice, cleanedNotOnLocalFolder)
     }
 
-    fun sortedWith(comparator: Comparator<Rom<*>>): RomSyncStatus {
-        return RomSyncStatus(
+    fun sortedWith(comparator: Comparator<Rom<*>>): RomSyncDiff {
+        return RomSyncDiff(
                 synced.sortedWith(comparator),
                 notOnDevice.sortedWith(comparator),
                 notInLocalFolder.sortedWith(comparator))

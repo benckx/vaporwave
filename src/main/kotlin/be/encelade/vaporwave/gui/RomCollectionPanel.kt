@@ -5,7 +5,7 @@ import be.encelade.vaporwave.model.LocalRom
 import be.encelade.vaporwave.model.RemoteRom
 import be.encelade.vaporwave.model.Rom
 import be.encelade.vaporwave.model.Rom.Companion.matchesBy
-import be.encelade.vaporwave.model.RomSyncStatus
+import be.encelade.vaporwave.model.RomSyncDiff
 import java.awt.BorderLayout
 import javax.swing.JPanel
 import javax.swing.JScrollPane
@@ -45,7 +45,7 @@ internal class RomCollectionPanel : JPanel() {
         }
     }
 
-    fun renderAllRoms(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>, syncStatus: RomSyncStatus) {
+    fun renderAllRoms(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>, syncDiff: RomSyncDiff) {
         tableModel.rowCount = 0
         (localRoms + remoteRoms)
                 .map { rom -> (rom.console to rom.simpleFileName) }
@@ -57,15 +57,15 @@ internal class RomCollectionPanel : JPanel() {
                     var rom: Rom<*>? = null
 
                     when {
-                        syncStatus.isSync(console, simpleFileName) -> {
+                        syncDiff.isSync(console, simpleFileName) -> {
                             status = "synced"
                             rom = localRoms.find { localRom -> matchesBy(localRom, console, simpleFileName) }
                         }
-                        syncStatus.isOnlyOnLocal(console, simpleFileName) -> {
+                        syncDiff.isOnlyOnLocal(console, simpleFileName) -> {
                             status = "on computer"
                             rom = localRoms.find { localRom -> matchesBy(localRom, console, simpleFileName) }
                         }
-                        syncStatus.isOnlyOnDevice(console, simpleFileName) -> {
+                        syncDiff.isOnlyOnDevice(console, simpleFileName) -> {
                             status = "on device"
                             rom = remoteRoms.find { remoteRom -> matchesBy(remoteRom, console, simpleFileName) }
                         }

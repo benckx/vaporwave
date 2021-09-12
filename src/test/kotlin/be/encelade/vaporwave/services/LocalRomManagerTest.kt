@@ -11,30 +11,30 @@ class LocalRomManagerTest {
     private val manager = LocalRomManager("/home/user/roms")
 
     @Test
-    fun calculateSyncStatusTest01() {
+    fun calculateSyncDiffTest01() {
         val remoteRoms = readAsRemoteRoms("data/ls-result-test-01")
-        val status = manager.calculateSyncStatus(listOf(), remoteRoms)
+        val diff = manager.calculateSyncDiff(listOf(), remoteRoms)
 
-        assertEquals(0, status.synced.size)
-        assertEquals(0, status.notOnDevice.size)
-        assertEquals(remoteRoms.size, status.notInLocalFolder.size)
+        assertEquals(0, diff.synced.size)
+        assertEquals(0, diff.notOnDevice.size)
+        assertEquals(remoteRoms.size, diff.notInLocalFolder.size)
     }
 
     @Test
-    fun calculateSyncStatusTest02() {
+    fun calculateSyncDiffTest02() {
         val files = listOf(File("/home/user/roms/gba/MegaMan & Bass.gba)"))
         val localRom = LocalRom("gba", "MegaMan & Bass", files)
         val remoteRoms = readAsRemoteRoms("data/ls-result-test-01")
-        val status = manager.calculateSyncStatus(listOf(localRom), remoteRoms)
+        val diff = manager.calculateSyncDiff(listOf(localRom), remoteRoms)
 
-        assertEquals(1, status.synced.size)
-        assertEquals(localRom, status.synced.first())
-        assertEquals(0, status.notOnDevice.size)
-        assertEquals(remoteRoms.size - 1, status.notInLocalFolder.size)
+        assertEquals(1, diff.synced.size)
+        assertEquals(localRom, diff.synced.first())
+        assertEquals(0, diff.notOnDevice.size)
+        assertEquals(remoteRoms.size - 1, diff.notInLocalFolder.size)
     }
 
     @Test
-    fun calculateSyncStatusTest03() {
+    fun calculateSyncDiffTest03() {
         val files = listOf(
                 File("/home/user/roms/psx/Castlevania - Symphony of the Night (USA).cue"),
                 File("/home/user/roms/psx/Castlevania - Symphony of the Night (USA) (Track 1).bin"),
@@ -43,12 +43,12 @@ class LocalRomManagerTest {
 
         val localRom = LocalRom("psx", "Castlevania - Symphony of the Night (USA)", files)
         val remoteRoms = readAsRemoteRoms("data/ls-result-test-01")
-        val status = manager.calculateSyncStatus(listOf(localRom), remoteRoms)
+        val diff = manager.calculateSyncDiff(listOf(localRom), remoteRoms)
 
-        assertEquals(1, status.synced.size)
-        assertEquals(localRom, status.synced.first())
-        assertEquals(0, status.notOnDevice.size)
-        assertEquals(remoteRoms.size - 1, status.notInLocalFolder.size)
+        assertEquals(1, diff.synced.size)
+        assertEquals(localRom, diff.synced.first())
+        assertEquals(0, diff.notOnDevice.size)
+        assertEquals(remoteRoms.size - 1, diff.notInLocalFolder.size)
     }
 
 }

@@ -2,7 +2,7 @@ package be.encelade.vaporwave.gui
 
 import be.encelade.vaporwave.model.LocalRom
 import be.encelade.vaporwave.model.RemoteRom
-import be.encelade.vaporwave.model.RomSyncStatus
+import be.encelade.vaporwave.model.RomSyncDiff
 import java.awt.BorderLayout
 import javax.swing.JFrame
 
@@ -22,8 +22,8 @@ class MainGui : JFrame() {
         romCollectionPanel.renderLocalRoms(localRoms)
     }
 
-    fun renderAllRoms(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>, syncStatus: RomSyncStatus) {
-        romCollectionPanel.renderAllRoms(localRoms, remoteRoms, syncStatus)
+    fun renderAllRoms(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>, syncDiff: RomSyncDiff) {
+        romCollectionPanel.renderAllRoms(localRoms, remoteRoms, syncDiff)
     }
 
 }

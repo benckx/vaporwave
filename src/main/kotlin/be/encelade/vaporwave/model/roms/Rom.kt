@@ -1,4 +1,4 @@
-package be.encelade.vaporwave.model
+package be.encelade.vaporwave.model.roms
 
 abstract class Rom<T>(val console: String,
                       val simpleFileName: String,

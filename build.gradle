@@ -11,13 +11,14 @@ repositories {
     mavenCentral()
 }
 
-def jacksonVersion = "2.12.5"
+def jacksonVersion = "2.12.4"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 
     // logging
     compile "org.slf4j:slf4j-api:1.7.32"
@@ -33,7 +34,8 @@ dependencies {
     compile "com.jcraft:jsch:0.1.55"
 
     // persistence
-    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion"
+//    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion"
 
     // tests and scripts

@@ -1,4 +1,6 @@
-package be.encelade.vaporwave.model
+package be.encelade.vaporwave.model.roms
+
+import be.encelade.vaporwave.model.LsEntry
 
 class RemoteRom(console: String, simpleFileName: String, entries: List<LsEntry>) :
         Rom<LsEntry>(console, simpleFileName, entries) {

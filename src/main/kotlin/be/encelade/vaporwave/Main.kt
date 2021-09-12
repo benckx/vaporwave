@@ -1,16 +1,21 @@
 package be.encelade.vaporwave
 
-import be.encelade.vaporwave.clients.MockedDeviceClient
+import be.encelade.vaporwave.clients.MockDeviceClient
 import be.encelade.vaporwave.gui.MainGui
+import be.encelade.vaporwave.model.devices.MockDevice
+import be.encelade.vaporwave.persistence.Mapper
 import be.encelade.vaporwave.services.LocalRomManager
 import javax.swing.UIManager
 
 fun main() {
+    val devices = Mapper().loadDevices()
+    val mockDevice = devices.filterIsInstance<MockDevice>().first()
+    val mockClient = MockDeviceClient(mockDevice)
+
     val localRomManager = LocalRomManager("/home/benoit/roms")
     val localRoms = localRomManager.listLocalRoms()
 
-    val client = MockedDeviceClient()
-    val remoteRoms = client.listRoms()
+    val remoteRoms = mockClient.listRoms()
 
     localRoms.forEach { println(it) }
     remoteRoms.forEach { println(it) }

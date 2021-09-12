@@ -1,6 +1,6 @@
-package be.encelade.vaporwave.model
+package be.encelade.vaporwave.model.roms
 
-import be.encelade.vaporwave.model.RomSyncStatus.*
+import be.encelade.vaporwave.model.roms.RomSyncStatus.*
 import be.encelade.vaporwave.utils.CollectionUtils.exists
 
 data class RomSyncDiff(val synced: List<LocalRom>,

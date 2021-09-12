@@ -1,11 +1,11 @@
 package be.encelade.vaporwave.gui
 
 import be.encelade.vaporwave.gui.GuiUtils.humanReadableByteCountBin
-import be.encelade.vaporwave.model.LocalRom
-import be.encelade.vaporwave.model.RemoteRom
-import be.encelade.vaporwave.model.Rom
-import be.encelade.vaporwave.model.RomSyncDiff
-import be.encelade.vaporwave.model.RomSyncStatus.*
+import be.encelade.vaporwave.model.roms.LocalRom
+import be.encelade.vaporwave.model.roms.RemoteRom
+import be.encelade.vaporwave.model.roms.Rom
+import be.encelade.vaporwave.model.roms.RomSyncDiff
+import be.encelade.vaporwave.model.roms.RomSyncStatus.*
 import java.awt.BorderLayout
 import javax.swing.JPanel
 import javax.swing.JScrollPane

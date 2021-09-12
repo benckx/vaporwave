@@ -1,9 +1,10 @@
 package be.encelade.vaporwave.services
 
-import be.encelade.vaporwave.model.Cue
+import be.encelade.vaporwave.model.roms.Cue
 import org.apache.commons.io.FileUtils
 import java.io.File
 import java.io.File.separator
+import kotlin.text.Charsets.UTF_8
 
 object CueParser {
 
@@ -13,7 +14,7 @@ object CueParser {
 
         return if (cueFile.exists()) {
             FileUtils
-                    .readLines(cueFile, "UTF-8")
+                    .readLines(cueFile, UTF_8)
                     .filter { line -> line.startsWith("FILE") }
                     .forEach { line ->
                         val firstDoubleQuote = line.indexOfFirst { c -> c == '"' }

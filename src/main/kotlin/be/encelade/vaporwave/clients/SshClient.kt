@@ -1,5 +1,6 @@
 package be.encelade.vaporwave.clients
 
+import be.encelade.vaporwave.model.devices.SshConnection
 import com.jcraft.jsch.ChannelExec
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
@@ -9,6 +10,8 @@ internal class SshClient(private val username: String,
                          private val password: String,
                          private val host: String,
                          private val port: Int = 22) {
+
+    constructor(conn: SshConnection) : this(conn.username, conn.password, conn.host, conn.port)
 
     fun isReachable(): Boolean {
         return try {

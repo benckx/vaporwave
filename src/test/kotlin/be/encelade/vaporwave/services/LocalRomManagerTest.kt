@@ -1,7 +1,7 @@
 package be.encelade.vaporwave.services
 
 import TestUtils.readAsRemoteRoms
-import be.encelade.vaporwave.model.LocalRom
+import be.encelade.vaporwave.model.roms.LocalRom
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.io.File

@@ -1,4 +1,4 @@
-package be.encelade.vaporwave.model
+package be.encelade.vaporwave.model.roms
 
 import org.apache.commons.text.WordUtils
 

@@ -1,10 +1,10 @@
 package be.encelade.vaporwave.services
 
-import be.encelade.vaporwave.model.LocalRom
-import be.encelade.vaporwave.model.RemoteRom
-import be.encelade.vaporwave.model.Rom.Companion.areEquals
-import be.encelade.vaporwave.model.RomSyncDiff
-import be.encelade.vaporwave.model.comparators.ConsoleAndNameRomComparator
+import be.encelade.vaporwave.model.roms.LocalRom
+import be.encelade.vaporwave.model.roms.RemoteRom
+import be.encelade.vaporwave.model.roms.Rom.Companion.areEquals
+import be.encelade.vaporwave.model.roms.RomSyncDiff
+import be.encelade.vaporwave.model.roms.comparators.ConsoleAndNameRomComparator
 import be.encelade.vaporwave.services.ExtensionMap.consoleKeys
 import be.encelade.vaporwave.services.ExtensionMap.getExtensionPerConsole
 import be.encelade.vaporwave.utils.CollectionUtils.exists

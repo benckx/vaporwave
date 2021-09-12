@@ -1,6 +1,8 @@
 package be.encelade.vaporwave.clients
 
-class RemoteDeviceClient : DeviceClient {
+import be.encelade.vaporwave.model.devices.SshDevice
+
+class RemoteDeviceClient(device: SshDevice) : DeviceClient<SshDevice>(device) {
 
     private val delegate = SshClient("ark", "ark", "192.168.178.57", 22)
 

@@ -1,4 +1,4 @@
-package be.encelade.vaporwave.model
+package be.encelade.vaporwave.model.roms
 
 import be.encelade.vaporwave.services.CueParser.parseCueFile
 import java.io.File

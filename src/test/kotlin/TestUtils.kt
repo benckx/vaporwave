@@ -1,4 +1,4 @@
-import be.encelade.vaporwave.model.RemoteRom
+import be.encelade.vaporwave.model.roms.RemoteRom
 import be.encelade.vaporwave.services.LSParser
 import org.apache.commons.io.FileUtils
 import java.io.File

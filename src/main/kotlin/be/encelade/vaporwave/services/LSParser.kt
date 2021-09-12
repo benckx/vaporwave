@@ -1,7 +1,7 @@
 package be.encelade.vaporwave.services
 
 import be.encelade.vaporwave.model.LsEntry
-import be.encelade.vaporwave.model.RemoteRom
+import be.encelade.vaporwave.model.roms.RemoteRom
 import be.encelade.vaporwave.services.ExtensionMap.romExtensions
 import org.joda.time.format.DateTimeFormat
 

@@ -39,8 +39,8 @@ internal class DeviceListPanel(callback: DeviceSelectionGuiCallback) : JPanel(),
         tableModel.addColumn("status")
         tableModel.addColumn("id")
 
-        table.columnModel.getColumn(0).maxWidth = 150
-        table.columnModel.getColumn(0).preferredWidth = 150
+        table.columnModel.getColumn(0).maxWidth = 170
+        table.columnModel.getColumn(0).preferredWidth = 170
 
         val selectionModel = table.selectionModel
         selectionModel.selectionMode = SINGLE_SELECTION
@@ -90,7 +90,7 @@ internal class DeviceListPanel(callback: DeviceSelectionGuiCallback) : JPanel(),
 
         clients.forEach { client ->
             val i = devices.indexOf(client.device)
-            tableModel.setValueAt("connecting...", i, 0)
+            tableModel.setValueAt("trying to connect...", i, 0)
         }
 
         clients.forEach { client ->

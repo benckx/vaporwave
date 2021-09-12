@@ -6,6 +6,8 @@ import be.encelade.vaporwave.model.roms.RemoteRom
 import be.encelade.vaporwave.model.roms.Rom
 import be.encelade.vaporwave.model.roms.RomSyncDiff
 import be.encelade.vaporwave.model.roms.RomSyncStatus.*
+import be.encelade.vaporwave.model.roms.comparators.ConsoleAndNameRomComparator
+import org.joda.time.DateTime
 import java.awt.BorderLayout
 import java.awt.BorderLayout.CENTER
 import javax.swing.JPanel
@@ -27,8 +29,8 @@ internal class RomCollectionPanel : JPanel() {
         tableModel.addColumn("console")
         tableModel.addColumn("name")
         tableModel.addColumn("rom files")
-        tableModel.addColumn("save files")
         tableModel.addColumn("rom size")
+        tableModel.addColumn("save status")
         val titleColumn = 2
 
         (0 until tableModel.columnCount)
@@ -43,29 +45,46 @@ internal class RomCollectionPanel : JPanel() {
     fun renderLocalRoms(localRoms: List<LocalRom>) {
         tableModel.rowCount = 0
         localRoms.forEach { localRom ->
-            tableModel.addRow(renderRom("on computer", localRom))
+            val saveStatusStr = renderLocalSaveStatus(localRom)
+            val row = renderRom("on computer", saveStatusStr, localRom)
+            tableModel.addRow(row)
         }
     }
 
-    fun renderAllRoms(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>, syncDiff: RomSyncDiff) {
+    fun renderAllRoms(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>, romSyncDiff: RomSyncDiff) {
         tableModel.rowCount = 0
         (localRoms + remoteRoms)
+                .sortedWith(ConsoleAndNameRomComparator)
                 .map { rom -> (rom.console to rom.simpleFileName) }
                 .distinct()
-                .sortedBy { pair -> pair.second }
-                .sortedBy { pair -> pair.first }
                 .forEach { (console, simpleFileName) ->
-                    val status = syncDiff.findStatusBy(console, simpleFileName)
+                    val romSyncStatus = romSyncDiff.findStatusBy(console, simpleFileName)
+                    var saveStatusStr = "<unknown>"
+                    var localRom: LocalRom? = null
+                    var remoteRom: RemoteRom? = null
 
-                    val rom: Rom<*>? = when (status) {
-                        SYNCED -> localRoms.find { localRom -> localRom.matchesBy(console, simpleFileName) }
-                        ONLY_ON_LOCAL -> localRoms.find { localRom -> localRom.matchesBy(console, simpleFileName) }
-                        ONLY_ON_DEVICE -> remoteRoms.find { remoteRom -> remoteRom.matchesBy(console, simpleFileName) }
-                        else -> null
+                    when (romSyncStatus) {
+                        SYNCED -> {
+                            localRom = localRoms.find { rom -> rom.matchesBy(console, simpleFileName) }
+                            remoteRom = remoteRoms.find { rom -> rom.matchesBy(console, simpleFileName) }
+                            // TODO: rom exists on both -> compare
+                        }
+                        ONLY_ON_LOCAL -> {
+                            localRom = localRoms.find { rom -> rom.matchesBy(console, simpleFileName) }
+                            localRom?.let { rom -> saveStatusStr = renderLocalSaveStatus(rom) }
+                        }
+                        ONLY_ON_DEVICE -> {
+                            remoteRom = remoteRoms.find { rom -> rom.matchesBy(console, simpleFileName) }
+                            remoteRom?.let { rom -> saveStatusStr = renderRemoveSaveStatus(rom) }
+                        }
+                        else -> {
+                        }
                     }
 
-                    if (status != ROM_STATUS_UNKNOWN && rom != null) {
-                        tableModel.addRow(renderRom(status.lowerCase(), rom))
+                    if (romSyncStatus != ROM_STATUS_UNKNOWN && (localRom != null || remoteRom != null)) {
+                        val rom = listOfNotNull(localRom, remoteRom).first()
+                        val row = renderRom(romSyncStatus.lowerCase(), saveStatusStr, rom)
+                        tableModel.addRow(row)
                     }
                 }
     }
@@ -74,14 +93,14 @@ internal class RomCollectionPanel : JPanel() {
 
         const val SMALL_COLUMNS_WIDTH = 170
 
-        fun renderRom(status: String, rom: Rom<*>): Array<String> {
+        fun renderRom(romStatus: String, saveStatus: String, rom: Rom<*>): Array<String> {
             val row = mutableListOf<String>()
-            row += status
+            row += romStatus
             row += rom.console
             row += rom.simpleFileName
             row += renderFileList(rom.romFiles)
-            row += renderFileList(rom.saveFiles)
             row += humanReadableByteCountBin(rom.romFilesSize())
+            row += saveStatus
             return row.toTypedArray()
         }
 
@@ -90,6 +109,24 @@ internal class RomCollectionPanel : JPanel() {
                 0 -> "no file"
                 1 -> "1 file"
                 else -> "${list.size} files"
+            }
+        }
+
+        fun renderLocalSaveStatus(localRom: LocalRom): String {
+            return if (localRom.saveFiles.isNotEmpty()) {
+                val lastModified = DateTime(localRom.saveFiles.maxOf { file -> file.lastModified() })
+                "last modified $lastModified"
+            } else {
+                "no save"
+            }
+        }
+
+        fun renderRemoveSaveStatus(remoteRom: RemoteRom): String {
+            return if (remoteRom.saveFiles.isNotEmpty()) {
+                val lastModified = DateTime(remoteRom.saveFiles.maxOf { file -> file.lastModified })
+                "last modified $lastModified"
+            } else {
+                "no save"
             }
         }
 

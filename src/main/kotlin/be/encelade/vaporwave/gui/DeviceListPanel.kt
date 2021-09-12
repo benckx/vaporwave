@@ -37,7 +37,7 @@ internal class DeviceListPanel(callback: DeviceSelectionGuiCallback) : JPanel(),
         preferredSize = Dimension(800, 150)
 
         tableModel.addColumn("status")
-        tableModel.addColumn("id")
+        tableModel.addColumn("name")
 
         table.columnModel.getColumn(0).maxWidth = 170
         table.columnModel.getColumn(0).preferredWidth = 170

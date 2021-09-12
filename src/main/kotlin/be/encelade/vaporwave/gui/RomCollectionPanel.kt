@@ -23,11 +23,12 @@ internal class RomCollectionPanel : JPanel() {
         layout = BorderLayout()
         add(scrollPane, CENTER)
 
-        tableModel.addColumn("status")
+        tableModel.addColumn("rom status")
         tableModel.addColumn("console")
         tableModel.addColumn("name")
         tableModel.addColumn("rom files")
-        tableModel.addColumn("total size")
+        tableModel.addColumn("save files")
+        tableModel.addColumn("rom size")
         val titleColumn = 2
 
         (0 until tableModel.columnCount)
@@ -78,13 +79,18 @@ internal class RomCollectionPanel : JPanel() {
             row += status
             row += rom.console
             row += rom.simpleFileName
-            row += when (rom.romFiles.size) {
-                0 -> "no file"
-                1 -> "1 file"
-                else -> "${rom.romFiles.size} files"
-            }
+            row += renderFileList(rom.romFiles)
+            row += renderFileList(rom.saveFiles)
             row += humanReadableByteCountBin(rom.romFilesSize())
             return row.toTypedArray()
+        }
+
+        fun renderFileList(list: List<*>): String {
+            return when (list.size) {
+                0 -> "no file"
+                1 -> "1 file"
+                else -> "${list.size} files"
+            }
         }
 
     }

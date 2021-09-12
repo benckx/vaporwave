@@ -4,14 +4,15 @@ import be.encelade.vaporwave.model.devices.Device
 import be.encelade.vaporwave.model.roms.LocalRom
 import be.encelade.vaporwave.model.roms.RemoteRom
 import be.encelade.vaporwave.model.roms.RomSyncDiff
+import be.encelade.vaporwave.utils.LazyLogging
 import java.awt.BorderLayout
 import java.awt.BorderLayout.CENTER
 import java.awt.BorderLayout.NORTH
 import javax.swing.JFrame
 
-class MainGui : JFrame() {
+class MainGui : JFrame(), DeviceSelectionGuiCallback, LazyLogging {
 
-    private val deviceListPanel = DeviceListPanel()
+    private val deviceListPanel = DeviceListPanel(this)
     private val romCollectionPanel = RomCollectionPanel()
 
     init {
@@ -38,6 +39,14 @@ class MainGui : JFrame() {
 
     fun renderAllRoms(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>, syncDiff: RomSyncDiff) {
         romCollectionPanel.renderAllRoms(localRoms, remoteRoms, syncDiff)
+    }
+
+    override fun noDeviceSelected() {
+        logger.debug("no device selected")
+    }
+
+    override fun deviceSelected(device: Device) {
+        logger.debug("device: $device")
     }
 
 }

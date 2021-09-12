@@ -27,7 +27,8 @@ fun main() {
 //    println("[NOT ON LOCAL]")
 //    syncDiff.notInLocalFolder.forEach { println(it) }
 
-    val devices = Mapper().loadDevices()
+    val mapper = Mapper()
+    val devices = mapper.loadDevices()
 
     val localRomManager = LocalRomManager("/home/benoit/roms")
     val localRoms = localRomManager.listLocalRoms()

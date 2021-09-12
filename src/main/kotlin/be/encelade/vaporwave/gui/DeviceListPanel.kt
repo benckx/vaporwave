@@ -2,6 +2,7 @@ package be.encelade.vaporwave.gui
 
 import be.encelade.vaporwave.clients.DeviceClient
 import be.encelade.vaporwave.model.devices.Device
+import be.encelade.vaporwave.utils.LazyLogging
 import java.awt.BorderLayout
 import java.awt.BorderLayout.CENTER
 import java.awt.BorderLayout.EAST
@@ -11,10 +12,11 @@ import javax.swing.JButton
 import javax.swing.JPanel
 import javax.swing.JScrollPane
 import javax.swing.JTable
+import javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION
 import javax.swing.table.DefaultTableModel
 import kotlin.concurrent.thread
 
-internal class DeviceListPanel : JPanel() {
+internal class DeviceListPanel(callback: DeviceSelectionGuiCallback) : JPanel(), LazyLogging {
 
     private var devices = listOf<Device>()
     private val deviceToStatus = mutableMapOf<Device, Boolean>()
@@ -39,6 +41,19 @@ internal class DeviceListPanel : JPanel() {
         table.columnModel.getColumn(0).maxWidth = 150
         table.columnModel.getColumn(0).preferredWidth = 150
 
+        val selectionModel = table.selectionModel
+        selectionModel.selectionMode = SINGLE_INTERVAL_SELECTION
+
+        selectionModel.addListSelectionListener { e ->
+            if (!e.valueIsAdjusting) {
+                if (table.selectedRow < 0) {
+                    callback.noDeviceSelected()
+                } else {
+                    callback.deviceSelected(devices[table.selectedRow])
+                }
+            }
+        }
+
         buttonPanel.layout = GridLayout(0, 1)
         buttonPanel.add(unSelectButton)
         buttonPanel.add(refreshButton)
@@ -62,7 +77,7 @@ internal class DeviceListPanel : JPanel() {
     private fun refreshStatus() {
         val clients = devices.mapNotNull { device -> DeviceClient.forDevice(device) }
 
-        deviceToStatus.clear()
+//        deviceToStatus.clear()
 
         clients.forEach { client ->
             val i = devices.indexOf(client.device)
@@ -72,9 +87,14 @@ internal class DeviceListPanel : JPanel() {
         clients.forEach { client ->
             thread {
                 val i = devices.indexOf(client.device)
-                val isOnline = client.isReachable()
-                deviceToStatus[client.device] = isOnline
-                tableModel.setValueAt(if (isOnline) "online" else "offline", i, 0)
+                val isOnlineBefore = deviceToStatus[client.device]
+                val isOnlineNow = client.isReachable()
+                deviceToStatus[client.device] = isOnlineNow
+                tableModel.setValueAt(if (isOnlineNow) "online" else "offline", i, 0)
+
+                if (isOnlineBefore != isOnlineNow) {
+                    // TODO: update rom list if device came online and is selected
+                }
             }
         }
     }

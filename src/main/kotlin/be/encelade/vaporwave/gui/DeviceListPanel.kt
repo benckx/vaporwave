@@ -3,6 +3,7 @@ package be.encelade.vaporwave.gui
 import be.encelade.vaporwave.clients.DeviceClient
 import be.encelade.vaporwave.model.devices.Device
 import be.encelade.vaporwave.utils.LazyLogging
+import org.apache.commons.lang3.BooleanUtils.isTrue
 import java.awt.BorderLayout
 import java.awt.BorderLayout.CENTER
 import java.awt.BorderLayout.EAST
@@ -12,7 +13,7 @@ import javax.swing.JButton
 import javax.swing.JPanel
 import javax.swing.JScrollPane
 import javax.swing.JTable
-import javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION
+import javax.swing.ListSelectionModel.SINGLE_SELECTION
 import javax.swing.table.DefaultTableModel
 import kotlin.concurrent.thread
 
@@ -42,14 +43,22 @@ internal class DeviceListPanel(callback: DeviceSelectionGuiCallback) : JPanel(),
         table.columnModel.getColumn(0).preferredWidth = 150
 
         val selectionModel = table.selectionModel
-        selectionModel.selectionMode = SINGLE_INTERVAL_SELECTION
+        selectionModel.selectionMode = SINGLE_SELECTION
 
         selectionModel.addListSelectionListener { e ->
             if (!e.valueIsAdjusting) {
-                if (table.selectedRow < 0) {
-                    callback.noDeviceSelected()
+                if (table.selectedRow >= 0) {
+                    val device = devices[table.selectedRow]
+                    if (isTrue(deviceToStatus[device])) {
+                        callback.onlineDeviceSelected(device)
+                    } else {
+                        callback.offlineDeviceSelected(device)
+                    }
+
+                    unSelectButton.isEnabled = true
                 } else {
-                    callback.deviceSelected(devices[table.selectedRow])
+                    unSelectButton.isEnabled = false
+                    callback.noDeviceSelected()
                 }
             }
         }
@@ -58,6 +67,7 @@ internal class DeviceListPanel(callback: DeviceSelectionGuiCallback) : JPanel(),
         buttonPanel.add(unSelectButton)
         buttonPanel.add(refreshButton)
 
+        unSelectButton.isEnabled = false
         unSelectButton.addActionListener { table.clearSelection() }
         refreshButton.addActionListener { refreshStatus() }
     }
@@ -76,8 +86,6 @@ internal class DeviceListPanel(callback: DeviceSelectionGuiCallback) : JPanel(),
 
     private fun refreshStatus() {
         val clients = devices.mapNotNull { device -> DeviceClient.forDevice(device) }
-
-//        deviceToStatus.clear()
 
         clients.forEach { client ->
             val i = devices.indexOf(client.device)

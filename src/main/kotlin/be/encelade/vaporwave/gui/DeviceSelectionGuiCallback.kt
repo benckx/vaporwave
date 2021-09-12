@@ -6,6 +6,8 @@ interface DeviceSelectionGuiCallback {
 
     fun noDeviceSelected()
 
-    fun deviceSelected(device: Device)
+    fun offlineDeviceSelected(device: Device)
+
+    fun onlineDeviceSelected(device: Device)
 
 }

@@ -1,19 +1,22 @@
 package be.encelade.vaporwave.gui
 
+import be.encelade.vaporwave.clients.DeviceClient
 import be.encelade.vaporwave.model.devices.Device
-import be.encelade.vaporwave.model.roms.LocalRom
-import be.encelade.vaporwave.model.roms.RemoteRom
-import be.encelade.vaporwave.model.roms.RomSyncDiff
+import be.encelade.vaporwave.persistence.DeviceManager
+import be.encelade.vaporwave.services.LocalRomManager
 import be.encelade.vaporwave.utils.LazyLogging
 import java.awt.BorderLayout
 import java.awt.BorderLayout.CENTER
 import java.awt.BorderLayout.NORTH
 import javax.swing.JFrame
 
-class MainGui : JFrame(), DeviceSelectionGuiCallback, LazyLogging {
+class MainGui(private val deviceManager: DeviceManager,
+              private val localRomManager: LocalRomManager) :
+        JFrame(), DeviceSelectionGuiCallback, LazyLogging {
 
     private val deviceListPanel = DeviceListPanel(this)
     private val romCollectionPanel = RomCollectionPanel()
+    private var isShowingOnlyLocal = false
 
     init {
         val x = 500
@@ -27,26 +30,48 @@ class MainGui : JFrame(), DeviceSelectionGuiCallback, LazyLogging {
         add(deviceListPanel, NORTH)
         add(romCollectionPanel, CENTER)
         defaultCloseOperation = EXIT_ON_CLOSE
-    }
 
-    fun renderDevices(devices: List<Device>) {
-        deviceListPanel.renderDevices(devices)
-    }
-
-    fun renderLocalRoms(localRoms: List<LocalRom>) {
-        romCollectionPanel.renderLocalRoms(localRoms)
-    }
-
-    fun renderAllRoms(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>, syncDiff: RomSyncDiff) {
-        romCollectionPanel.renderAllRoms(localRoms, remoteRoms, syncDiff)
+        renderLocalRoms()
+        renderDevices()
     }
 
     override fun noDeviceSelected() {
         logger.debug("no device selected")
+        renderLocalRoms()
     }
 
-    override fun deviceSelected(device: Device) {
-        logger.debug("device: $device")
+    override fun offlineDeviceSelected(device: Device) {
+        logger.debug("offline device selected $device")
+        renderLocalRoms()
+    }
+
+    override fun onlineDeviceSelected(device: Device) {
+        logger.debug("online device selected $device")
+        renderAllRoms(device)
+    }
+
+    private fun renderDevices() {
+        deviceListPanel.renderDevices(deviceManager.loadDevices())
+    }
+
+    private fun renderLocalRoms() {
+        if (!isShowingOnlyLocal) {
+            val localRoms = localRomManager.listLocalRoms()
+            romCollectionPanel.renderLocalRoms(localRoms)
+            isShowingOnlyLocal = true
+        }
+    }
+
+    private fun renderAllRoms(device: Device) {
+        if (isShowingOnlyLocal) {
+            DeviceClient.forDevice(device)?.let { client ->
+                val localRoms = localRomManager.listLocalRoms()
+                val remoteRoms = client.listRoms()
+                val syncDiff = localRomManager.calculateSyncDiff(localRoms, remoteRoms)
+                romCollectionPanel.renderAllRoms(localRoms, remoteRoms, syncDiff)
+                isShowingOnlyLocal = false
+            }
+        }
     }
 
 }

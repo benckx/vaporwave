@@ -12,7 +12,7 @@ import java.io.File
 import java.io.File.separator
 import kotlin.text.Charsets.UTF_8
 
-class Mapper {
+class DeviceManager {
 
     private val jsonMapper = ObjectMapper()
             .registerModule(KotlinModule() as SimpleModule)

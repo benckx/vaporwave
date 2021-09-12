@@ -13,6 +13,8 @@ import kotlin.concurrent.thread
 
 internal class DeviceListPanel : JPanel() {
 
+    private var devices = listOf<Device>()
+
     private val tableModel = DefaultTableModel()
     private val table = JTable(tableModel)
     private val scrollPane = JScrollPane(table)
@@ -30,18 +32,28 @@ internal class DeviceListPanel : JPanel() {
     }
 
     fun renderDevices(devices: List<Device>) {
+        this.devices = devices
         tableModel.rowCount = 0
         devices.forEach { device ->
-            tableModel.addRow(listOf("connecting...", device.name).toTypedArray())
+            tableModel.addRow(listOf("", device.name).toTypedArray())
         }
 
-        devices.forEach { device ->
+        refreshStatus()
+    }
+
+    private fun refreshStatus() {
+        val clients = devices.mapNotNull { device -> DeviceClient.forDevice(device) }
+
+        clients.forEach { client ->
+            val i = devices.indexOf(client.device)
+            tableModel.setValueAt("connecting...", i, 0)
+        }
+
+        clients.forEach { client ->
             thread {
-                DeviceClient.forDevice(device)?.let { client ->
-                    val i = devices.indexOf(device)
-                    val isOnline = client.isReachable()
-                    tableModel.setValueAt(if (isOnline) "online" else "offline", i, 0)
-                }
+                val i = devices.indexOf(client.device)
+                val isOnline = client.isReachable()
+                tableModel.setValueAt(if (isOnline) "online" else "offline", i, 0)
             }
         }
     }

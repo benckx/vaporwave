@@ -19,10 +19,10 @@ class MainGui(private val deviceManager: DeviceManager,
     private var isShowingOnlyLocal = false
 
     init {
-        val x = 500
+        val x = 200
         val y = 200
         val width = 1700
-        val height = 1200
+        val height = 1000
 
         title = "Vaporwave"
         setBounds(x, y, width, height)

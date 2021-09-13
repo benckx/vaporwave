@@ -94,7 +94,7 @@ internal class RomCollectionPanel : JPanel() {
 
     private companion object {
 
-        const val TITLE_COLUMN_DEFAULT_WIDTH = 550
+        const val TITLE_COLUMN_DEFAULT_WIDTH = 450
         const val SAVE_LAST_MODIFIED_DEFAULT_WIDTH = 220
 
         fun renderRom(romStatus: String, saveStatus: String, lastModified: DateTime?, rom: Rom<*>): Array<String> {

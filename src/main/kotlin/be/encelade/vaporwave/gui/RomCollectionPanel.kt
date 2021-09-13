@@ -7,8 +7,12 @@ import be.encelade.vaporwave.model.roms.Rom
 import be.encelade.vaporwave.model.roms.RomSyncDiff
 import be.encelade.vaporwave.model.roms.RomSyncStatus.*
 import be.encelade.vaporwave.model.roms.comparators.ConsoleAndNameRomComparator
+import be.encelade.vaporwave.model.save.SaveSyncStatus.NO_SAVE_FOUND
 import be.encelade.vaporwave.services.SaveComparator.calculateSyncStatus
 import org.joda.time.DateTime
+import org.joda.time.LocalDateTime
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
 import java.awt.BorderLayout
 import java.awt.BorderLayout.CENTER
 import javax.swing.JPanel
@@ -68,7 +72,12 @@ internal class RomCollectionPanel : JPanel() {
                             remoteRom = remoteRoms.find { rom -> rom.matchesBy(console, simpleFileName) }
                             if (localRom != null && remoteRom != null) {
                                 val saveSyncStatus = calculateSyncStatus(localRom, remoteRom)
-                                saveStatusStr = saveSyncStatus.lowerCase()
+                                saveStatusStr =
+                                        if (saveSyncStatus == NO_SAVE_FOUND) {
+                                            NO_VALUE
+                                        } else {
+                                            saveSyncStatus.lowerCase()
+                                        }
                             }
                         }
                         ROM_ONLY_ON_LOCAL -> {
@@ -97,7 +106,11 @@ internal class RomCollectionPanel : JPanel() {
         const val TITLE_COLUMN_DEFAULT_WIDTH = 450
         const val SAVE_LAST_MODIFIED_DEFAULT_WIDTH = 220
 
-        fun renderRom(romStatus: String, saveStatus: String, lastModified: DateTime?, rom: Rom<*>): Array<String> {
+        const val NO_VALUE = "--"
+
+        val dateFormat: DateTimeFormatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm")
+
+        fun renderRom(romStatus: String, saveStatus: String, lastModified: LocalDateTime?, rom: Rom<*>): Array<String> {
             val row = mutableListOf<String>()
             row += romStatus
             row += rom.console
@@ -105,7 +118,11 @@ internal class RomCollectionPanel : JPanel() {
             row += renderFileList(rom.romFiles)
             row += humanReadableByteCountBin(rom.romFilesSize())
             row += saveStatus
-            row += lastModified?.toString() ?: "n/a"
+            row += if (lastModified != null) {
+                dateFormat.print(lastModified)
+            } else {
+                NO_VALUE
+            }
             return row.toTypedArray()
         }
 
@@ -117,7 +134,7 @@ internal class RomCollectionPanel : JPanel() {
             }
         }
 
-        fun saveLastModified(roms: List<Rom<*>>): DateTime? {
+        fun saveLastModified(roms: List<Rom<*>>): LocalDateTime? {
             return roms
                     .mapNotNull { rom ->
                         when (rom) {
@@ -126,6 +143,7 @@ internal class RomCollectionPanel : JPanel() {
                             else -> null
                         }
                     }
+                    .map { dateTime -> dateTime.toLocalDateTime() }
                     .maxOrNull()
         }
 
@@ -133,7 +151,7 @@ internal class RomCollectionPanel : JPanel() {
             return if (localRom.saveFiles.isNotEmpty()) {
                 renderFileList(localRom.saveFiles)
             } else {
-                "no save found"
+                NO_VALUE
             }
         }
 
@@ -141,7 +159,7 @@ internal class RomCollectionPanel : JPanel() {
             return if (remoteRom.saveFiles.isNotEmpty()) {
                 renderFileList(remoteRom.saveFiles)
             } else {
-                "no save found"
+                NO_VALUE
             }
         }
 

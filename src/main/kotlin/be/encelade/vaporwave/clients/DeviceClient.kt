@@ -12,6 +12,9 @@ abstract class DeviceClient<D : Device>(val device: D) : LazyLogging {
 
     abstract fun isReachable(): Boolean
 
+    /**
+     * send 'ls' command to the device
+     */
     abstract fun listRomFolderFiles(): String
 
     fun listRoms(): List<RemoteRom> {

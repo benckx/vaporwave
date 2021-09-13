@@ -18,14 +18,14 @@ object SaveComparator {
             } else if (isRemoteMoreRecent(localRom, remoteRom)) {
                 SAVE_MORE_RECENT_ON_DEVICE
             } else if (isLocalMoreRecent(localRom, remoteRom)) {
-                SAVE_MORE_RECENT_ON_LOCAL
+                SAVE_MORE_RECENT_ON_COMPUTER
             } else {
                 SAVE_STATUS_UNKNOWN
             }
         } else if (localRom.saveFiles.isEmpty() && remoteRom.saveFiles.isEmpty()) {
             NO_SAVE_FOUND
         } else if (localRom.saveFiles.isNotEmpty() && remoteRom.saveFiles.isEmpty()) {
-            SAVE_ONLY_ON_LOCAL
+            SAVE_ONLY_ON_COMPUTER
         } else if (localRom.saveFiles.isEmpty() && remoteRom.saveFiles.isNotEmpty()) {
             SAVE_ONLY_ON_DEVICE
         } else {

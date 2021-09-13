@@ -4,7 +4,7 @@ import java.awt.GridLayout
 import javax.swing.JButton
 import javax.swing.JPanel
 
-internal class ActionPanel : JPanel() {
+internal class ActionPanel(callback: ActionButtonCallback) : JPanel() {
 
     private val downloadSavesButton = JButton("Download Saves")
     private val uploadSavesButton = JButton("Upload Saves")
@@ -14,6 +14,14 @@ internal class ActionPanel : JPanel() {
         add(downloadSavesButton)
         add(uploadSavesButton)
         noOnlineDeviceSelected()
+
+        downloadSavesButton.addActionListener {
+            callback.downloadSavesFromDevice()
+        }
+
+        uploadSavesButton.addActionListener {
+            callback.uploadSavesToDevice()
+        }
     }
 
     fun onlineDeviceSelected() {

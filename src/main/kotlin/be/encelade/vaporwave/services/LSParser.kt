@@ -29,7 +29,7 @@ object LSParser : LazyLogging {
 
                     // path
                     val i = split.indexOfFirst { it.startsWith("/roms/") }
-                    val filePath = split.subList(i, split.size).joinToString(" ").removePrefix("/roms")
+                    val filePath = split.subList(i, split.size).joinToString(" ")
 
                     LsEntry(lastModified, fileSize, filePath)
                 }

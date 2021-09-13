@@ -11,14 +11,14 @@ import javax.swing.JFrame
 
 class MainGui(private val deviceManager: DeviceManager,
               private val localRomManager: LocalRomManager) :
-        JFrame(), DeviceSelectionGuiCallback, LazyLogging {
+        JFrame(), DeviceSelectionGuiCallback, ActionButtonCallback, LazyLogging {
 
     private val deviceListPanel = DeviceListPanel(this)
     private val romCollectionPanel = RomCollectionPanel()
-    private val actionPanel = ActionPanel()
+    private val actionPanel = ActionPanel(this)
 
     private var renderedLocalRoms = false
-    private var renderedDeviceStatus: DeviceSyncStatus? = null
+    private var renderedDeviceSyncStatus: DeviceSyncStatus? = null
 
     init {
         val x = 200
@@ -56,6 +56,7 @@ class MainGui(private val deviceManager: DeviceManager,
         actionPanel.onlineDeviceSelected()
     }
 
+
     private fun renderDevices() {
         deviceListPanel.renderDevices(deviceManager.loadDevices())
     }
@@ -65,7 +66,7 @@ class MainGui(private val deviceManager: DeviceManager,
             val localRoms = localRomManager.listLocalRoms()
             romCollectionPanel.render(localRoms)
             renderedLocalRoms = true
-            renderedDeviceStatus = null
+            renderedDeviceSyncStatus = null
         }
     }
 
@@ -75,13 +76,27 @@ class MainGui(private val deviceManager: DeviceManager,
                 ?.let { syncStatus ->
                     romCollectionPanel.render(syncStatus)
                     renderedLocalRoms = false
-                    renderedDeviceStatus = syncStatus
+                    renderedDeviceSyncStatus = syncStatus
                 }
     }
 
     private fun clearRomsTable() {
         romCollectionPanel.clearRomsTable()
         renderedLocalRoms = false
+    }
+
+    override fun downloadSavesFromDevice() {
+        renderedDeviceSyncStatus
+                ?.let { status ->
+                    status
+                            .saveToDownloadFromDevices()
+                            .flatMap { remoteRom -> remoteRom.saveFiles }
+                            .forEach { entry -> println(entry.filePath) }
+                }
+    }
+
+    override fun uploadSavesToDevice() {
+        TODO("Not yet implemented")
     }
 
 }

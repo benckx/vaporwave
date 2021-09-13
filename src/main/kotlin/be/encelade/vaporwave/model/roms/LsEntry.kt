@@ -12,7 +12,7 @@ data class LsEntry(val lastModified: DateTime,
     }
 
     fun console(): String? {
-        return consoleKeys.find { console -> filePath.startsWith("/$console/") }
+        return consoleKeys.find { console -> filePath.startsWith("/roms/$console/") }
     }
 
     /**

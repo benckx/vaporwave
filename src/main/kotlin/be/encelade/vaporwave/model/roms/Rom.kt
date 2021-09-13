@@ -7,6 +7,14 @@ abstract class Rom<T>(val console: String,
 
     abstract fun romFilesSize(): Long
 
+    fun romId(): RomId {
+        return RomId(console, simpleFileName)
+    }
+
+    fun matchesBy(romId: RomId): Boolean {
+        return romId() == romId
+    }
+
     fun matchesBy(console: String, simpleFileName: String): Boolean {
         return this.console == console && this.simpleFileName == simpleFileName
     }

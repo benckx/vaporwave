@@ -62,18 +62,18 @@ internal class RomCollectionPanel : JPanel() {
 
         (localRoms + remoteRoms)
                 .sortedWith(ConsoleAndNameRomComparator)
-                .map { rom -> (rom.console to rom.simpleFileName) }
+                .map { rom -> rom.romId() }
                 .distinct()
-                .forEach { (console, simpleFileName) ->
-                    val romSyncStatus = romSyncDiff.findStatusBy(console, simpleFileName)
+                .forEach { romId ->
+                    val romSyncStatus = romSyncDiff.findStatusBy(romId)
                     var saveStatusStr = "<unknown>"
                     var localRom: LocalRom? = null
                     var remoteRom: RemoteRom? = null
 
                     when (romSyncStatus) {
                         ROM_SYNCED -> {
-                            localRom = localRoms.find { rom -> rom.matchesBy(console, simpleFileName) }
-                            remoteRom = remoteRoms.find { rom -> rom.matchesBy(console, simpleFileName) }
+                            localRom = localRoms.find { rom -> rom.matchesBy(romId) }
+                            remoteRom = remoteRoms.find { rom -> rom.matchesBy(romId) }
                             if (localRom != null && remoteRom != null) {
                                 val saveSyncStatus = calculateSyncStatus(localRom, remoteRom)
                                 saveStatusStr =
@@ -85,11 +85,11 @@ internal class RomCollectionPanel : JPanel() {
                             }
                         }
                         ROM_ONLY_ON_COMPUTER -> {
-                            localRom = localRoms.find { rom -> rom.matchesBy(console, simpleFileName) }
+                            localRom = localRoms.find { rom -> rom.matchesBy(romId) }
                             localRom?.let { rom -> saveStatusStr = renderLocalSaveStatus(rom) }
                         }
                         ROM_ONLY_ON_DEVICE -> {
-                            remoteRom = remoteRoms.find { rom -> rom.matchesBy(console, simpleFileName) }
+                            remoteRom = remoteRoms.find { rom -> rom.matchesBy(romId) }
                             remoteRom?.let { rom -> saveStatusStr = renderRemoteSaveStatus(rom) }
                         }
                         else -> {

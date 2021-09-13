@@ -42,6 +42,10 @@ data class RomSyncDiff(val synced: List<LocalRom>,
                 notInLocalFolder.sortedWith(comparator))
     }
 
+    fun findStatusBy(romId: RomId): RomSyncStatus {
+        return findStatusBy(romId.console, romId.simpleFileName)
+    }
+
     fun findStatusBy(console: String, simpleFileName: String): RomSyncStatus {
         return when {
             isSync(console, simpleFileName) -> ROM_SYNCED

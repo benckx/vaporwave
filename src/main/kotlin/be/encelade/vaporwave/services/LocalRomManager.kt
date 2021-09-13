@@ -57,4 +57,8 @@ class LocalRomManager(localRomFolder: String) {
                 .sortedWith(ConsoleAndNameRomComparator)
     }
 
+    fun calculateSaveDiff(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>, romSyncDiff: RomSyncDiff) {
+
+    }
+
 }

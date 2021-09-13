@@ -51,7 +51,7 @@ class MainGui(private val deviceManager: DeviceManager,
 
     override fun onlineDeviceSelected(device: Device) {
         logger.debug("online device selected $device")
-        renderAllRoms(device)
+        renderForOnlineDevice(device)
         actionPanel.onlineDeviceSelected()
     }
 
@@ -72,12 +72,13 @@ class MainGui(private val deviceManager: DeviceManager,
         }
     }
 
-    private fun renderAllRoms(device: Device) {
+    private fun renderForOnlineDevice(device: Device) {
         DeviceClient.forDevice(device)?.let { client ->
             val localRoms = localRomManager.listLocalRoms()
             val remoteRoms = client.listRoms()
-            val syncDiff = localRomManager.calculateSyncDiff(localRoms, remoteRoms)
-            romCollectionPanel.renderAllRoms(localRoms, remoteRoms, syncDiff)
+            val romSyncDiff = localRomManager.calculateSyncDiff(localRoms, remoteRoms)
+            val saveSyncDiff = localRomManager.calculateSaveDiff(localRoms, remoteRoms, romSyncDiff)
+            romCollectionPanel.renderForOnlineDevice(localRoms, remoteRoms, romSyncDiff, saveSyncDiff)
             isShowingOnlyLocal = false
         }
     }

@@ -1,6 +1,8 @@
 package be.encelade.vaporwave.model.roms
 
 import be.encelade.vaporwave.services.CueParser.parseCueFile
+import org.joda.time.DateTime
+import org.joda.time.LocalDateTime
 import java.io.File
 
 class LocalRom(console: String,
@@ -11,6 +13,10 @@ class LocalRom(console: String,
 
     override fun romFilesSize(): Long {
         return romFiles.sumOf { file -> file.length() }
+    }
+
+    override fun toLocalDateTime(entry: File): LocalDateTime {
+        return DateTime(entry.lastModified()).toLocalDateTime()
     }
 
     /**

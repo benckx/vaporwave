@@ -1,11 +1,15 @@
 package be.encelade.vaporwave.model.roms
 
+import org.joda.time.LocalDateTime
+
 abstract class Rom<T>(val console: String,
                       val simpleFileName: String,
                       val romFiles: List<T>,
                       val saveFiles: List<T>) {
 
     abstract fun romFilesSize(): Long
+
+    abstract fun toLocalDateTime(entry: T): LocalDateTime
 
     fun romId(): RomId {
         return RomId(console, simpleFileName)
@@ -21,6 +25,10 @@ abstract class Rom<T>(val console: String,
 
     fun allFiles(): List<T> {
         return romFiles + saveFiles
+    }
+
+    fun saveFileLastModified(): LocalDateTime? {
+        return saveFiles.map { saveFile -> toLocalDateTime(saveFile) }.maxOrNull()
     }
 
     override fun equals(other: Any?): Boolean {

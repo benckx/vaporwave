@@ -3,11 +3,16 @@ package be.encelade.vaporwave.services
 import be.encelade.vaporwave.model.roms.LocalRom
 import be.encelade.vaporwave.model.roms.RemoteRom
 import be.encelade.vaporwave.model.roms.Rom.Companion.areEquals
+import be.encelade.vaporwave.model.roms.RomId
 import be.encelade.vaporwave.model.roms.RomSyncDiff
+import be.encelade.vaporwave.model.roms.RomSyncStatus.*
 import be.encelade.vaporwave.model.roms.comparators.ConsoleAndNameRomComparator
+import be.encelade.vaporwave.model.save.SaveSyncStatus
+import be.encelade.vaporwave.model.save.SaveSyncStatus.*
 import be.encelade.vaporwave.services.ExtensionMap.consoleKeys
 import be.encelade.vaporwave.services.ExtensionMap.getRomExtensionsPerConsole
 import be.encelade.vaporwave.services.ExtensionMap.saveFilesExtension
+import be.encelade.vaporwave.services.SaveComparator.calculateSyncStatus
 import be.encelade.vaporwave.utils.CollectionUtils.exists
 import java.io.File
 
@@ -57,8 +62,44 @@ class LocalRomManager(localRomFolder: String) {
                 .sortedWith(ConsoleAndNameRomComparator)
     }
 
-    fun calculateSaveDiff(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>, romSyncDiff: RomSyncDiff) {
+    fun calculateSaveDiff(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>, romSyncDiff: RomSyncDiff): Map<RomId, SaveSyncStatus> {
+        val result = mutableMapOf<RomId, SaveSyncStatus>()
 
+        (localRoms + remoteRoms)
+                .sortedWith(ConsoleAndNameRomComparator)
+                .map { rom -> rom.romId() }
+                .distinct()
+                .forEach { romId ->
+                    val localRom = localRoms.find { rom -> rom.matchesBy(romId) }
+                    val remoteRom = remoteRoms.find { rom -> rom.matchesBy(romId) }
+
+                    result[romId] = when (romSyncDiff.findStatusBy(romId)) {
+                        ROM_SYNCED -> {
+                            if (localRom != null && remoteRom != null) {
+                                calculateSyncStatus(localRom, remoteRom)
+                            } else {
+                                SAVE_STATUS_UNKNOWN
+                            }
+                        }
+                        ROM_ONLY_ON_COMPUTER -> {
+                            if (localRom != null && localRom.saveFiles.isNotEmpty()) {
+                                SAVE_ONLY_ON_COMPUTER
+                            } else {
+                                NO_SAVE_FOUND
+                            }
+                        }
+                        ROM_ONLY_ON_DEVICE -> {
+                            if (remoteRom != null && remoteRom.saveFiles.isNotEmpty()) {
+                                SAVE_ONLY_ON_DEVICE
+                            } else {
+                                NO_SAVE_FOUND
+                            }
+                        }
+                        else -> SAVE_STATUS_UNKNOWN
+                    }
+                }
+
+        return result
     }
 
 }

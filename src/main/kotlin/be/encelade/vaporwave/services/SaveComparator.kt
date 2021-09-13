@@ -70,7 +70,7 @@ object SaveComparator {
     }
 
     private fun sameFiles(localRom: LocalRom, remoteRom: RemoteRom): Boolean {
-        return localRom.saveFiles.map { it.name }.sorted() == remoteRom.saveFiles.map { it.fileName() }.sorted()
+        return localRom.saveFiles.map { file -> file.name }.sorted() == remoteRom.saveFiles.map { entry -> entry.fileName() }.sorted()
     }
 
     private fun deltaInMillis(millis: Long, dateTime: DateTime): Long {

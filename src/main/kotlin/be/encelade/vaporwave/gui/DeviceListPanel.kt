@@ -20,7 +20,7 @@ import kotlin.concurrent.thread
 internal class DeviceListPanel(callback: DeviceSelectionGuiCallback) : JPanel(), LazyLogging {
 
     private var devices = listOf<Device>()
-    private val deviceToStatus = mutableMapOf<Device, Boolean>()
+    private val isOnlineMap = mutableMapOf<Device, Boolean>()
 
     private val tableModel = DefaultTableModel()
     private val table = JTable(tableModel)
@@ -49,7 +49,7 @@ internal class DeviceListPanel(callback: DeviceSelectionGuiCallback) : JPanel(),
             if (!e.valueIsAdjusting) {
                 if (table.selectedRow >= 0) {
                     val device = devices[table.selectedRow]
-                    if (isTrue(deviceToStatus[device])) {
+                    if (isTrue(isOnlineMap[device])) {
                         callback.onlineDeviceSelected(device)
                     } else {
                         callback.offlineDeviceSelected(device)
@@ -74,7 +74,7 @@ internal class DeviceListPanel(callback: DeviceSelectionGuiCallback) : JPanel(),
 
     fun renderDevices(devices: List<Device>) {
         this.devices = devices
-        this.deviceToStatus.clear()
+        this.isOnlineMap.clear()
 
         tableModel.rowCount = 0
         devices.forEach { device ->
@@ -96,9 +96,9 @@ internal class DeviceListPanel(callback: DeviceSelectionGuiCallback) : JPanel(),
         clients.forEach { client ->
             thread {
                 val i = devices.indexOf(client.device)
-                val isOnlineBefore = deviceToStatus[client.device]
+                val isOnlineBefore = isOnlineMap[client.device]
                 val isOnlineNow = client.isReachable()
-                deviceToStatus[client.device] = isOnlineNow
+                isOnlineMap[client.device] = isOnlineNow
                 tableModel.setValueAt(if (isOnlineNow) "online" else "offline", i, 0)
 
                 if (isOnlineBefore != isOnlineNow) {

@@ -21,7 +21,7 @@ class MainGui(private val deviceManager: DeviceManager,
     init {
         val x = 500
         val y = 200
-        val width = 1500
+        val width = 1700
         val height = 1200
 
         title = "Vaporwave"

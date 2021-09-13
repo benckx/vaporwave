@@ -33,15 +33,12 @@ internal class RomCollectionPanel : JPanel() {
         tableModel.addColumn("rom size")
         tableModel.addColumn("save status")
         tableModel.addColumn("save last modified")
-        val titleColumnIndex = 2
 
-        (0 until tableModel.columnCount)
-                .filterNot { i -> i == titleColumnIndex }
-                .map { i -> table.columnModel.getColumn(i) }
-                .forEach { column ->
-                    column.maxWidth = SMALL_COLUMNS_WIDTH
-                    column.preferredWidth = SMALL_COLUMNS_WIDTH
-                }
+        val titleColumnIndex = 2
+        val saveLastModifiedColumnIndex = 6
+
+        table.columnModel.getColumn(titleColumnIndex).preferredWidth = TITLE_COLUMN_DEFAULT_WIDTH
+        table.columnModel.getColumn(saveLastModifiedColumnIndex).preferredWidth = SAVE_LAST_MODIFIED_DEFAULT_WIDTH
     }
 
     fun renderLocalRoms(localRoms: List<LocalRom>) {
@@ -97,7 +94,8 @@ internal class RomCollectionPanel : JPanel() {
 
     private companion object {
 
-        const val SMALL_COLUMNS_WIDTH = 170
+        const val TITLE_COLUMN_DEFAULT_WIDTH = 550
+        const val SAVE_LAST_MODIFIED_DEFAULT_WIDTH = 220
 
         fun renderRom(romStatus: String, saveStatus: String, lastModified: DateTime?, rom: Rom<*>): Array<String> {
             val row = mutableListOf<String>()

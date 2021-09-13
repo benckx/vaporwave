@@ -6,8 +6,7 @@ import be.encelade.vaporwave.persistence.DeviceManager
 import be.encelade.vaporwave.services.LocalRomManager
 import be.encelade.vaporwave.utils.LazyLogging
 import java.awt.BorderLayout
-import java.awt.BorderLayout.CENTER
-import java.awt.BorderLayout.NORTH
+import java.awt.BorderLayout.*
 import javax.swing.JFrame
 
 class MainGui(private val deviceManager: DeviceManager,
@@ -16,6 +15,8 @@ class MainGui(private val deviceManager: DeviceManager,
 
     private val deviceListPanel = DeviceListPanel(this)
     private val romCollectionPanel = RomCollectionPanel()
+    private val actionPanel = ActionPanel()
+
     private var isShowingOnlyLocal = false
 
     init {
@@ -29,6 +30,7 @@ class MainGui(private val deviceManager: DeviceManager,
         layout = BorderLayout()
         add(deviceListPanel, NORTH)
         add(romCollectionPanel, CENTER)
+        add(actionPanel, SOUTH)
         defaultCloseOperation = EXIT_ON_CLOSE
 
         renderLocalRoms()
@@ -38,20 +40,28 @@ class MainGui(private val deviceManager: DeviceManager,
     override fun noDeviceSelected() {
         logger.debug("no device selected")
         renderLocalRoms()
+        actionPanel.noOnlineDeviceSelected()
     }
 
     override fun offlineDeviceSelected(device: Device) {
         logger.debug("offline device selected $device")
-        renderLocalRoms()
+        clearRomsTable()
+        actionPanel.noOnlineDeviceSelected()
     }
 
     override fun onlineDeviceSelected(device: Device) {
         logger.debug("online device selected $device")
         renderAllRoms(device)
+        actionPanel.onlineDeviceSelected()
     }
 
     private fun renderDevices() {
         deviceListPanel.renderDevices(deviceManager.loadDevices())
+    }
+
+    private fun clearRomsTable() {
+        romCollectionPanel.clearRomsTable()
+        isShowingOnlyLocal = false
     }
 
     private fun renderLocalRoms() {

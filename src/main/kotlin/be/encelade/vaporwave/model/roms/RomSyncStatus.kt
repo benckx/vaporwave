@@ -5,10 +5,14 @@ enum class RomSyncStatus {
     ROM_STATUS_UNKNOWN,
     ROM_SYNCED,
     ROM_ONLY_ON_DEVICE,
-    ROM_ONLY_ON_LOCAL;
+    ROM_ONLY_ON_COMPUTER;
 
     fun lowerCase(): String {
-        return name.removePrefix("ROM_").replace("_", " ").trim().lowercase()
+        return name
+                .removePrefix("ROM_")
+                .replace("_", " ")
+                .trim()
+                .lowercase()
     }
 
 }

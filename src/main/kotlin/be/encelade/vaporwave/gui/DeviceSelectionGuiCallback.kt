@@ -2,7 +2,7 @@ package be.encelade.vaporwave.gui
 
 import be.encelade.vaporwave.model.devices.Device
 
-interface DeviceSelectionGuiCallback {
+internal interface DeviceSelectionGuiCallback {
 
     fun noDeviceSelected()
 

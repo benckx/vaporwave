@@ -39,14 +39,17 @@ internal class RomCollectionPanel : JPanel() {
         tableModel.addColumn("save last modified")
 
         val titleColumnIndex = 2
-        val saveLastModifiedColumnIndex = 6
-
         table.columnModel.getColumn(titleColumnIndex).preferredWidth = TITLE_COLUMN_DEFAULT_WIDTH
-        table.columnModel.getColumn(saveLastModifiedColumnIndex).preferredWidth = SAVE_LAST_MODIFIED_DEFAULT_WIDTH
+    }
+
+    fun clearRomsTable() {
+        table.clearSelection()
+        tableModel.rowCount = 0
     }
 
     fun renderLocalRoms(localRoms: List<LocalRom>) {
-        tableModel.rowCount = 0
+        clearRomsTable()
+
         localRoms.forEach { localRom ->
             val saveStatusStr = renderLocalSaveStatus(localRom)
             val row = renderRom("on computer", saveStatusStr, saveLastModified(listOf(localRom)), localRom)
@@ -55,7 +58,8 @@ internal class RomCollectionPanel : JPanel() {
     }
 
     fun renderAllRoms(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>, romSyncDiff: RomSyncDiff) {
-        tableModel.rowCount = 0
+        clearRomsTable()
+
         (localRoms + remoteRoms)
                 .sortedWith(ConsoleAndNameRomComparator)
                 .map { rom -> (rom.console to rom.simpleFileName) }
@@ -74,13 +78,13 @@ internal class RomCollectionPanel : JPanel() {
                                 val saveSyncStatus = calculateSyncStatus(localRom, remoteRom)
                                 saveStatusStr =
                                         if (saveSyncStatus == NO_SAVE_FOUND) {
-                                            NO_VALUE
+                                            NO_VALUE_TO_STRING
                                         } else {
                                             saveSyncStatus.lowerCase()
                                         }
                             }
                         }
-                        ROM_ONLY_ON_LOCAL -> {
+                        ROM_ONLY_ON_COMPUTER -> {
                             localRom = localRoms.find { rom -> rom.matchesBy(console, simpleFileName) }
                             localRom?.let { rom -> saveStatusStr = renderLocalSaveStatus(rom) }
                         }
@@ -104,9 +108,7 @@ internal class RomCollectionPanel : JPanel() {
     private companion object {
 
         const val TITLE_COLUMN_DEFAULT_WIDTH = 450
-        const val SAVE_LAST_MODIFIED_DEFAULT_WIDTH = 220
-
-        const val NO_VALUE = "--"
+        const val NO_VALUE_TO_STRING = "--"
 
         val dateFormat: DateTimeFormatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm")
 
@@ -121,7 +123,7 @@ internal class RomCollectionPanel : JPanel() {
             row += if (lastModified != null) {
                 dateFormat.print(lastModified)
             } else {
-                NO_VALUE
+                NO_VALUE_TO_STRING
             }
             return row.toTypedArray()
         }
@@ -151,7 +153,7 @@ internal class RomCollectionPanel : JPanel() {
             return if (localRom.saveFiles.isNotEmpty()) {
                 renderFileList(localRom.saveFiles)
             } else {
-                NO_VALUE
+                NO_VALUE_TO_STRING
             }
         }
 
@@ -159,7 +161,7 @@ internal class RomCollectionPanel : JPanel() {
             return if (remoteRom.saveFiles.isNotEmpty()) {
                 renderFileList(remoteRom.saveFiles)
             } else {
-                NO_VALUE
+                NO_VALUE_TO_STRING
             }
         }
 

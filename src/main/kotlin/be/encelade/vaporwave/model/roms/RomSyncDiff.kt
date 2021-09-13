@@ -45,7 +45,7 @@ data class RomSyncDiff(val synced: List<LocalRom>,
     fun findStatusBy(console: String, simpleFileName: String): RomSyncStatus {
         return when {
             isSync(console, simpleFileName) -> ROM_SYNCED
-            isOnlyOnLocal(console, simpleFileName) -> ROM_ONLY_ON_LOCAL
+            isOnlyOnLocal(console, simpleFileName) -> ROM_ONLY_ON_COMPUTER
             isOnlyOnDevice(console, simpleFileName) -> ROM_ONLY_ON_DEVICE
             else -> ROM_STATUS_UNKNOWN
         }

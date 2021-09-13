@@ -1,5 +1,8 @@
 package be.encelade.vaporwave.services
 
+import be.encelade.vaporwave.clients.DeviceClient
+import be.encelade.vaporwave.model.DeviceSyncStatus
+import be.encelade.vaporwave.model.devices.Device
 import be.encelade.vaporwave.model.roms.LocalRom
 import be.encelade.vaporwave.model.roms.RemoteRom
 import be.encelade.vaporwave.model.roms.Rom.Companion.areEquals
@@ -52,6 +55,20 @@ class LocalRomManager(localRomFolder: String) {
                 .sortedWith(ConsoleAndNameRomComparator)
     }
 
+    fun calculateDeviceSyncStatus(device: Device): DeviceSyncStatus? {
+        val client = DeviceClient.forDevice(device)
+
+        return if (client != null) {
+            val localRoms = listLocalRoms()
+            val remoteRoms = client.listRoms()
+            val romSyncDiff = calculateSyncDiff(localRoms, remoteRoms)
+            val saveSyncMap = calculateSaveMap(localRoms, remoteRoms, romSyncDiff)
+            DeviceSyncStatus(localRoms, remoteRoms, romSyncDiff, saveSyncMap)
+        } else {
+            null
+        }
+    }
+
     fun calculateSyncDiff(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>): RomSyncDiff {
         val synced = localRoms.filter { localRom -> remoteRoms.exists { remoteRom -> areEquals(localRom, remoteRom) } }
         val notOnDevice = localRoms.filterNot { localRom -> remoteRoms.exists { remoteRom -> areEquals(localRom, remoteRom) } }
@@ -62,7 +79,7 @@ class LocalRomManager(localRomFolder: String) {
                 .sortedWith(ConsoleAndNameRomComparator)
     }
 
-    fun calculateSaveDiff(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>, romSyncDiff: RomSyncDiff): Map<RomId, SaveSyncStatus> {
+    fun calculateSaveMap(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>, romSyncDiff: RomSyncDiff): Map<RomId, SaveSyncStatus> {
         val result = mutableMapOf<RomId, SaveSyncStatus>()
 
         (localRoms + remoteRoms)

@@ -42,29 +42,25 @@ data class RomSyncDiff(val synced: List<LocalRom>,
                 notInLocalFolder.sortedWith(comparator))
     }
 
-    fun findStatusBy(romId: RomId): RomSyncStatus {
-        return findStatusBy(romId.console, romId.simpleFileName)
-    }
-
-    fun findStatusBy(console: String, simpleFileName: String): RomSyncStatus {
+     fun findStatusBy(romId: RomId): RomSyncStatus {
         return when {
-            isSync(console, simpleFileName) -> ROM_SYNCED
-            isOnlyOnLocal(console, simpleFileName) -> ROM_ONLY_ON_COMPUTER
-            isOnlyOnDevice(console, simpleFileName) -> ROM_ONLY_ON_DEVICE
+            isSync(romId) -> ROM_SYNCED
+            isOnlyOnLocal(romId) -> ROM_ONLY_ON_COMPUTER
+            isOnlyOnDevice(romId) -> ROM_ONLY_ON_DEVICE
             else -> ROM_STATUS_UNKNOWN
         }
     }
 
-    private fun isSync(console: String, simpleFileName: String): Boolean {
-        return synced.exists { localRom -> localRom.matchesBy(console, simpleFileName) }
+    private fun isSync(romId: RomId): Boolean {
+        return synced.exists { localRom -> localRom.matchesBy(romId) }
     }
 
-    private fun isOnlyOnDevice(console: String, simpleFileName: String): Boolean {
-        return notInLocalFolder.exists { localRom -> localRom.matchesBy(console, simpleFileName) }
+    private fun isOnlyOnDevice(romId: RomId): Boolean {
+        return notInLocalFolder.exists { localRom -> localRom.matchesBy(romId) }
     }
 
-    private fun isOnlyOnLocal(console: String, simpleFileName: String): Boolean {
-        return notOnDevice.exists { localRom -> localRom.matchesBy(console, simpleFileName) }
+    private fun isOnlyOnLocal(romId: RomId): Boolean {
+        return notOnDevice.exists { localRom -> localRom.matchesBy(romId) }
     }
 
 }

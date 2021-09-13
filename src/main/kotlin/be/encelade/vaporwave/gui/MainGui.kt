@@ -1,6 +1,6 @@
 package be.encelade.vaporwave.gui
 
-import be.encelade.vaporwave.clients.DeviceClient
+import be.encelade.vaporwave.model.DeviceSyncStatus
 import be.encelade.vaporwave.model.devices.Device
 import be.encelade.vaporwave.persistence.DeviceManager
 import be.encelade.vaporwave.services.LocalRomManager
@@ -17,7 +17,8 @@ class MainGui(private val deviceManager: DeviceManager,
     private val romCollectionPanel = RomCollectionPanel()
     private val actionPanel = ActionPanel()
 
-    private var isShowingOnlyLocal = false
+    private var renderedLocalRoms = false
+    private var renderedDeviceStatus: DeviceSyncStatus? = null
 
     init {
         val x = 200
@@ -51,7 +52,7 @@ class MainGui(private val deviceManager: DeviceManager,
 
     override fun onlineDeviceSelected(device: Device) {
         logger.debug("online device selected $device")
-        renderForOnlineDevice(device)
+        renderDeviceStatus(device)
         actionPanel.onlineDeviceSelected()
     }
 
@@ -61,26 +62,26 @@ class MainGui(private val deviceManager: DeviceManager,
 
     private fun clearRomsTable() {
         romCollectionPanel.clearRomsTable()
-        isShowingOnlyLocal = false
+        renderedLocalRoms = false
     }
 
     private fun renderLocalRoms() {
-        if (!isShowingOnlyLocal) {
+        if (!renderedLocalRoms) {
             val localRoms = localRomManager.listLocalRoms()
-            romCollectionPanel.renderLocalRoms(localRoms)
-            isShowingOnlyLocal = true
+            romCollectionPanel.render(localRoms)
+            renderedLocalRoms = true
+            renderedDeviceStatus = null
         }
     }
 
-    private fun renderForOnlineDevice(device: Device) {
-        DeviceClient.forDevice(device)?.let { client ->
-            val localRoms = localRomManager.listLocalRoms()
-            val remoteRoms = client.listRoms()
-            val romSyncDiff = localRomManager.calculateSyncDiff(localRoms, remoteRoms)
-            val saveSyncDiff = localRomManager.calculateSaveDiff(localRoms, remoteRoms, romSyncDiff)
-            romCollectionPanel.renderForOnlineDevice(localRoms, remoteRoms, romSyncDiff, saveSyncDiff)
-            isShowingOnlyLocal = false
-        }
+    private fun renderDeviceStatus(device: Device) {
+        localRomManager
+                .calculateDeviceSyncStatus(device)
+                ?.let { syncStatus ->
+                    romCollectionPanel.render(syncStatus)
+                    renderedLocalRoms = false
+                    renderedDeviceStatus = syncStatus
+                }
     }
 
 }

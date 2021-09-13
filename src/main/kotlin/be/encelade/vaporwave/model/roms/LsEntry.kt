@@ -1,4 +1,4 @@
-package be.encelade.vaporwave.model
+package be.encelade.vaporwave.model.roms
 
 import be.encelade.vaporwave.services.ExtensionMap.consoleKeys
 import org.joda.time.DateTime

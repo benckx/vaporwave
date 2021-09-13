@@ -1,12 +1,15 @@
 package be.encelade.vaporwave.gui
 
 import be.encelade.vaporwave.gui.GuiUtils.humanReadableByteCountBin
-import be.encelade.vaporwave.model.roms.*
+import be.encelade.vaporwave.model.DeviceSyncStatus
+import be.encelade.vaporwave.model.roms.LocalRom
+import be.encelade.vaporwave.model.roms.RemoteRom
+import be.encelade.vaporwave.model.roms.RomSyncStatus
 import be.encelade.vaporwave.model.roms.RomSyncStatus.ROM_ONLY_ON_COMPUTER
 import be.encelade.vaporwave.model.roms.RomSyncStatus.ROM_STATUS_UNKNOWN
-import be.encelade.vaporwave.model.roms.comparators.ConsoleAndNameRomComparator
 import be.encelade.vaporwave.model.save.SaveSyncStatus
-import be.encelade.vaporwave.model.save.SaveSyncStatus.*
+import be.encelade.vaporwave.model.save.SaveSyncStatus.NO_SAVE_FOUND
+import be.encelade.vaporwave.model.save.SaveSyncStatus.SAVE_ONLY_ON_COMPUTER
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import java.awt.BorderLayout
@@ -43,7 +46,7 @@ internal class RomCollectionPanel : JPanel() {
         tableModel.rowCount = 0
     }
 
-    fun renderLocalRoms(localRoms: List<LocalRom>) {
+    fun render(localRoms: List<LocalRom>) {
         clearRomsTable()
 
         localRoms.forEach { localRom ->
@@ -53,23 +56,17 @@ internal class RomCollectionPanel : JPanel() {
         }
     }
 
-    fun renderForOnlineDevice(localRoms: List<LocalRom>,
-                              remoteRoms: List<RemoteRom>,
-                              romSyncDiff: RomSyncDiff,
-                              saveSyncMap: Map<RomId, SaveSyncStatus>) {
+    fun render(syncStatus: DeviceSyncStatus) {
         clearRomsTable()
 
-        (localRoms + remoteRoms)
-                .sortedWith(ConsoleAndNameRomComparator)
-                .map { rom -> rom.romId() }
-                .distinct()
+        syncStatus
+                .romIds()
                 .forEach { romId ->
-                    val localRom = localRoms.find { rom -> rom.matchesBy(romId) }
-                    val remoteRom = remoteRoms.find { rom -> rom.matchesBy(romId) }
-                    val romSyncStatus = romSyncDiff.findStatusBy(romId)
-
-                    if (romSyncStatus != ROM_STATUS_UNKNOWN && (localRom != null || remoteRom != null)) {
-                        val saveSyncStatus = saveSyncMap[romId] ?: SAVE_STATUS_UNKNOWN
+                    val localRom = syncStatus.findLocalRom(romId)
+                    val remoteRom = syncStatus.findRemoteRom(romId)
+                    val romSyncStatus = syncStatus.romSyncStatusOf(romId)
+                    if ((localRom != null || remoteRom != null) && romSyncStatus != ROM_STATUS_UNKNOWN) {
+                        val saveSyncStatus = syncStatus.saveSyncStatusOf(romId)
                         val row = renderRom(localRom, remoteRom, romSyncStatus, saveSyncStatus)
                         tableModel.addRow(row)
                     }

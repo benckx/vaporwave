@@ -1,6 +1,6 @@
 package be.encelade.vaporwave.services
 
-import be.encelade.vaporwave.model.LsEntry
+import be.encelade.vaporwave.model.roms.LsEntry
 import be.encelade.vaporwave.model.roms.RemoteRom
 import be.encelade.vaporwave.services.ExtensionMap.romExtensions
 import be.encelade.vaporwave.services.ExtensionMap.saveFilesExtension

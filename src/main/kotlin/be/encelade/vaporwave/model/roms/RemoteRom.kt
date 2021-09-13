@@ -1,6 +1,5 @@
 package be.encelade.vaporwave.model.roms
 
-import be.encelade.vaporwave.model.LsEntry
 import org.joda.time.DateTime
 import org.joda.time.LocalDateTime
 

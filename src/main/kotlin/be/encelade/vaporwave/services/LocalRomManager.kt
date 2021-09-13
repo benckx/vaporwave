@@ -15,7 +15,7 @@ import be.encelade.vaporwave.model.save.SaveSyncStatus.*
 import be.encelade.vaporwave.services.ExtensionMap.consoleKeys
 import be.encelade.vaporwave.services.ExtensionMap.getRomExtensionsPerConsole
 import be.encelade.vaporwave.services.ExtensionMap.saveFilesExtension
-import be.encelade.vaporwave.services.SaveComparator.calculateSyncStatus
+import be.encelade.vaporwave.services.SaveComparator.compareSaveFiles
 import be.encelade.vaporwave.utils.CollectionUtils.exists
 import java.io.File
 
@@ -95,7 +95,7 @@ class LocalRomManager(localRomFolder: String) {
                     result[romId] = when (romSyncDiff.findStatusBy(romId)) {
                         ROM_SYNCED -> {
                             if (localRom != null && remoteRom != null) {
-                                calculateSyncStatus(localRom, remoteRom)
+                                compareSaveFiles(localRom, remoteRom)
                             } else {
                                 SAVE_STATUS_UNKNOWN
                             }

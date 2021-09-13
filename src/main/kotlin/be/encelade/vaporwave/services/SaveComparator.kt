@@ -11,7 +11,7 @@ object SaveComparator {
 
     private const val DELTA_THRESHOLD = 10 * 1000L
 
-    fun calculateSyncStatus(localRom: LocalRom, remoteRom: RemoteRom): SaveSyncStatus {
+    fun compareSaveFiles(localRom: LocalRom, remoteRom: RemoteRom): SaveSyncStatus {
         return if (localRom.saveFiles.isNotEmpty() && remoteRom.saveFiles.isNotEmpty()) {
             if (areSynced(localRom, remoteRom)) {
                 SAVE_SYNCED

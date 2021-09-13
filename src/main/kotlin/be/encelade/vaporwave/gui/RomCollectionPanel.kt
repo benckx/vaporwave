@@ -32,10 +32,11 @@ internal class RomCollectionPanel : JPanel() {
         tableModel.addColumn("rom files")
         tableModel.addColumn("rom size")
         tableModel.addColumn("save status")
-        val titleColumn = 2
+        tableModel.addColumn("save last modified")
+        val titleColumnIndex = 2
 
         (0 until tableModel.columnCount)
-                .filterNot { it == titleColumn }
+                .filterNot { i -> i == titleColumnIndex }
                 .map { i -> table.columnModel.getColumn(i) }
                 .forEach { column ->
                     column.maxWidth = SMALL_COLUMNS_WIDTH
@@ -47,7 +48,7 @@ internal class RomCollectionPanel : JPanel() {
         tableModel.rowCount = 0
         localRoms.forEach { localRom ->
             val saveStatusStr = renderLocalSaveStatus(localRom)
-            val row = renderRom("on computer", saveStatusStr, localRom)
+            val row = renderRom("on computer", saveStatusStr, saveLastModified(listOf(localRom)), localRom)
             tableModel.addRow(row)
         }
     }
@@ -79,15 +80,16 @@ internal class RomCollectionPanel : JPanel() {
                         }
                         ROM_ONLY_ON_DEVICE -> {
                             remoteRom = remoteRoms.find { rom -> rom.matchesBy(console, simpleFileName) }
-                            remoteRom?.let { rom -> saveStatusStr = renderRemoveSaveStatus(rom) }
+                            remoteRom?.let { rom -> saveStatusStr = renderRemoteSaveStatus(rom) }
                         }
                         else -> {
                         }
                     }
 
                     if (romSyncStatus != ROM_STATUS_UNKNOWN && (localRom != null || remoteRom != null)) {
-                        val rom = listOfNotNull(localRom, remoteRom).first()
-                        val row = renderRom(romSyncStatus.lowerCase(), saveStatusStr, rom)
+                        val allRoms = listOfNotNull(localRom, remoteRom)
+                        val rom = allRoms.first()
+                        val row = renderRom(romSyncStatus.lowerCase(), saveStatusStr, saveLastModified(allRoms), rom)
                         tableModel.addRow(row)
                     }
                 }
@@ -97,7 +99,7 @@ internal class RomCollectionPanel : JPanel() {
 
         const val SMALL_COLUMNS_WIDTH = 170
 
-        fun renderRom(romStatus: String, saveStatus: String, rom: Rom<*>): Array<String> {
+        fun renderRom(romStatus: String, saveStatus: String, lastModified: DateTime?, rom: Rom<*>): Array<String> {
             val row = mutableListOf<String>()
             row += romStatus
             row += rom.console
@@ -105,6 +107,7 @@ internal class RomCollectionPanel : JPanel() {
             row += renderFileList(rom.romFiles)
             row += humanReadableByteCountBin(rom.romFilesSize())
             row += saveStatus
+            row += lastModified?.toString() ?: "n/a"
             return row.toTypedArray()
         }
 
@@ -116,23 +119,31 @@ internal class RomCollectionPanel : JPanel() {
             }
         }
 
-        // TODO: last modified on separate column
+        fun saveLastModified(roms: List<Rom<*>>): DateTime? {
+            return roms
+                    .mapNotNull { rom ->
+                        when (rom) {
+                            is LocalRom -> rom.saveFiles.map { file -> DateTime(file.lastModified()) }.maxOrNull()
+                            is RemoteRom -> rom.saveFiles.map { file -> file.lastModified }.maxOrNull()
+                            else -> null
+                        }
+                    }
+                    .maxOrNull()
+        }
+
         fun renderLocalSaveStatus(localRom: LocalRom): String {
             return if (localRom.saveFiles.isNotEmpty()) {
-                val lastModified = DateTime(localRom.saveFiles.maxOf { file -> file.lastModified() })
-                "last modified $lastModified"
+                renderFileList(localRom.saveFiles)
             } else {
-                "no save"
+                "no save found"
             }
         }
 
-        // TODO: last modified on separate column
-        fun renderRemoveSaveStatus(remoteRom: RemoteRom): String {
+        fun renderRemoteSaveStatus(remoteRom: RemoteRom): String {
             return if (remoteRom.saveFiles.isNotEmpty()) {
-                val lastModified = DateTime(remoteRom.saveFiles.maxOf { file -> file.lastModified })
-                "last modified $lastModified"
+                renderFileList(remoteRom.saveFiles)
             } else {
-                "no save"
+                "no save found"
             }
         }
 

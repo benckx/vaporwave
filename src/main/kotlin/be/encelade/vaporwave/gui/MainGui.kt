@@ -52,17 +52,12 @@ class MainGui(private val deviceManager: DeviceManager,
 
     override fun onlineDeviceSelected(device: Device) {
         logger.debug("online device selected $device")
-        renderDeviceStatus(device)
+        renderDeviceSyncStatus(device)
         actionPanel.onlineDeviceSelected()
     }
 
     private fun renderDevices() {
         deviceListPanel.renderDevices(deviceManager.loadDevices())
-    }
-
-    private fun clearRomsTable() {
-        romCollectionPanel.clearRomsTable()
-        renderedLocalRoms = false
     }
 
     private fun renderLocalRoms() {
@@ -74,7 +69,7 @@ class MainGui(private val deviceManager: DeviceManager,
         }
     }
 
-    private fun renderDeviceStatus(device: Device) {
+    private fun renderDeviceSyncStatus(device: Device) {
         localRomManager
                 .calculateDeviceSyncStatus(device)
                 ?.let { syncStatus ->
@@ -82,6 +77,11 @@ class MainGui(private val deviceManager: DeviceManager,
                     renderedLocalRoms = false
                     renderedDeviceStatus = syncStatus
                 }
+    }
+
+    private fun clearRomsTable() {
+        romCollectionPanel.clearRomsTable()
+        renderedLocalRoms = false
     }
 
 }

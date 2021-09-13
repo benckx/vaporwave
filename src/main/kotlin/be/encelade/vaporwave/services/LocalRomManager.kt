@@ -62,7 +62,7 @@ class LocalRomManager(localRomFolder: String) {
             val localRoms = listLocalRoms()
             val remoteRoms = client.listRoms()
             val romSyncDiff = calculateSyncDiff(localRoms, remoteRoms)
-            val saveSyncMap = calculateSaveMap(localRoms, remoteRoms, romSyncDiff)
+            val saveSyncMap = calculateSaveSyncStatusMap(localRoms, remoteRoms, romSyncDiff)
             DeviceSyncStatus(localRoms, remoteRoms, romSyncDiff, saveSyncMap)
         } else {
             null
@@ -79,7 +79,9 @@ class LocalRomManager(localRomFolder: String) {
                 .sortedWith(ConsoleAndNameRomComparator)
     }
 
-    fun calculateSaveMap(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>, romSyncDiff: RomSyncDiff): Map<RomId, SaveSyncStatus> {
+    private fun calculateSaveSyncStatusMap(localRoms: List<LocalRom>,
+                                           remoteRoms: List<RemoteRom>,
+                                           romSyncDiff: RomSyncDiff): Map<RomId, SaveSyncStatus> {
         val result = mutableMapOf<RomId, SaveSyncStatus>()
 
         (localRoms + remoteRoms)

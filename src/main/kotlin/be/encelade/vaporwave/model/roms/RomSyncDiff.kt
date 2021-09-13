@@ -39,10 +39,11 @@ data class RomSyncDiff(val synced: List<LocalRom>,
         return RomSyncDiff(
                 synced.sortedWith(comparator),
                 notOnDevice.sortedWith(comparator),
-                notInLocalFolder.sortedWith(comparator))
+                notInLocalFolder.sortedWith(comparator)
+        )
     }
 
-     fun findStatusBy(romId: RomId): RomSyncStatus {
+    fun findStatusBy(romId: RomId): RomSyncStatus {
         return when {
             isSync(romId) -> ROM_SYNCED
             isOnlyOnLocal(romId) -> ROM_ONLY_ON_COMPUTER

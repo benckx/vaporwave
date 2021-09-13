@@ -11,7 +11,7 @@ enum class SaveSyncStatus {
     SAVE_MORE_RECENT_ON_LOCAL;
 
     fun lowerCase(): String {
-        return name.removePrefix("ROM_").replace("_", " ").trim().lowercase()
+        return name.removePrefix("SAVE_").replace("_", " ").trim().lowercase()
     }
 
 }

@@ -6,15 +6,18 @@ import be.encelade.vaporwave.model.devices.SshDevice
 import be.encelade.vaporwave.model.roms.RemoteRom
 import be.encelade.vaporwave.services.LSParser.findRemoteRoms
 import be.encelade.vaporwave.services.LSParser.parseLsResult
+import be.encelade.vaporwave.utils.LazyLogging
 
-abstract class DeviceClient<D : Device>(val device: D) {
+abstract class DeviceClient<D : Device>(val device: D) : LazyLogging {
 
     abstract fun isReachable(): Boolean
 
     abstract fun listRomFolderFiles(): String
 
     fun listRoms(): List<RemoteRom> {
-        val entries = parseLsResult(listRomFolderFiles())
+        val result = listRomFolderFiles()
+        logger.debug("command result:\n$result")
+        val entries = parseLsResult(result)
         return findRemoteRoms(entries)
     }
 

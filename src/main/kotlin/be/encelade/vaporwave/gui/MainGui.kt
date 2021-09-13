@@ -21,7 +21,7 @@ class MainGui(private val deviceManager: DeviceManager,
     init {
         val x = 500
         val y = 200
-        val width = 1300
+        val width = 1500
         val height = 1200
 
         title = "Vaporwave"
@@ -63,14 +63,12 @@ class MainGui(private val deviceManager: DeviceManager,
     }
 
     private fun renderAllRoms(device: Device) {
-        if (isShowingOnlyLocal) {
-            DeviceClient.forDevice(device)?.let { client ->
-                val localRoms = localRomManager.listLocalRoms()
-                val remoteRoms = client.listRoms()
-                val syncDiff = localRomManager.calculateSyncDiff(localRoms, remoteRoms)
-                romCollectionPanel.renderAllRoms(localRoms, remoteRoms, syncDiff)
-                isShowingOnlyLocal = false
-            }
+        DeviceClient.forDevice(device)?.let { client ->
+            val localRoms = localRomManager.listLocalRoms()
+            val remoteRoms = client.listRoms()
+            val syncDiff = localRomManager.calculateSyncDiff(localRoms, remoteRoms)
+            romCollectionPanel.renderAllRoms(localRoms, remoteRoms, syncDiff)
+            isShowingOnlyLocal = false
         }
     }
 

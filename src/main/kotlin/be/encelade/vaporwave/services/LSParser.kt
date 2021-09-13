@@ -4,9 +4,10 @@ import be.encelade.vaporwave.model.LsEntry
 import be.encelade.vaporwave.model.roms.RemoteRom
 import be.encelade.vaporwave.services.ExtensionMap.romExtensions
 import be.encelade.vaporwave.services.ExtensionMap.saveFilesExtension
+import be.encelade.vaporwave.utils.LazyLogging
 import org.joda.time.format.DateTimeFormat
 
-object LSParser {
+object LSParser : LazyLogging {
 
     private val dateTimeFormat = DateTimeFormat
             .forPattern("YYYY-MM-dd HH:mm:ss.SSSSSSSSS Z")

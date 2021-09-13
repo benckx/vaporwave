@@ -11,7 +11,7 @@ class SshDeviceClient(device: SshDevice) : DeviceClient<SshDevice>(device) {
     }
 
     override fun listRomFolderFiles(): String {
-        val command = "ls -l --time-style=full-iso /roms/*/*"
+        val command = "ls -l --time-style=full-iso /roms/*/*.*"
         return sshClient.sendCommand(command)
     }
 

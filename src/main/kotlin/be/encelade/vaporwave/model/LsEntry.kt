@@ -23,6 +23,10 @@ data class LsEntry(val lastModified: DateTime,
         return filePath.removeSuffix(".$extension").split("/").last()
     }
 
+    fun fileName(): String {
+        return filePath.split("/").last()
+    }
+
     fun extension(): String {
         return filePath.split(".").last()
     }

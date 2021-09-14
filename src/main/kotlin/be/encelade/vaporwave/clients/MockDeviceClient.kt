@@ -37,6 +37,7 @@ class MockDeviceClient(device: MockDevice) : DeviceClient<MockDevice>(device), L
             val saveFileEntry = remoteRom.saveFiles.find { it.fileName() == fileName }!!
 
             // write a text file of the same size as the remote save file
+            Thread.sleep(200L)
             val mockText = (0 until saveFileEntry.fileSize).map { "x" }.joinToString("")
             val targetFile = File("$targetFolder$separator/$fileName")
             writeStringToFile(targetFile, mockText, UTF_8)

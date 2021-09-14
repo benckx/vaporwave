@@ -9,7 +9,7 @@ import kotlin.math.absoluteValue
 
 object SaveComparator {
 
-    private const val DELTA_THRESHOLD = 10 * 1000L
+    private const val DELTA_THRESHOLD = 100L
 
     fun compareSaveFiles(localRom: LocalRom, remoteRom: RemoteRom): SaveSyncStatus {
         return if (localRom.saveFiles.isNotEmpty() && remoteRom.saveFiles.isNotEmpty()) {

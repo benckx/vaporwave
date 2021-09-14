@@ -7,6 +7,7 @@ import be.encelade.vaporwave.model.roms.RemoteRom
 import be.encelade.vaporwave.services.LSParser.findRemoteRoms
 import be.encelade.vaporwave.services.LSParser.parseLsResult
 import be.encelade.vaporwave.utils.LazyLogging
+import java.io.File
 
 abstract class DeviceClient<D : Device>(val device: D) : LazyLogging {
 
@@ -16,6 +17,8 @@ abstract class DeviceClient<D : Device>(val device: D) : LazyLogging {
      * send 'ls' command to the device
      */
     abstract fun listRomFolderFiles(): String
+
+    abstract fun downloadFiles(filePaths: List<String>, targetFolder: String): List<File>
 
     fun listRoms(): List<RemoteRom> {
         val result = listRomFolderFiles()

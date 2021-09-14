@@ -17,6 +17,7 @@ class MainGui(private val deviceManager: DeviceManager,
     private val romCollectionPanel = RomCollectionPanel()
     private val actionPanel = ActionPanel(this)
 
+    private var selectedDevice: Device? = null
     private var renderedLocalRoms = false
     private var renderedDeviceSyncStatus: DeviceSyncStatus? = null
 
@@ -39,18 +40,21 @@ class MainGui(private val deviceManager: DeviceManager,
     }
 
     override fun noDeviceSelected() {
+        this.selectedDevice = null
         logger.debug("no device selected")
         renderLocalRoms()
         actionPanel.noOnlineDeviceSelected()
     }
 
     override fun offlineDeviceSelected(device: Device) {
+        this.selectedDevice = null
         logger.debug("offline device selected $device")
         clearRomsTable()
         actionPanel.noOnlineDeviceSelected()
     }
 
     override fun onlineDeviceSelected(device: Device) {
+        this.selectedDevice = device
         logger.debug("online device selected $device")
         renderDeviceSyncStatus(device)
         actionPanel.onlineDeviceSelected()
@@ -85,13 +89,9 @@ class MainGui(private val deviceManager: DeviceManager,
     }
 
     override fun downloadSavesFromDevice() {
-        renderedDeviceSyncStatus
-                ?.let { status ->
-                    status
-                            .saveToDownloadFromDevices()
-                            .flatMap { remoteRom -> remoteRom.saveFiles }
-                            .forEach { entry -> println(entry.filePath) }
-                }
+        if (selectedDevice != null && renderedDeviceSyncStatus != null) {
+            localRomManager.downloadSavesFromDevice(selectedDevice!!, renderedDeviceSyncStatus!!)
+        }
     }
 
     override fun uploadSavesToDevice() {

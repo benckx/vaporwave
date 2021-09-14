@@ -38,7 +38,7 @@ object SaveComparator {
             localRom.saveFiles.map { file -> file.name }.all { fileName ->
                 val local = localRom.saveFiles.find { it.name == fileName }!!
                 val remote = remoteRom.saveFiles.find { it.fileName() == fileName }!!
-                deltaInMillis(local.length(), remote.lastModified) < DELTA_THRESHOLD && local.length() == remote.fileSize
+                deltaInMillis(local.lastModified(), remote.lastModified) < DELTA_THRESHOLD && local.length() == remote.fileSize
             }
         } else {
             false

@@ -56,7 +56,6 @@ class MainGui(private val deviceManager: DeviceManager,
         actionPanel.onlineDeviceSelected()
     }
 
-
     private fun renderDevices() {
         deviceListPanel.renderDevices(deviceManager.loadDevices())
     }

@@ -26,9 +26,8 @@ class MockDeviceClient(device: MockDevice) : DeviceClient<MockDevice>(device), L
 
         val result = mutableListOf<File>()
         filePaths.forEach { filePath ->
+            // locate the LsEntry
             val fileName = filePath.split("/").last()
-            val targetFilePath = "$targetFolder$separator/$fileName"
-            val targetFile = File(targetFilePath)
             val console = targetFolder.split("/").filterNot { it.isEmpty() }.last()
             val simpleFileName = fileName.substring(0, fileName.lastIndexOf('.'))
             logger.debug("remote file path: $filePath")
@@ -36,7 +35,10 @@ class MockDeviceClient(device: MockDevice) : DeviceClient<MockDevice>(device), L
             logger.debug("looking up for: <$console, $simpleFileName>")
             val remoteRom = roms.find { it.matchesBy(RomId(console, simpleFileName)) }!!
             val saveFileEntry = remoteRom.saveFiles.find { it.fileName() == fileName }!!
+
+            // write a text file of the same size as the remote save file
             val mockText = (0 until saveFileEntry.fileSize).map { "x" }.joinToString("")
+            val targetFile = File("$targetFolder$separator/$fileName")
             writeStringToFile(targetFile, mockText, UTF_8)
             logger.debug("created mock file $targetFile")
             result += targetFile

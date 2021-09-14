@@ -91,6 +91,7 @@ class MainGui(private val deviceManager: DeviceManager,
     override fun downloadSavesFromDevice() {
         if (selectedDevice != null && renderedDeviceSyncStatus != null) {
             localRomManager.downloadSavesFromDevice(selectedDevice!!, renderedDeviceSyncStatus!!)
+            renderDeviceSyncStatus(selectedDevice!!)
         }
     }
 

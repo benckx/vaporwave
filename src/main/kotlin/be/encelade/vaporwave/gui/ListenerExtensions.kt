@@ -1,14 +1,15 @@
 package be.encelade.vaporwave.gui
 
+import java.awt.event.MouseEvent
 import javax.swing.JTable
 import javax.swing.table.TableColumn
 
 internal object ListenerExtensions {
 
-    fun JTable.addTableHeaderClickListener(callback: (TableColumn) -> Unit) {
+    fun JTable.addTableHeaderClickListener(callback: (MouseEvent, TableColumn) -> Unit) {
         this.tableHeader.addMouseListener(MouseClickListener { mouseEvent ->
             findColumnByX(this, mouseEvent.x)?.let { column ->
-                callback(column)
+                callback(mouseEvent, column)
             }
         })
     }

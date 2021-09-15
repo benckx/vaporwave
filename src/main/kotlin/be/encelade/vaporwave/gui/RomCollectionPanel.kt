@@ -2,6 +2,9 @@ package be.encelade.vaporwave.gui
 
 import be.encelade.vaporwave.gui.GuiUtils.humanReadableByteCountBin
 import be.encelade.vaporwave.gui.ListenerExtensions.addTableHeaderClickListener
+import be.encelade.vaporwave.gui.comparators.ConsoleComparator
+import be.encelade.vaporwave.gui.comparators.RomSizeComparator
+import be.encelade.vaporwave.gui.comparators.SimpleFileNameComparator
 import be.encelade.vaporwave.model.DeviceSyncStatus
 import be.encelade.vaporwave.model.roms.LocalRom
 import be.encelade.vaporwave.model.roms.RemoteRom
@@ -27,6 +30,13 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
     private val table = JTable(tableModel)
     private val scrollPane = JScrollPane(table)
 
+    private var renderedLocalRoms: List<LocalRom>? = null
+    private var renderedDeviceSyncStatus: DeviceSyncStatus? = null
+
+    private var sortColumn: String? = null
+    private var asc: Boolean = true
+    private val comparatorMap = mutableMapOf<String, Comparator<RomRow>>()
+
     init {
         layout = BorderLayout()
         add(scrollPane, CENTER)
@@ -39,11 +49,28 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
         tableModel.addColumn("save status")
         tableModel.addColumn("save last modified")
 
+        comparatorMap["name"] = SimpleFileNameComparator()
+        comparatorMap["console"] = ConsoleComparator()
+        comparatorMap["rom size"] = RomSizeComparator()
+
         val titleColumnIndex = 2
         table.columnModel.getColumn(titleColumnIndex).preferredWidth = TITLE_COLUMN_DEFAULT_WIDTH
 
-        table.addTableHeaderClickListener { column ->
-            logger.debug("clicked on ${column.headerValue}")
+        table.addTableHeaderClickListener { event, column ->
+            logger.debug("clicked on ${column.headerValue} ${event.clickCount} times")
+            if (event.clickCount > 1) {
+                if (sortColumn == column.headerValue.toString()) {
+                    asc = !asc
+                } else {
+                    sortColumn = column.headerValue.toString()
+                }
+
+                if (renderedLocalRoms != null) {
+                    render(renderedLocalRoms!!)
+                } else if (renderedDeviceSyncStatus != null) {
+                    render(renderedDeviceSyncStatus!!)
+                }
+            }
         }
     }
 
@@ -54,29 +81,53 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
 
     fun render(localRoms: List<LocalRom>) {
         clearRomsTable()
+        this.renderedDeviceSyncStatus = null
+        this.renderedLocalRoms = localRoms
 
-        localRoms.forEach { localRom ->
+        val rows = localRoms.map { localRom ->
             val saveSyncStatus = if (localRom.saveFiles.isNotEmpty()) SAVE_ONLY_ON_COMPUTER else NO_SAVE_FOUND
-            val row = renderRom(localRom, null, ROM_ONLY_ON_COMPUTER, saveSyncStatus)
-            tableModel.addRow(row)
+            RomRow(localRom, null, ROM_ONLY_ON_COMPUTER, saveSyncStatus)
         }
+
+        renderSortedRows(rows)
     }
 
     fun render(syncStatus: DeviceSyncStatus) {
         clearRomsTable()
+        this.renderedDeviceSyncStatus = syncStatus
+        this.renderedLocalRoms = null
 
-        syncStatus
+        val rows = syncStatus
                 .allRomIds()
-                .forEach { romId ->
+                .mapNotNull { romId ->
                     val localRom = syncStatus.findLocalRom(romId)
                     val remoteRom = syncStatus.findRemoteRom(romId)
                     val romSyncStatus = syncStatus.romSyncStatusOf(romId)
                     if ((localRom != null || remoteRom != null) && romSyncStatus != ROM_STATUS_UNKNOWN) {
                         val saveSyncStatus = syncStatus.saveSyncStatusOf(romId)
-                        val row = renderRom(localRom, remoteRom, romSyncStatus, saveSyncStatus)
-                        tableModel.addRow(row)
+                        RomRow(localRom, remoteRom, romSyncStatus, saveSyncStatus)
+                    } else {
+                        null
                     }
                 }
+
+        renderSortedRows(rows)
+    }
+
+    private fun renderSortedRows(romRows: List<RomRow>) {
+        val comparator = comparatorMap[sortColumn]
+        val sortedRows =
+                if (comparator != null) {
+                    if (asc) {
+                        romRows.sortedWith(comparator)
+                    } else {
+                        romRows.sortedWith(comparator).reversed()
+                    }
+                } else {
+                    romRows
+                }
+
+        sortedRows.forEach { row -> tableModel.addRow(row.render()) }
     }
 
     private companion object {

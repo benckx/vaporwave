@@ -21,7 +21,7 @@ class MainGui(private val deviceManager: DeviceManager,
 
     private var selectedDevice: Device? = null
     private var renderedLocalRoms = false
-    private var renderedDeviceSyncStatus: DeviceSyncStatus? = null
+    private var renderedDeviceSyncStatus: DeviceSyncStatus? = null // FIXME: redundant with variable in RomCollectionPanel?
 
     init {
         val x = 200

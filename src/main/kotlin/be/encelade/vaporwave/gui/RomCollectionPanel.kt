@@ -1,22 +1,16 @@
 package be.encelade.vaporwave.gui
 
-import be.encelade.vaporwave.gui.GuiUtils.humanReadableByteCountBin
 import be.encelade.vaporwave.gui.ListenerExtensions.addTableHeaderClickListener
 import be.encelade.vaporwave.gui.comparators.ConsoleComparator
 import be.encelade.vaporwave.gui.comparators.RomSizeComparator
 import be.encelade.vaporwave.gui.comparators.SimpleFileNameComparator
 import be.encelade.vaporwave.model.DeviceSyncStatus
 import be.encelade.vaporwave.model.roms.LocalRom
-import be.encelade.vaporwave.model.roms.RemoteRom
-import be.encelade.vaporwave.model.roms.RomSyncStatus
 import be.encelade.vaporwave.model.roms.RomSyncStatus.ROM_ONLY_ON_COMPUTER
 import be.encelade.vaporwave.model.roms.RomSyncStatus.ROM_STATUS_UNKNOWN
-import be.encelade.vaporwave.model.save.SaveSyncStatus
 import be.encelade.vaporwave.model.save.SaveSyncStatus.NO_SAVE_FOUND
 import be.encelade.vaporwave.model.save.SaveSyncStatus.SAVE_ONLY_ON_COMPUTER
 import be.encelade.vaporwave.utils.LazyLogging
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.DateTimeFormatter
 import java.awt.BorderLayout
 import java.awt.BorderLayout.CENTER
 import javax.swing.JPanel
@@ -58,18 +52,16 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
 
         table.addTableHeaderClickListener { event, column ->
             logger.debug("clicked on ${column.headerValue} ${event.clickCount} times")
-            if (event.clickCount > 1) {
-                if (sortColumn == column.headerValue.toString()) {
-                    asc = !asc
-                } else {
-                    sortColumn = column.headerValue.toString()
-                }
+            if (sortColumn == column.headerValue.toString()) {
+                asc = !asc
+            } else {
+                sortColumn = column.headerValue.toString()
+            }
 
-                if (renderedLocalRoms != null) {
-                    render(renderedLocalRoms!!)
-                } else if (renderedDeviceSyncStatus != null) {
-                    render(renderedDeviceSyncStatus!!)
-                }
+            if (renderedLocalRoms != null) {
+                render(renderedLocalRoms!!)
+            } else if (renderedDeviceSyncStatus != null) {
+                render(renderedDeviceSyncStatus!!)
             }
         }
     }
@@ -114,6 +106,7 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
         renderSortedRows(rows)
     }
 
+    // TODO: always first sort by console -> simpleName asc -> then the custom sort
     private fun renderSortedRows(romRows: List<RomRow>) {
         val comparator = comparatorMap[sortColumn]
         val sortedRows =
@@ -133,41 +126,6 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
     private companion object {
 
         const val TITLE_COLUMN_DEFAULT_WIDTH = 450
-        const val NO_VALUE_CELL = "--"
-
-        val dateFormat: DateTimeFormatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm")
-
-        fun renderRom(localRom: LocalRom?, remoteRom: RemoteRom?, romSyncStatus: RomSyncStatus, saveSyncStatus: SaveSyncStatus): Array<String> {
-            val allRoms = listOfNotNull(localRom, remoteRom)
-            val rom = allRoms.first()
-            val lastModified = rom.saveFileLastModified()
-
-            val row = mutableListOf<String>()
-            row += romSyncStatus.lowerCase()
-            row += rom.console()
-            row += rom.simpleFileName()
-            row += renderFileList(rom.romFiles)
-            row += humanReadableByteCountBin(rom.romFilesSize())
-            row += if (saveSyncStatus == NO_SAVE_FOUND) {
-                NO_VALUE_CELL
-            } else {
-                saveSyncStatus.lowerCase()
-            }
-            row += if (lastModified != null) {
-                dateFormat.print(lastModified)
-            } else {
-                NO_VALUE_CELL
-            }
-            return row.toTypedArray()
-        }
-
-        fun renderFileList(list: List<*>): String {
-            return when (list.size) {
-                0 -> "no file"
-                1 -> "1 file"
-                else -> "${list.size} files"
-            }
-        }
 
     }
 

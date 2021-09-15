@@ -1,6 +1,7 @@
 package be.encelade.vaporwave.gui
 
 import be.encelade.vaporwave.gui.GuiUtils.humanReadableByteCountBin
+import be.encelade.vaporwave.gui.ListenerExtensions.addTableHeaderClickListener
 import be.encelade.vaporwave.model.DeviceSyncStatus
 import be.encelade.vaporwave.model.roms.LocalRom
 import be.encelade.vaporwave.model.roms.RemoteRom
@@ -19,7 +20,6 @@ import javax.swing.JPanel
 import javax.swing.JScrollPane
 import javax.swing.JTable
 import javax.swing.table.DefaultTableModel
-import javax.swing.table.TableColumn
 
 internal class RomCollectionPanel : JPanel(), LazyLogging {
 
@@ -42,12 +42,9 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
         val titleColumnIndex = 2
         table.columnModel.getColumn(titleColumnIndex).preferredWidth = TITLE_COLUMN_DEFAULT_WIDTH
 
-        table.tableHeader.addMouseListener(MouseClickListener { event ->
-            logger.debug("event: $event")
-            findColumnByX(event.x)?.let {
-                logger.debug("clicked on ${it.headerValue}")
-            }
-        })
+        table.addTableHeaderClickListener { column ->
+            logger.debug("clicked on ${column.headerValue}")
+        }
     }
 
     fun clearRomsTable() {
@@ -80,26 +77,6 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
                         tableModel.addRow(row)
                     }
                 }
-    }
-
-    private fun findColumnByX(x: Int): TableColumn? {
-        val nbrOfColumns = table.columnCount
-
-        (0 until nbrOfColumns)
-                .map { i -> table.columnModel.getColumn(i) }
-                .reversed()
-                .forEach { column ->
-                    val startAtPosition = (0 until nbrOfColumns)
-                            .map { i -> table.columnModel.getColumn(i) }
-                            .subList(0, column.modelIndex)
-                            .sumOf { previousColumn -> previousColumn.width }
-
-                    if (startAtPosition < x) {
-                        return column
-                    }
-                }
-
-        return null
     }
 
     private companion object {

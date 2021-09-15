@@ -43,8 +43,8 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
         tableModel.addColumn("save last modified")
 
         comparatorMap["rom status"] = RomStatusComparator()
-        comparatorMap["name"] = SimpleFileNameComparator()
         comparatorMap["console"] = ConsoleComparator()
+        comparatorMap["name"] = SimpleFileNameComparator()
         comparatorMap["rom size"] = RomSizeComparator()
 
         val titleColumnIndex = 2
@@ -52,7 +52,7 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
 
         table.addTableHeaderClickListener { event, column ->
             logger.debug("clicked on ${column.headerValue} ${event.clickCount} times")
-            removeArrowsFromHeaders()
+            clearHeaderArrows()
             val noArrowHeader = column.headerValue.toString().removeSuffix(DESC_ARROW).removeSuffix(ASC_ARROW).trim()
             if (sortColumn == noArrowHeader) {
                 asc = !asc
@@ -71,7 +71,7 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
         }
     }
 
-    private fun removeArrowsFromHeaders() {
+    private fun clearHeaderArrows() {
         table.listColumns().forEach { column ->
             column.headerValue =
                     column
@@ -85,11 +85,12 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
     fun clearRomsTable() {
         table.clearSelection()
         tableModel.rowCount = 0
+        this.renderedDeviceSyncStatus = null
+        this.renderedLocalRoms = null
     }
 
     fun render(localRoms: List<LocalRom>) {
         clearRomsTable()
-        this.renderedDeviceSyncStatus = null
         this.renderedLocalRoms = localRoms
 
         val rows = localRoms.map { localRom ->
@@ -103,7 +104,6 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
     fun render(syncStatus: DeviceSyncStatus) {
         clearRomsTable()
         this.renderedDeviceSyncStatus = syncStatus
-        this.renderedLocalRoms = null
 
         val rows = syncStatus
                 .allRomIds()

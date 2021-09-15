@@ -58,6 +58,7 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
                 asc = !asc
             } else {
                 sortColumn = noArrowHeader
+                asc = true
             }
 
             column.headerValue = "$noArrowHeader ${arrow(asc)}"
@@ -127,10 +128,9 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
 
         // if column header has been selected for sort
         comparatorMap[sortColumn]?.let { comparator ->
-            sortedRows = if (asc) {
-                romRows.sortedWith(comparator)
-            } else {
-                romRows.sortedWith(comparator).reversed()
+            sortedRows = romRows.sortedWith(comparator)
+            if (!asc) {
+                sortedRows = sortedRows.reversed()
             }
         }
 

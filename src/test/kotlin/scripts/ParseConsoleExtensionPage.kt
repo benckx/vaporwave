@@ -32,6 +32,8 @@ fun main() {
 
                     if (romFolder == "megadrive or genesis") {
                         romFolder = "megadrive"
+                    } else if (romFolder == "nes or famicom") {
+                        romFolder = "nes"
                     }
                 } else {
                     val extensions = line.removePrefix(EXTENSIONS).trim().replace(' ', EXTENSION_VALUE_SEPARATOR)

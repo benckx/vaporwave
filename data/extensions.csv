@@ -45,7 +45,7 @@ naomi;.7z,.7Z,.ist,.IST,.zip,.ZIP,.bin,.BIN,.dat,.DAT
 nds;.zip,.ZIP,.nds,.NDS
 neogeo;.zip,.ZIP,.7z,.7Z
 neogeocd;.cue,.CUE,.chd,.CHD,.m3u,.M3U
-nes or famicom;.nes,.NES,.zip,.ZIP
+nes;.nes,.NES,.zip,.ZIP
 ngp;.ngp,.NGP,.ngc,.NGC,.zip,.ZIP
 ngpc;.ngp,.NGP,.ngc,.NGC,.zip,.ZIP
 odyssey2;.bin,.BIN

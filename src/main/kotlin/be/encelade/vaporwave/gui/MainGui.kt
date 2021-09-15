@@ -37,8 +37,8 @@ class MainGui(private val deviceManager: DeviceManager,
         add(actionPanel, SOUTH)
         defaultCloseOperation = EXIT_ON_CLOSE
 
-        renderLocalRoms()
         renderDevices()
+        renderLocalRoms()
     }
 
     override fun noDeviceSelected() {
@@ -51,7 +51,7 @@ class MainGui(private val deviceManager: DeviceManager,
     override fun offlineDeviceSelected(device: Device) {
         this.selectedDevice = null
         logger.debug("offline device selected $device")
-        clearRomsTable()
+        clearTable()
         actionPanel.noOnlineDeviceSelected()
     }
 
@@ -85,9 +85,10 @@ class MainGui(private val deviceManager: DeviceManager,
                 }
     }
 
-    private fun clearRomsTable() {
-        romCollectionPanel.clearRomsTable()
+    private fun clearTable() {
+        romCollectionPanel.clearTable()
         renderedLocalRoms = false
+        renderedDeviceSyncStatus = null
     }
 
     override fun downloadSavesFromDevice() {

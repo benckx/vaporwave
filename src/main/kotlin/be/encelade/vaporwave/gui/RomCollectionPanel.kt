@@ -82,7 +82,7 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
         }
     }
 
-    fun clearRomsTable() {
+    fun clearTable() {
         table.clearSelection()
         tableModel.rowCount = 0
         this.renderedDeviceSyncStatus = null
@@ -90,7 +90,7 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
     }
 
     fun render(localRoms: List<LocalRom>) {
-        clearRomsTable()
+        clearTable()
         this.renderedLocalRoms = localRoms
 
         val rows = localRoms.map { localRom ->
@@ -102,7 +102,7 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
     }
 
     fun render(syncStatus: DeviceSyncStatus) {
-        clearRomsTable()
+        clearTable()
         this.renderedDeviceSyncStatus = syncStatus
 
         val rows = syncStatus

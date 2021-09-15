@@ -10,6 +10,7 @@ import be.encelade.vaporwave.model.roms.RomSyncStatus.ROM_STATUS_UNKNOWN
 import be.encelade.vaporwave.model.save.SaveSyncStatus
 import be.encelade.vaporwave.model.save.SaveSyncStatus.NO_SAVE_FOUND
 import be.encelade.vaporwave.model.save.SaveSyncStatus.SAVE_ONLY_ON_COMPUTER
+import be.encelade.vaporwave.utils.LazyLogging
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import java.awt.BorderLayout
@@ -18,8 +19,9 @@ import javax.swing.JPanel
 import javax.swing.JScrollPane
 import javax.swing.JTable
 import javax.swing.table.DefaultTableModel
+import javax.swing.table.TableColumn
 
-internal class RomCollectionPanel : JPanel() {
+internal class RomCollectionPanel : JPanel(), LazyLogging {
 
     private val tableModel = DefaultTableModel()
     private val table = JTable(tableModel)
@@ -39,6 +41,13 @@ internal class RomCollectionPanel : JPanel() {
 
         val titleColumnIndex = 2
         table.columnModel.getColumn(titleColumnIndex).preferredWidth = TITLE_COLUMN_DEFAULT_WIDTH
+
+        table.tableHeader.addMouseListener(MouseClickListener { event ->
+            logger.debug("event: $event")
+            findColumnByX(event.x)?.let {
+                logger.debug("clicked on ${it.headerValue}")
+            }
+        })
     }
 
     fun clearRomsTable() {
@@ -71,6 +80,26 @@ internal class RomCollectionPanel : JPanel() {
                         tableModel.addRow(row)
                     }
                 }
+    }
+
+    private fun findColumnByX(x: Int): TableColumn? {
+        val nbrOfColumns = table.columnCount
+
+        (0 until nbrOfColumns)
+                .map { i -> table.columnModel.getColumn(i) }
+                .reversed()
+                .forEach { column ->
+                    val startAtPosition = (0 until nbrOfColumns)
+                            .map { i -> table.columnModel.getColumn(i) }
+                            .subList(0, column.modelIndex)
+                            .sumOf { previousColumn -> previousColumn.width }
+
+                    if (startAtPosition < x) {
+                        return column
+                    }
+                }
+
+        return null
     }
 
     private companion object {

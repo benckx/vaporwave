@@ -60,7 +60,7 @@ internal class RomCollectionPanel : JPanel() {
         clearRomsTable()
 
         syncStatus
-                .romIds()
+                .allRomIds()
                 .forEach { romId ->
                     val localRom = syncStatus.findLocalRom(romId)
                     val remoteRom = syncStatus.findRemoteRom(romId)
@@ -87,8 +87,8 @@ internal class RomCollectionPanel : JPanel() {
 
             val row = mutableListOf<String>()
             row += romSyncStatus.lowerCase()
-            row += rom.console
-            row += rom.simpleFileName
+            row += rom.console()
+            row += rom.simpleFileName()
             row += renderFileList(rom.romFiles)
             row += humanReadableByteCountBin(rom.romFilesSize())
             row += if (saveSyncStatus == NO_SAVE_FOUND) {

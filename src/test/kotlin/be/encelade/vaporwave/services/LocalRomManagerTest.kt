@@ -2,6 +2,7 @@ package be.encelade.vaporwave.services
 
 import TestUtils.readAsRemoteRoms
 import be.encelade.vaporwave.model.roms.LocalRom
+import be.encelade.vaporwave.model.roms.RomId
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.io.File
@@ -23,7 +24,7 @@ class LocalRomManagerTest {
     @Test
     fun calculateSyncDiffTest02() {
         val files = listOf(File("/home/user/roms/gba/MegaMan & Bass.gba)"))
-        val localRom = LocalRom("gba", "MegaMan & Bass", files, listOf())
+        val localRom = LocalRom(RomId("gba", "MegaMan & Bass"), files, listOf())
         val remoteRoms = readAsRemoteRoms("data/ls-result-test-01")
         val diff = manager.calculateSyncDiff(listOf(localRom), remoteRoms)
 
@@ -41,7 +42,7 @@ class LocalRomManagerTest {
                 File("/home/user/roms/psx/Castlevania - Symphony of the Night (USA) (Track 2).bin"),
         )
 
-        val localRom = LocalRom("psx", "Castlevania - Symphony of the Night (USA)", files, listOf())
+        val localRom = LocalRom(RomId("psx", "Castlevania - Symphony of the Night (USA)"), files, listOf())
         val remoteRoms = readAsRemoteRoms("data/ls-result-test-01")
         val diff = manager.calculateSyncDiff(listOf(localRom), remoteRoms)
 

@@ -41,7 +41,7 @@ class LocalRomManager(private val localRomFolder: File) : LazyLogging {
                             .map { (simpleFileName, files) ->
                                 val romFiles = files.filter { file -> romExtensionsForConsole.contains(file.extension) }
                                 val saveFiles = files.filter { file -> saveFilesExtension.contains(file.extension) }
-                                LocalRom(consoleFolder.name, simpleFileName, romFiles, saveFiles)
+                                LocalRom(RomId(consoleFolder.name, simpleFileName), romFiles, saveFiles)
                             }
                 }
                 .map { localRom -> localRom.attachCompanionFiles() }
@@ -79,7 +79,7 @@ class LocalRomManager(private val localRomFolder: File) : LazyLogging {
 
         (localRoms + remoteRoms)
                 .sortedWith(ConsoleAndNameRomComparator)
-                .map { rom -> rom.romId() }
+                .map { rom -> rom.romId }
                 .distinct()
                 .forEach { romId ->
                     val localRom = localRoms.find { rom -> rom.matchesBy(romId) }

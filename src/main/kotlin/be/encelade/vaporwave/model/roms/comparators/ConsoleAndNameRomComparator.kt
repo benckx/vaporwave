@@ -8,8 +8,8 @@ object ConsoleAndNameRomComparator : Comparator<Rom<*>> {
         val rom1 = p0!!
         val rom2 = p1!!
 
-        val byConsole = rom1.console.compareTo(rom2.console)
-        val bySimpleName = rom1.simpleFileName.compareTo(rom2.simpleFileName)
+        val byConsole = rom1.console().compareTo(rom2.console())
+        val bySimpleName = rom1.simpleFileName().compareTo(rom2.simpleFileName())
 
         return if (byConsole == 0) {
             bySimpleName

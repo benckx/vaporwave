@@ -5,11 +5,10 @@ import org.joda.time.DateTime
 import org.joda.time.LocalDateTime
 import java.io.File
 
-class LocalRom(console: String,
-               simpleFileName: String,
+class LocalRom(romId: RomId,
                romFiles: List<File>,
                saveFiles: List<File>) :
-        Rom<File>(console, simpleFileName, romFiles, saveFiles) {
+        Rom<File>(romId, romFiles, saveFiles) {
 
     override fun romFilesSize(): Long {
         return romFiles.sumOf { file -> file.length() }
@@ -40,12 +39,12 @@ class LocalRom(console: String,
     }
 
     private fun addFiles(files: List<File>): LocalRom {
-        return LocalRom(console, simpleFileName, romFiles + files, saveFiles)
+        return LocalRom(romId, romFiles + files, saveFiles)
     }
 
     override fun toString(): String {
         val filesToString = allFiles().map { file -> file.name }.joinToString(", ")
-        return "LocalRom[$console] $simpleFileName ($filesToString)"
+        return "LocalRom[${console()}] ${simpleFileName()} ($filesToString)"
     }
 
 }

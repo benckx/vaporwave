@@ -20,7 +20,7 @@ data class RomSyncDiff(val synced: List<LocalRom>,
 
         notInLocalFolder.forEach { remoteRom ->
             filesFromCue.forEach { fileFromCue ->
-                if (remoteRom.simpleFileName == fileFromCue.nameWithoutExtension) {
+                if (remoteRom.simpleFileName() == fileFromCue.nameWithoutExtension) {
                     // remote rom is actually synced, so we add it to "synced roms" and remove it from "not in local folder"
                     notOnDevice
                             .find { localRom -> localRom.listFilesFromCue().contains(fileFromCue) }

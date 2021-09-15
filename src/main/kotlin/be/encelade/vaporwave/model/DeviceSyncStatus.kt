@@ -10,10 +10,10 @@ data class DeviceSyncStatus(private val localRoms: List<LocalRom>,
                             private val romSyncDiff: RomSyncDiff,
                             private val saveSyncMap: Map<RomId, SaveSyncStatus>) {
 
-    fun romIds(): List<RomId> {
+    fun allRomIds(): List<RomId> {
         return (localRoms + remoteRoms)
                 .sortedWith(ConsoleAndNameRomComparator)
-                .map { rom -> rom.romId() }
+                .map { rom -> rom.romId }
                 .distinct()
     }
 

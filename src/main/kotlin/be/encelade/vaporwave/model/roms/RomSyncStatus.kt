@@ -1,11 +1,11 @@
 package be.encelade.vaporwave.model.roms
 
 enum class RomSyncStatus {
-
-    ROM_STATUS_UNKNOWN,
+    
     ROM_SYNCED,
     ROM_ONLY_ON_DEVICE,
-    ROM_ONLY_ON_COMPUTER;
+    ROM_ONLY_ON_COMPUTER,
+    ROM_STATUS_UNKNOWN;
 
     fun lowerCase(): String {
         return name

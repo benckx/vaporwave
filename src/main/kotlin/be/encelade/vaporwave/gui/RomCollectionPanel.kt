@@ -1,9 +1,8 @@
 package be.encelade.vaporwave.gui
 
-import be.encelade.vaporwave.gui.ListenerExtensions.addTableHeaderClickListener
-import be.encelade.vaporwave.gui.comparators.ConsoleComparator
-import be.encelade.vaporwave.gui.comparators.RomSizeComparator
-import be.encelade.vaporwave.gui.comparators.SimpleFileNameComparator
+import be.encelade.vaporwave.gui.SwingExtensions.addTableHeaderClickListener
+import be.encelade.vaporwave.gui.SwingExtensions.listColumns
+import be.encelade.vaporwave.gui.comparators.*
 import be.encelade.vaporwave.model.DeviceSyncStatus
 import be.encelade.vaporwave.model.roms.LocalRom
 import be.encelade.vaporwave.model.roms.RomSyncStatus.ROM_ONLY_ON_COMPUTER
@@ -43,6 +42,7 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
         tableModel.addColumn("save status")
         tableModel.addColumn("save last modified")
 
+        comparatorMap["rom status"] = RomStatusComparator()
         comparatorMap["name"] = SimpleFileNameComparator()
         comparatorMap["console"] = ConsoleComparator()
         comparatorMap["rom size"] = RomSizeComparator()
@@ -52,17 +52,32 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
 
         table.addTableHeaderClickListener { event, column ->
             logger.debug("clicked on ${column.headerValue} ${event.clickCount} times")
-            if (sortColumn == column.headerValue.toString()) {
+            removeArrowsFromHeaders()
+            val noArrowHeader = column.headerValue.toString().removeSuffix(DESC_ARROW).removeSuffix(ASC_ARROW).trim()
+            if (sortColumn == noArrowHeader) {
                 asc = !asc
             } else {
-                sortColumn = column.headerValue.toString()
+                sortColumn = noArrowHeader
             }
+
+            column.headerValue = "$noArrowHeader ${arrow(asc)}"
 
             if (renderedLocalRoms != null) {
                 render(renderedLocalRoms!!)
             } else if (renderedDeviceSyncStatus != null) {
                 render(renderedDeviceSyncStatus!!)
             }
+        }
+    }
+
+    private fun removeArrowsFromHeaders() {
+        table.listColumns().forEach { column ->
+            column.headerValue =
+                    column
+                            .headerValue
+                            .toString()
+                            .removeSuffix(DESC_ARROW)
+                            .removeSuffix(ASC_ARROW)
         }
     }
 
@@ -106,19 +121,18 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
         renderSortedRows(rows)
     }
 
-    // TODO: always first sort by console -> simpleName asc -> then the custom sort
     private fun renderSortedRows(romRows: List<RomRow>) {
-        val comparator = comparatorMap[sortColumn]
-        val sortedRows =
-                if (comparator != null) {
-                    if (asc) {
-                        romRows.sortedWith(comparator)
-                    } else {
-                        romRows.sortedWith(comparator).reversed()
-                    }
-                } else {
-                    romRows
-                }
+        // sorted by console and name first
+        var sortedRows = romRows.sortedWith(ConsoleAndNameComparator())
+
+        // if column header has been selected for sort
+        comparatorMap[sortColumn]?.let { comparator ->
+            sortedRows = if (asc) {
+                romRows.sortedWith(comparator)
+            } else {
+                romRows.sortedWith(comparator).reversed()
+            }
+        }
 
         sortedRows.forEach { row -> tableModel.addRow(row.render()) }
     }
@@ -126,6 +140,12 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
     private companion object {
 
         const val TITLE_COLUMN_DEFAULT_WIDTH = 450
+        const val ASC_ARROW = "▲"
+        const val DESC_ARROW = "▼"
+
+        fun arrow(asc: Boolean): String {
+            return if (asc) ASC_ARROW else DESC_ARROW
+        }
 
     }
 

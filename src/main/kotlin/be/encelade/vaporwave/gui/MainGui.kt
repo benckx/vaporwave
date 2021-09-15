@@ -4,13 +4,15 @@ import be.encelade.vaporwave.model.DeviceSyncStatus
 import be.encelade.vaporwave.model.devices.Device
 import be.encelade.vaporwave.persistence.DeviceManager
 import be.encelade.vaporwave.services.LocalRomManager
+import be.encelade.vaporwave.services.SaveFilesManager
 import be.encelade.vaporwave.utils.LazyLogging
 import java.awt.BorderLayout
 import java.awt.BorderLayout.*
 import javax.swing.JFrame
 
 class MainGui(private val deviceManager: DeviceManager,
-              private val localRomManager: LocalRomManager) :
+              private val localRomManager: LocalRomManager,
+              private val saveFilesManager: SaveFilesManager) :
         JFrame(), DeviceSelectionGuiCallback, ActionButtonCallback, LazyLogging {
 
     private val deviceListPanel = DeviceListPanel(this)
@@ -90,7 +92,7 @@ class MainGui(private val deviceManager: DeviceManager,
 
     override fun downloadSavesFromDevice() {
         if (selectedDevice != null && renderedDeviceSyncStatus != null) {
-            localRomManager.downloadSavesFromDevice(selectedDevice!!, renderedDeviceSyncStatus!!)
+            saveFilesManager.downloadAllSavesFromDevice(selectedDevice!!, renderedDeviceSyncStatus!!)
             renderDeviceSyncStatus(selectedDevice!!)
         }
     }

@@ -33,7 +33,7 @@ data class DeviceSyncStatus(private val localRoms: List<LocalRom>,
         return saveSyncMap[romId] ?: SAVE_STATUS_UNKNOWN
     }
 
-    fun saveToDownloadFromDevices(): List<RemoteRom> {
+    fun listSaveFilesToDownloadFromDevice(): List<RemoteRom> {
         val statusValues = listOf(SAVE_ONLY_ON_DEVICE, SAVE_MORE_RECENT_ON_DEVICE)
         return saveSyncMap
                 .filter { (_, saveSyncState) -> statusValues.contains(saveSyncState) }

@@ -19,23 +19,12 @@ import be.encelade.vaporwave.services.SaveComparator.compareSaveFiles
 import be.encelade.vaporwave.utils.CollectionUtils.exists
 import be.encelade.vaporwave.utils.LazyLogging
 import java.io.File
-import java.io.File.separator
-import java.nio.file.Files
-import java.nio.file.attribute.FileTime
 
-class LocalRomManager(localRomFolder: String) : LazyLogging {
-
-    private val folder = File(localRomFolder)
-
-    fun validate() {
-        if (!folder.exists() || !folder.isDirectory) {
-            throw IllegalArgumentException("Folder $folder doesn't exist")
-        }
-    }
+class LocalRomManager(private val localRomFolder: File) : LazyLogging {
 
     @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     fun listLocalRoms(): List<LocalRom> {
-        return folder
+        return localRomFolder
                 .listFiles()
                 .filter { consoleFolder -> consoleFolder.isDirectory }
                 .filter { consoleFolder -> consoleKeys.contains(consoleFolder.name) }
@@ -123,33 +112,6 @@ class LocalRomManager(localRomFolder: String) : LazyLogging {
                 }
 
         return result
-    }
-
-    fun downloadSavesFromDevice(device: Device, deviceSyncStatus: DeviceSyncStatus) {
-        val allEntries = deviceSyncStatus.saveToDownloadFromDevices().flatMap { remoteRom -> remoteRom.saveFiles }
-        allEntries.forEach { entry -> logger.debug("to download: ${entry.filePath}") }
-
-        DeviceClient.forDevice(device)?.let { client ->
-            allEntries
-                    .groupBy { entry -> entry.console() }
-                    .toList()
-                    .sortedBy { (console, _) -> console }
-                    .forEach { (console, consoleEntries) ->
-                        val filePaths = consoleEntries.map { entry -> entry.filePath }
-                        val targetFolder = "${folder.absolutePath}$separator${console}$separator"
-                        val files = client.downloadFiles(filePaths, targetFolder)
-                        if (files.size == consoleEntries.size) {
-                            files.indices.forEach { i ->
-                                val fileTime = FileTime.fromMillis(consoleEntries[i].lastModified.millis)
-                                val path = files[i].toPath()
-                                Files.setLastModifiedTime(path, fileTime)
-                            }
-                        } else {
-                            logger.error("inconsistent number of files!")
-                            files.forEach { file -> file.delete() }
-                        }
-                    }
-        }
     }
 
 }

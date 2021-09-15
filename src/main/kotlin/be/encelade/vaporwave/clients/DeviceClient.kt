@@ -18,7 +18,7 @@ abstract class DeviceClient<D : Device>(val device: D) : LazyLogging {
      */
     abstract fun listRomFolderFiles(): String
 
-    abstract fun downloadFiles(filePaths: List<String>, targetFolder: String): List<File>
+    abstract fun downloadFilesFromDevice(filePaths: List<String>, targetFolder: String): List<File>
 
     fun listRoms(): List<RemoteRom> {
         val result = listRomFolderFiles()
@@ -27,13 +27,16 @@ abstract class DeviceClient<D : Device>(val device: D) : LazyLogging {
         return findRemoteRoms(entries)
     }
 
-    companion object {
+    companion object : LazyLogging {
 
         fun forDevice(device: Device): DeviceClient<*>? {
             return when (device) {
                 is MockDevice -> MockDeviceClient(device)
                 is SshDevice -> SshDeviceClient(device)
-                else -> null
+                else -> {
+                    logger.error("can not create client for $device")
+                    null
+                }
             }
         }
 

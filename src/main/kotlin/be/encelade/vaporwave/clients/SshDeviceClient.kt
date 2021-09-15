@@ -16,7 +16,7 @@ class SshDeviceClient(device: SshDevice) : DeviceClient<SshDevice>(device) {
         return sshClient.sendCommand(command)
     }
 
-    override fun downloadFiles(filePaths: List<String>, targetFolder: String): List<File> {
+    override fun downloadFilesFromDevice(filePaths: List<String>, targetFolder: String): List<File> {
         return sshClient.downloadFiles(filePaths, targetFolder)
     }
 

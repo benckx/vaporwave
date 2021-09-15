@@ -8,7 +8,7 @@ import java.io.File
 
 class LocalRomManagerTest {
 
-    private val manager = LocalRomManager("/home/user/roms")
+    private val manager = LocalRomManager(File("/home/user/roms"))
 
     @Test
     fun calculateSyncDiffTest01() {

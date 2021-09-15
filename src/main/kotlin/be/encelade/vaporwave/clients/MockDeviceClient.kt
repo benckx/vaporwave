@@ -21,7 +21,7 @@ class MockDeviceClient(device: MockDevice) : DeviceClient<MockDevice>(device), L
         return readFileToString(File("data$separator${device.mockDataFileName}"), UTF_8)
     }
 
-    override fun downloadFiles(filePaths: List<String>, targetFolder: String): List<File> {
+    override fun downloadFilesFromDevice(filePaths: List<String>, targetFolder: String): List<File> {
         val roms = listRoms()
 
         val result = mutableListOf<File>()

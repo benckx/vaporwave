@@ -18,7 +18,7 @@ import javax.swing.ListSelectionModel.SINGLE_SELECTION
 import javax.swing.table.DefaultTableModel
 import kotlin.concurrent.thread
 
-internal class DeviceListPanel(callback: DeviceSelectionGuiCallback) : JPanel(), LazyLogging {
+class DeviceListPanel(callback: DeviceSelectionGuiCallback) : JPanel(), LazyLogging {
 
     private var devices = listOf<Device>()
     private val isOnlineMap = mutableMapOf<Device, Boolean>()

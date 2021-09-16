@@ -20,7 +20,7 @@ import javax.swing.JTable
 import javax.swing.table.DefaultTableModel
 import javax.swing.table.TableColumn
 
-internal class RomCollectionPanel : JPanel(), LazyLogging {
+class RomCollectionPanel : JPanel(), LazyLogging {
 
     private val tableModel = DefaultTableModel()
     private val table = JTable(tableModel)

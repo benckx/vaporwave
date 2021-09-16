@@ -5,7 +5,7 @@ import java.awt.GridLayout
 import javax.swing.JButton
 import javax.swing.JPanel
 
-internal class ActionPanel(callback: ActionButtonCallback) : JPanel() {
+class ActionPanel(callback: ActionButtonCallback) : JPanel() {
 
     private val downloadSavesButton = JButton("Download Saves")
     private val uploadSavesButton = JButton("Upload Saves")

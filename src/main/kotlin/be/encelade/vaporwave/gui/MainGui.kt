@@ -1,6 +1,5 @@
 package be.encelade.vaporwave.gui
 
-import be.encelade.vaporwave.model.DeviceSyncStatus
 import be.encelade.vaporwave.model.devices.Device
 import be.encelade.vaporwave.persistence.DeviceManager
 import be.encelade.vaporwave.services.LocalRomManager
@@ -20,8 +19,6 @@ class MainGui(private val deviceManager: DeviceManager,
     private val actionPanel = ActionPanel(this)
 
     private var selectedDevice: Device? = null // FIXME: move to device panel
-    private var renderedLocalRoms = false
-    private var renderedDeviceSyncStatus: DeviceSyncStatus? = null // FIXME: redundant with variable in RomCollectionPanel?
 
     init {
         val x = 200
@@ -67,30 +64,26 @@ class MainGui(private val deviceManager: DeviceManager,
     }
 
     private fun renderLocalRoms() {
-        if (!renderedLocalRoms) {
+        if (!romCollectionPanel.isLocalRomsRendered()) {
             val localRoms = localRomManager.listLocalRoms()
             romCollectionPanel.render(localRoms)
-            renderedLocalRoms = true
-            renderedDeviceSyncStatus = null
         }
     }
 
     private fun renderDeviceSyncStatus(device: Device) {
         val syncStatus = localRomManager.calculateDeviceSyncStatus(device)
         romCollectionPanel.render(syncStatus)
-        renderedLocalRoms = false
-        renderedDeviceSyncStatus = syncStatus
     }
 
     private fun clearTable() {
         romCollectionPanel.clearTable()
-        renderedLocalRoms = false
-        renderedDeviceSyncStatus = null
     }
 
     override fun downloadSavesFromDevice() {
-        if (selectedDevice != null && renderedDeviceSyncStatus != null) {
-            saveFilesManager.downloadAllSavesFromDevice(selectedDevice!!, renderedDeviceSyncStatus!!)
+        val deviceSyncStatus = romCollectionPanel.renderedDeviceSyncStatus()
+
+        if (selectedDevice != null && deviceSyncStatus != null) {
+            saveFilesManager.downloadAllSavesFromDevice(selectedDevice!!, deviceSyncStatus)
             renderDeviceSyncStatus(selectedDevice!!)
         }
     }

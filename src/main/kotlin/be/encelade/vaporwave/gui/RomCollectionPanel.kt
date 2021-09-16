@@ -78,6 +78,14 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
         }
     }
 
+    fun isLocalRomsRendered(): Boolean {
+        return renderedLocalRoms != null
+    }
+
+    fun renderedDeviceSyncStatus(): DeviceSyncStatus? {
+        return renderedDeviceSyncStatus?.copy()
+    }
+
     fun clearTable() {
         table.clearSelection()
         tableModel.rowCount = 0

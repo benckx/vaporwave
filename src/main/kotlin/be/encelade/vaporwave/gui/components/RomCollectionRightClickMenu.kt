@@ -36,7 +36,7 @@ class RomCollectionRightClickMenu : JPopupMenu() {
         add(uploadSaveFilesToDeviceItem)
     }
 
-    fun format(romIds: List<RomId>, syncStatus: DeviceSyncStatus?) {
+    fun updateEnabledItems(romIds: List<RomId>, syncStatus: DeviceSyncStatus?) {
         if (syncStatus == null) {
             allItems.forEach { item -> item.isEnabled = false }
         } else {

@@ -13,11 +13,10 @@ fun main() {
         throw IllegalArgumentException("Folder $localRomFolder doesn't exist")
     }
 
+    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
     val deviceManager = DeviceManager()
     val localRomManager = LocalRomManager(localRomFolder)
     val saveFilesManager = SaveFilesManager(localRomFolder)
     val controller = GuiController(deviceManager, localRomManager, saveFilesManager)
-
-    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
     controller.start()
 }

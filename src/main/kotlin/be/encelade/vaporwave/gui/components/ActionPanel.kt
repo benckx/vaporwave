@@ -14,7 +14,7 @@ class ActionPanel(callback: ActionButtonCallback) : JPanel() {
         layout = GridLayout(0, 6)
         add(downloadSavesButton)
         add(uploadSavesButton)
-        noOnlineDeviceSelected()
+        disableButtons()
 
         downloadSavesButton.addActionListener {
             callback.downloadSavesFromDevice()
@@ -25,12 +25,12 @@ class ActionPanel(callback: ActionButtonCallback) : JPanel() {
         }
     }
 
-    fun onlineDeviceSelected() {
+    fun enableButtons() {
         downloadSavesButton.isEnabled = true
         uploadSavesButton.isEnabled = true
     }
 
-    fun noOnlineDeviceSelected() {
+    fun disableButtons() {
         downloadSavesButton.isEnabled = false
         uploadSavesButton.isEnabled = false
     }

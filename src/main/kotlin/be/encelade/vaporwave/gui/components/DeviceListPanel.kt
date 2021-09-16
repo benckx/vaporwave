@@ -1,7 +1,7 @@
 package be.encelade.vaporwave.gui.components
 
 import be.encelade.vaporwave.clients.DeviceClient
-import be.encelade.vaporwave.gui.api.DeviceSelectionGuiCallback
+import be.encelade.vaporwave.gui.api.DeviceSelectionCallback
 import be.encelade.vaporwave.model.devices.Device
 import be.encelade.vaporwave.utils.LazyLogging
 import org.apache.commons.lang3.BooleanUtils.isTrue
@@ -18,7 +18,7 @@ import javax.swing.ListSelectionModel.SINGLE_SELECTION
 import javax.swing.table.DefaultTableModel
 import kotlin.concurrent.thread
 
-class DeviceListPanel(callback: DeviceSelectionGuiCallback) : JPanel(), LazyLogging {
+class DeviceListPanel(callback: DeviceSelectionCallback) : JPanel(), LazyLogging {
 
     private var devices = listOf<Device>()
     private val isOnlineMap = mutableMapOf<Device, Boolean>()
@@ -86,6 +86,7 @@ class DeviceListPanel(callback: DeviceSelectionGuiCallback) : JPanel(), LazyLogg
     }
 
     // TODO: disable refresh button
+    // TODO: move to controller
     private fun refreshStatus() {
         val clients = devices.map { device -> DeviceClient.forDevice(device) }
 

@@ -1,7 +1,6 @@
 package be.encelade.vaporwave.model
 
 import be.encelade.vaporwave.model.roms.*
-import be.encelade.vaporwave.model.roms.comparators.ConsoleAndNameRomComparator
 import be.encelade.vaporwave.model.save.SaveSyncStatus
 import be.encelade.vaporwave.model.save.SaveSyncStatus.*
 

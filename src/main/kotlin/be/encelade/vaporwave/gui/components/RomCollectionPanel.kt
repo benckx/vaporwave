@@ -3,6 +3,7 @@ package be.encelade.vaporwave.gui.components
 import be.encelade.vaporwave.gui.RomRow
 import be.encelade.vaporwave.gui.SwingExtensions.addTableHeaderClickListener
 import be.encelade.vaporwave.gui.SwingExtensions.listColumns
+import be.encelade.vaporwave.gui.api.TableEventCallback
 import be.encelade.vaporwave.gui.comparators.*
 import be.encelade.vaporwave.model.DeviceSyncStatus
 import be.encelade.vaporwave.model.roms.LocalRom
@@ -20,15 +21,12 @@ import javax.swing.JTable
 import javax.swing.table.DefaultTableModel
 import javax.swing.table.TableColumn
 
-class RomCollectionPanel : JPanel(), LazyLogging {
+class RomCollectionPanel(rightClickMenu: RomCollectionRightClickMenu,
+                         private val callback: TableEventCallback) : JPanel(), LazyLogging {
 
     private val tableModel = DefaultTableModel()
     private val table = JTable(tableModel)
     private val scrollPane = JScrollPane(table)
-    private val rightClickMenu = RomCollectionRightClickMenu()
-
-    private var renderedLocalRoms: List<LocalRom>? = null
-    private var renderedDeviceSyncStatus: DeviceSyncStatus? = null
 
     private var sortColumn: String? = null
     private var asc: Boolean = true
@@ -70,13 +68,11 @@ class RomCollectionPanel : JPanel(), LazyLogging {
 
             clearHeaderArrows()
             column.headerValue = "$noArrowHeader ${arrow(asc)}"
-
-            renderedLocalRoms?.let { render(it) }
-            renderedDeviceSyncStatus?.let { render(it) }
+            callback.headerColumnClicked()
         }
 
         table.selectionModel.addListSelectionListener {
-            updateRightClickMenu()
+            callback.tableSelectionChanged()
         }
     }
 
@@ -86,24 +82,13 @@ class RomCollectionPanel : JPanel(), LazyLogging {
         }
     }
 
-    fun isLocalRomsRendered(): Boolean {
-        return renderedLocalRoms != null
-    }
-
-    fun renderedDeviceSyncStatus(): DeviceSyncStatus? {
-        return renderedDeviceSyncStatus?.copy()
-    }
-
     fun clearTable() {
         table.clearSelection()
         tableModel.rowCount = 0
-        this.renderedDeviceSyncStatus = null
-        this.renderedLocalRoms = null
     }
 
     fun render(localRoms: List<LocalRom>) {
         clearTable()
-        this.renderedLocalRoms = localRoms
 
         val rows = localRoms.map { localRom ->
             val saveSyncStatus = if (localRom.saveFiles.isNotEmpty()) SAVE_ONLY_ON_COMPUTER else NO_SAVE_FOUND
@@ -115,7 +100,7 @@ class RomCollectionPanel : JPanel(), LazyLogging {
 
     fun render(syncStatus: DeviceSyncStatus) {
         clearTable()
-        this.renderedDeviceSyncStatus = syncStatus
+//        this.renderedDeviceSyncStatus = syncStatus
 
         val rows = syncStatus
                 .allRomIds()
@@ -147,14 +132,9 @@ class RomCollectionPanel : JPanel(), LazyLogging {
         }
 
         sortedRows.forEach { row -> tableModel.addRow(row.render()) }
-        updateRightClickMenu()
     }
 
-    private fun updateRightClickMenu() {
-        rightClickMenu.format(listSelectedRoms(), renderedDeviceSyncStatus)
-    }
-
-    private fun listSelectedRoms(): List<RomId> {
+    fun listSelectedRoms(): List<RomId> {
         return table
                 .selectedRows
                 .map { i ->

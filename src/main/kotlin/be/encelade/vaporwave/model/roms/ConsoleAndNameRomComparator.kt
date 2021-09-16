@@ -1,6 +1,4 @@
-package be.encelade.vaporwave.model.roms.comparators
-
-import be.encelade.vaporwave.model.roms.Rom
+package be.encelade.vaporwave.model.roms
 
 object ConsoleAndNameRomComparator : Comparator<Rom<*>> {
 

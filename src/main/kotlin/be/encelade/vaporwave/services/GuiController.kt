@@ -1,26 +1,30 @@
 package be.encelade.vaporwave.services
 
 import be.encelade.vaporwave.gui.api.ActionButtonCallback
-import be.encelade.vaporwave.gui.api.DeviceSelectionGuiCallback
-import be.encelade.vaporwave.gui.components.ActionPanel
-import be.encelade.vaporwave.gui.components.DeviceListPanel
-import be.encelade.vaporwave.gui.components.MainPanel
-import be.encelade.vaporwave.gui.components.RomCollectionPanel
+import be.encelade.vaporwave.gui.api.DeviceSelectionCallback
+import be.encelade.vaporwave.gui.api.TableEventCallback
+import be.encelade.vaporwave.gui.components.*
+import be.encelade.vaporwave.model.DeviceSyncStatus
 import be.encelade.vaporwave.model.devices.Device
+import be.encelade.vaporwave.model.roms.LocalRom
 import be.encelade.vaporwave.persistence.DeviceManager
 import be.encelade.vaporwave.utils.LazyLogging
 
 class GuiController(private val deviceManager: DeviceManager,
                     private val localRomManager: LocalRomManager,
                     private val saveFilesManager: SaveFilesManager) :
-        DeviceSelectionGuiCallback, ActionButtonCallback, LazyLogging {
+        DeviceSelectionCallback, ActionButtonCallback, TableEventCallback, LazyLogging {
+
+    private val rightClickMenu = RomCollectionRightClickMenu()
 
     private val deviceListPanel = DeviceListPanel(this)
-    private val romCollectionPanel = RomCollectionPanel()
+    private val romCollectionPanel = RomCollectionPanel(rightClickMenu, this)
     private val actionPanel = ActionPanel(this)
     private val mainPanel = MainPanel(deviceListPanel, romCollectionPanel, actionPanel)
 
     private var selectedDevice: Device? = null
+    private var renderedLocalRoms: List<LocalRom>? = null
+    private var renderedDeviceSyncStatus: DeviceSyncStatus? = null
 
     init {
         renderDevices()
@@ -35,21 +39,21 @@ class GuiController(private val deviceManager: DeviceManager,
         this.selectedDevice = null
         logger.debug("no device selected")
         renderLocalRoms()
-        actionPanel.noOnlineDeviceSelected()
+        actionPanel.disableButtons()
     }
 
     override fun offlineDeviceSelected(device: Device) {
         this.selectedDevice = null
         logger.debug("offline device selected $device")
-        clearTable()
-        actionPanel.noOnlineDeviceSelected()
+        romCollectionPanel.clearTable()
+        actionPanel.disableButtons()
     }
 
     override fun onlineDeviceSelected(device: Device) {
         this.selectedDevice = device
         logger.debug("online device selected $device")
         renderDeviceSyncStatus(device)
-        actionPanel.onlineDeviceSelected()
+        actionPanel.enableButtons()
     }
 
     private fun renderDevices() {
@@ -57,28 +61,33 @@ class GuiController(private val deviceManager: DeviceManager,
     }
 
     private fun renderLocalRoms() {
-        if (!romCollectionPanel.isLocalRomsRendered()) {
-            val localRoms = localRomManager.listLocalRoms()
-            romCollectionPanel.render(localRoms)
-        }
+        val localRoms = localRomManager.listLocalRoms()
+        romCollectionPanel.render(localRoms)
+        this.renderedLocalRoms = localRoms
+        this.renderedDeviceSyncStatus = null
     }
 
     private fun renderDeviceSyncStatus(device: Device) {
-        val syncStatus = localRomManager.calculateDeviceSyncStatus(device)
-        romCollectionPanel.render(syncStatus)
+        val deviceSyncStatus = localRomManager.calculateDeviceSyncStatus(device)
+        romCollectionPanel.render(deviceSyncStatus)
+        this.renderedLocalRoms = null
+        this.renderedDeviceSyncStatus = deviceSyncStatus
     }
 
-    private fun clearTable() {
-        romCollectionPanel.clearTable()
+    override fun headerColumnClicked() {
+        renderedLocalRoms?.let { romCollectionPanel.render(it) }
+        renderedDeviceSyncStatus?.let { romCollectionPanel.render(it) }
+    }
+
+    override fun tableSelectionChanged() {
+        val selectedRomIds = romCollectionPanel.listSelectedRoms()
+        rightClickMenu.updateEnabledItems(selectedRomIds, renderedDeviceSyncStatus)
     }
 
     override fun downloadSavesFromDevice() {
-        selectedDevice?.let { device ->
-            val deviceSyncStatus = romCollectionPanel.renderedDeviceSyncStatus()
-            if (deviceSyncStatus != null) {
-                saveFilesManager.downloadAllSavesFromDevice(device, deviceSyncStatus)
-                renderDeviceSyncStatus(device)
-            }
+        if (selectedDevice != null && renderedDeviceSyncStatus != null) {
+            saveFilesManager.downloadAllSavesFromDevice(selectedDevice!!, renderedDeviceSyncStatus!!)
+            renderDeviceSyncStatus(selectedDevice!!)
         }
     }
 

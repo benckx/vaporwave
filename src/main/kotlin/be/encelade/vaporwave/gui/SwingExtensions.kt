@@ -2,7 +2,6 @@ package be.encelade.vaporwave.gui
 
 import java.awt.event.MouseEvent
 import javax.swing.JTable
-import javax.swing.table.DefaultTableModel
 import javax.swing.table.TableColumn
 
 internal object SwingExtensions {
@@ -35,10 +34,6 @@ internal object SwingExtensions {
 
     fun JTable.listColumns(): List<TableColumn> {
         return (0 until columnCount).map { i -> columnModel.getColumn(i) }
-    }
-
-    fun DefaultTableModel.addRow(romRow: RomRow) {
-        this.addRow(romRow.render())
     }
 
 }

@@ -1,6 +1,5 @@
 package be.encelade.vaporwave.gui
 
-import be.encelade.vaporwave.gui.SwingExtensions.addRow
 import be.encelade.vaporwave.gui.SwingExtensions.addTableHeaderClickListener
 import be.encelade.vaporwave.gui.SwingExtensions.listColumns
 import be.encelade.vaporwave.gui.comparators.*
@@ -53,9 +52,8 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
         table.columnModel.getColumn(titleColumnIndex).preferredWidth = TITLE_COLUMN_DEFAULT_WIDTH
 
         table.addTableHeaderClickListener { event, column ->
-            logger.debug("clicked on ${column.headerValue} ${event.clickCount} times")
-            clearHeaderArrows()
             val noArrowHeader = headerValueNoArrows(column)
+            logger.debug("clicked on $noArrowHeader ${event.clickCount} times")
             if (sortColumn == noArrowHeader) {
                 asc = !asc
             } else {
@@ -63,13 +61,11 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
                 asc = true
             }
 
+            clearHeaderArrows()
             column.headerValue = "$noArrowHeader ${arrow(asc)}"
 
-            if (renderedLocalRoms != null) {
-                render(renderedLocalRoms!!)
-            } else if (renderedDeviceSyncStatus != null) {
-                render(renderedDeviceSyncStatus!!)
-            }
+            renderedLocalRoms?.let { render(it) }
+            renderedDeviceSyncStatus?.let { render(it) }
         }
     }
 
@@ -131,7 +127,7 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
             }
         }
 
-        sortedRows.forEach { row -> tableModel.addRow(row) }
+        sortedRows.forEach { row -> tableModel.addRow(row.render()) }
     }
 
     private companion object {

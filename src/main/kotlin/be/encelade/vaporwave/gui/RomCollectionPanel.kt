@@ -49,6 +49,7 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
         comparatorMap["rom files"] = NbrOfRomFilesComparator()
         comparatorMap["rom size"] = RomSizeComparator()
         comparatorMap["save status"] = SaveStatusComparator()
+        comparatorMap["save last modified"] = LastUpdatedSaveFileComparator()
 
         val titleColumnIndex = 2
         table.columnModel.getColumn(titleColumnIndex).preferredWidth = TITLE_COLUMN_DEFAULT_WIDTH

@@ -4,6 +4,6 @@ interface RomCollectionCallback {
 
     fun romTableHeaderColumnClicked()
 
-    fun romRableSelectionChanged()
+    fun romTableSelectionChanged()
 
 }

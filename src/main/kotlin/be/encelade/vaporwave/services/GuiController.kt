@@ -13,6 +13,9 @@ import be.encelade.vaporwave.utils.LazyLogging
 import org.apache.commons.lang3.BooleanUtils.isTrue
 import kotlin.concurrent.thread
 
+/**
+ * Logic executed behind the GUI elements.
+ */
 class GuiController(deviceManager: DeviceManager,
                     private val localRomManager: LocalRomManager,
                     private val saveFilesManager: SaveFilesManager) :
@@ -45,38 +48,19 @@ class GuiController(deviceManager: DeviceManager,
     }
 
     override fun deviceSelected(idx: Int) {
-        fun noDeviceSelected() {
-            this.selectedDevice = null
-            logger.debug("no device selected")
-            renderLocalRoms()
-            actionPanel.disableButtons()
-        }
-
-        fun offlineDeviceSelected(device: Device) {
-            this.selectedDevice = null
-            logger.debug("offline device selected $device")
-            romCollectionPanel.clearTable()
-            actionPanel.disableButtons()
-        }
-
-        fun onlineDeviceSelected(device: Device) {
-            this.selectedDevice = device
-            logger.debug("online device selected $device")
-            renderDeviceSyncStatus()
-            actionPanel.enableButtons()
-        }
-
         if (idx >= 0) {
             this.selectedDevice = devices[idx]
-            selectedDevice?.let { device ->
-                if (isTrue(isOnlineMap[device])) {
-                    onlineDeviceSelected(device)
-                } else {
-                    offlineDeviceSelected(device)
-                }
+            if (isTrue(isOnlineMap[devices[idx]])) {
+                renderDeviceSyncStatus()
+                actionPanel.enableButtons()
+            } else {
+                romCollectionPanel.clearTable()
+                actionPanel.disableButtons()
             }
         } else {
-            noDeviceSelected()
+            this.selectedDevice = null
+            renderLocalRoms()
+            actionPanel.disableButtons()
         }
     }
 
@@ -86,7 +70,7 @@ class GuiController(deviceManager: DeviceManager,
 
     override fun unSelectDeviceButtonClicked() {
         this.selectedDevice = null
-        romCollectionPanel.clearTable()
+        renderLocalRoms()
     }
 
     private fun refreshOnlineStatus() {
@@ -133,7 +117,7 @@ class GuiController(deviceManager: DeviceManager,
         renderedDeviceSyncStatus?.let { romCollectionPanel.render(it) }
     }
 
-    override fun romRableSelectionChanged() {
+    override fun romTableSelectionChanged() {
         val selectedRomIds = romCollectionPanel.listSelectedRomIds()
         rightClickMenu.updateEnabledItems(selectedRomIds, renderedDeviceSyncStatus)
     }

@@ -72,7 +72,7 @@ class RomCollectionPanel(rightClickMenu: RomCollectionRightClickMenu,
         }
 
         table.selectionModel.addListSelectionListener {
-            callback.romRableSelectionChanged()
+            callback.romTableSelectionChanged()
         }
     }
 

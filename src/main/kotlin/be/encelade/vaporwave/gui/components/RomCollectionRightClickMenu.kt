@@ -36,6 +36,9 @@ class RomCollectionRightClickMenu : JPopupMenu() {
         add(uploadSaveFilesToDeviceItem)
     }
 
+    /**
+     * Calculate which [JMenuItem] should be enabled, given the [RomId] selected in the UI.
+     */
     fun updateEnabledItems(romIds: List<RomId>, syncStatus: DeviceSyncStatus?) {
         if (syncStatus == null) {
             allItems.forEach { item -> item.isEnabled = false }

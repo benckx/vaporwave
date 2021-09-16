@@ -1,4 +1,4 @@
-package be.encelade.vaporwave.gui
+package be.encelade.vaporwave.gui.api
 
 interface ActionButtonCallback {
 

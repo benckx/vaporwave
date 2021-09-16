@@ -1,5 +1,6 @@
 package be.encelade.vaporwave.gui
 
+import be.encelade.vaporwave.gui.api.ActionButtonCallback
 import java.awt.GridLayout
 import javax.swing.JButton
 import javax.swing.JPanel

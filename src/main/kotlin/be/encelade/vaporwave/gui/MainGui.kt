@@ -1,5 +1,7 @@
 package be.encelade.vaporwave.gui
 
+import be.encelade.vaporwave.gui.api.ActionButtonCallback
+import be.encelade.vaporwave.gui.api.DeviceSelectionGuiCallback
 import be.encelade.vaporwave.model.devices.Device
 import be.encelade.vaporwave.persistence.DeviceManager
 import be.encelade.vaporwave.services.LocalRomManager
@@ -18,7 +20,7 @@ class MainGui(private val deviceManager: DeviceManager,
     private val romCollectionPanel = RomCollectionPanel()
     private val actionPanel = ActionPanel(this)
 
-    private var selectedDevice: Device? = null // FIXME: move to device panel
+    private var selectedDevice: Device? = null
 
     init {
         val x = 200
@@ -80,11 +82,12 @@ class MainGui(private val deviceManager: DeviceManager,
     }
 
     override fun downloadSavesFromDevice() {
-        val deviceSyncStatus = romCollectionPanel.renderedDeviceSyncStatus()
-
-        if (selectedDevice != null && deviceSyncStatus != null) {
-            saveFilesManager.downloadAllSavesFromDevice(selectedDevice!!, deviceSyncStatus)
-            renderDeviceSyncStatus(selectedDevice!!)
+        selectedDevice?.let { device ->
+            val deviceSyncStatus = romCollectionPanel.renderedDeviceSyncStatus()
+            if (deviceSyncStatus != null) {
+                saveFilesManager.downloadAllSavesFromDevice(device, deviceSyncStatus)
+                renderDeviceSyncStatus(device)
+            }
         }
     }
 

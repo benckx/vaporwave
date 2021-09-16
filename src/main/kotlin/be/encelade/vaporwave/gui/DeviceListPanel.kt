@@ -1,6 +1,7 @@
 package be.encelade.vaporwave.gui
 
 import be.encelade.vaporwave.clients.DeviceClient
+import be.encelade.vaporwave.gui.api.DeviceSelectionGuiCallback
 import be.encelade.vaporwave.model.devices.Device
 import be.encelade.vaporwave.utils.LazyLogging
 import org.apache.commons.lang3.BooleanUtils.isTrue

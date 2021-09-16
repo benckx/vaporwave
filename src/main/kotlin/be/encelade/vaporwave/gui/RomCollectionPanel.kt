@@ -1,5 +1,6 @@
 package be.encelade.vaporwave.gui
 
+import be.encelade.vaporwave.gui.SwingExtensions.addRow
 import be.encelade.vaporwave.gui.SwingExtensions.addTableHeaderClickListener
 import be.encelade.vaporwave.gui.SwingExtensions.listColumns
 import be.encelade.vaporwave.gui.comparators.*
@@ -16,6 +17,7 @@ import javax.swing.JPanel
 import javax.swing.JScrollPane
 import javax.swing.JTable
 import javax.swing.table.DefaultTableModel
+import javax.swing.table.TableColumn
 
 internal class RomCollectionPanel : JPanel(), LazyLogging {
 
@@ -53,7 +55,7 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
         table.addTableHeaderClickListener { event, column ->
             logger.debug("clicked on ${column.headerValue} ${event.clickCount} times")
             clearHeaderArrows()
-            val noArrowHeader = column.headerValue.toString().removeSuffix(DESC_ARROW).removeSuffix(ASC_ARROW).trim()
+            val noArrowHeader = headerValueNoArrows(column)
             if (sortColumn == noArrowHeader) {
                 asc = !asc
             } else {
@@ -73,12 +75,7 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
 
     private fun clearHeaderArrows() {
         table.listColumns().forEach { column ->
-            column.headerValue =
-                    column
-                            .headerValue
-                            .toString()
-                            .removeSuffix(DESC_ARROW)
-                            .removeSuffix(ASC_ARROW)
+            column.headerValue = headerValueNoArrows(column)
         }
     }
 
@@ -122,19 +119,19 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
         renderSortedRows(rows)
     }
 
-    private fun renderSortedRows(romRows: List<RomRow>) {
+    private fun renderSortedRows(rows: List<RomRow>) {
         // sorted by console and name first
-        var sortedRows = romRows.sortedWith(ConsoleAndNameComparator())
+        var sortedRows = rows.sortedWith(ConsoleAndNameComparator())
 
         // if column header has been selected for sort
         comparatorMap[sortColumn]?.let { comparator ->
-            sortedRows = romRows.sortedWith(comparator)
+            sortedRows = rows.sortedWith(comparator)
             if (!asc) {
                 sortedRows = sortedRows.reversed()
             }
         }
 
-        sortedRows.forEach { row -> tableModel.addRow(row.render()) }
+        sortedRows.forEach { row -> tableModel.addRow(row) }
     }
 
     private companion object {
@@ -145,6 +142,15 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
 
         fun arrow(asc: Boolean): String {
             return if (asc) ASC_ARROW else DESC_ARROW
+        }
+
+        fun headerValueNoArrows(column: TableColumn): String {
+            return column
+                    .headerValue
+                    .toString()
+                    .removeSuffix(DESC_ARROW)
+                    .removeSuffix(ASC_ARROW)
+                    .trim()
         }
 
     }

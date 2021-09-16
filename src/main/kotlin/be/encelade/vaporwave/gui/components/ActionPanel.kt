@@ -1,4 +1,4 @@
-package be.encelade.vaporwave.gui
+package be.encelade.vaporwave.gui.components
 
 import be.encelade.vaporwave.gui.api.ActionButtonCallback
 import java.awt.GridLayout

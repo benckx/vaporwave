@@ -1,6 +1,6 @@
 package be.encelade.vaporwave
 
-import be.encelade.vaporwave.gui.MainGui
+import be.encelade.vaporwave.gui.components.MainGui
 import be.encelade.vaporwave.persistence.DeviceManager
 import be.encelade.vaporwave.services.LocalRomManager
 import be.encelade.vaporwave.services.SaveFilesManager

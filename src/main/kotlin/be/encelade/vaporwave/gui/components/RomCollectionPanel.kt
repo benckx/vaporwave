@@ -1,10 +1,13 @@
-package be.encelade.vaporwave.gui
+package be.encelade.vaporwave.gui.components
 
+import be.encelade.vaporwave.gui.MouseClickListener
+import be.encelade.vaporwave.gui.RomRow
 import be.encelade.vaporwave.gui.SwingExtensions.addTableHeaderClickListener
 import be.encelade.vaporwave.gui.SwingExtensions.listColumns
 import be.encelade.vaporwave.gui.comparators.*
 import be.encelade.vaporwave.model.DeviceSyncStatus
 import be.encelade.vaporwave.model.roms.LocalRom
+import be.encelade.vaporwave.model.roms.RomId
 import be.encelade.vaporwave.model.roms.RomSyncStatus.ROM_ONLY_ON_COMPUTER
 import be.encelade.vaporwave.model.roms.RomSyncStatus.ROM_STATUS_UNKNOWN
 import be.encelade.vaporwave.model.save.SaveSyncStatus.NO_SAVE_FOUND
@@ -15,6 +18,7 @@ import java.awt.BorderLayout.CENTER
 import javax.swing.JPanel
 import javax.swing.JScrollPane
 import javax.swing.JTable
+import javax.swing.SwingUtilities
 import javax.swing.table.DefaultTableModel
 import javax.swing.table.TableColumn
 
@@ -23,6 +27,7 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
     private val tableModel = DefaultTableModel()
     private val table = JTable(tableModel)
     private val scrollPane = JScrollPane(table)
+    private val rightClickMenu = RomCollectionRightClickMenu()
 
     private var renderedLocalRoms: List<LocalRom>? = null
     private var renderedDeviceSyncStatus: DeviceSyncStatus? = null
@@ -35,6 +40,7 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
         layout = BorderLayout()
         add(scrollPane, CENTER)
 
+        table.componentPopupMenu = rightClickMenu
         tableModel.addColumn("rom status")
         tableModel.addColumn("console")
         tableModel.addColumn("name")
@@ -69,6 +75,20 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
 
             renderedLocalRoms?.let { render(it) }
             renderedDeviceSyncStatus?.let { render(it) }
+        }
+
+        // select row with right click, if no interval is selected
+        table.addMouseListener(MouseClickListener { e ->
+            if (SwingUtilities.isRightMouseButton(e)) {
+                if (table.selectedRows.size <= 1) {
+                    val rowIdx = table.rowAtPoint(e.point)
+                    table.setRowSelectionInterval(rowIdx, rowIdx)
+                }
+            }
+        })
+
+        table.selectionModel.addListSelectionListener {
+            updateRightClickMenu()
         }
     }
 
@@ -139,6 +159,21 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
         }
 
         sortedRows.forEach { row -> tableModel.addRow(row.render()) }
+        updateRightClickMenu()
+    }
+
+    private fun updateRightClickMenu() {
+        rightClickMenu.format(listSelectedRoms(), renderedDeviceSyncStatus)
+    }
+
+    private fun listSelectedRoms(): List<RomId> {
+        return table
+                .selectedRows
+                .map { i ->
+                    val console = tableModel.getValueAt(i, 1).toString()
+                    val simpleFileName = tableModel.getValueAt(i, 2).toString()
+                    RomId(console, simpleFileName)
+                }
     }
 
     private companion object {

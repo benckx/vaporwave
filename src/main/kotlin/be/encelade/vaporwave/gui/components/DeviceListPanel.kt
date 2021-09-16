@@ -1,4 +1,4 @@
-package be.encelade.vaporwave.gui
+package be.encelade.vaporwave.gui.components
 
 import be.encelade.vaporwave.clients.DeviceClient
 import be.encelade.vaporwave.gui.api.DeviceSelectionGuiCallback

@@ -63,8 +63,6 @@ internal data class RomRow(val localRom: LocalRom?,
 
     fun nbrOfRomFiles() = rom.romFiles.size
 
-    fun nbrOfSaveFiles() = rom.saveFiles.size
-
     private companion object {
 
         const val NO_VALUE_CELL = "--"

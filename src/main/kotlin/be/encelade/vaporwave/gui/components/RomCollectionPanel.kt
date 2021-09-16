@@ -3,7 +3,7 @@ package be.encelade.vaporwave.gui.components
 import be.encelade.vaporwave.gui.RomRow
 import be.encelade.vaporwave.gui.SwingExtensions.addTableHeaderClickListener
 import be.encelade.vaporwave.gui.SwingExtensions.listColumns
-import be.encelade.vaporwave.gui.api.TableEventCallback
+import be.encelade.vaporwave.gui.api.RomCollectionCallback
 import be.encelade.vaporwave.gui.comparators.*
 import be.encelade.vaporwave.model.DeviceSyncStatus
 import be.encelade.vaporwave.model.roms.LocalRom
@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel
 import javax.swing.table.TableColumn
 
 class RomCollectionPanel(rightClickMenu: RomCollectionRightClickMenu,
-                         private val callback: TableEventCallback) : JPanel(), LazyLogging {
+                         private val callback: RomCollectionCallback) : JPanel(), LazyLogging {
 
     private val tableModel = DefaultTableModel()
     private val table = JTable(tableModel)
@@ -100,7 +100,6 @@ class RomCollectionPanel(rightClickMenu: RomCollectionRightClickMenu,
 
     fun render(syncStatus: DeviceSyncStatus) {
         clearTable()
-//        this.renderedDeviceSyncStatus = syncStatus
 
         val rows = syncStatus
                 .allRomIds()
@@ -134,7 +133,7 @@ class RomCollectionPanel(rightClickMenu: RomCollectionRightClickMenu,
         sortedRows.forEach { row -> tableModel.addRow(row.render()) }
     }
 
-    fun listSelectedRoms(): List<RomId> {
+    fun listSelectedRomIds(): List<RomId> {
         return table
                 .selectedRows
                 .map { i ->

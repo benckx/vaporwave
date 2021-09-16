@@ -1,11 +1,11 @@
 package be.encelade.vaporwave.gui.components
 
-import be.encelade.vaporwave.gui.api.ActionButtonCallback
+import be.encelade.vaporwave.gui.api.ActionPanelCallback
 import java.awt.GridLayout
 import javax.swing.JButton
 import javax.swing.JPanel
 
-class ActionPanel(callback: ActionButtonCallback) : JPanel() {
+class ActionPanel(callback: ActionPanelCallback) : JPanel() {
 
     private val downloadSavesButton = JButton("Download Saves")
     private val uploadSavesButton = JButton("Upload Saves")

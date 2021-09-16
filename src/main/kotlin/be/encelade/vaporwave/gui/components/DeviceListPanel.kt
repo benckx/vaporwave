@@ -1,10 +1,8 @@
 package be.encelade.vaporwave.gui.components
 
-import be.encelade.vaporwave.clients.DeviceClient
-import be.encelade.vaporwave.gui.api.DeviceSelectionCallback
+import be.encelade.vaporwave.gui.api.DevicePanelCallback
 import be.encelade.vaporwave.model.devices.Device
 import be.encelade.vaporwave.utils.LazyLogging
-import org.apache.commons.lang3.BooleanUtils.isTrue
 import java.awt.BorderLayout
 import java.awt.BorderLayout.CENTER
 import java.awt.BorderLayout.EAST
@@ -16,9 +14,8 @@ import javax.swing.JScrollPane
 import javax.swing.JTable
 import javax.swing.ListSelectionModel.SINGLE_SELECTION
 import javax.swing.table.DefaultTableModel
-import kotlin.concurrent.thread
 
-class DeviceListPanel(callback: DeviceSelectionCallback) : JPanel(), LazyLogging {
+class DeviceListPanel(callback: DevicePanelCallback) : JPanel(), LazyLogging {
 
     private var devices = listOf<Device>()
     private val isOnlineMap = mutableMapOf<Device, Boolean>()
@@ -48,19 +45,8 @@ class DeviceListPanel(callback: DeviceSelectionCallback) : JPanel(), LazyLogging
 
         selectionModel.addListSelectionListener { e ->
             if (!e.valueIsAdjusting) {
-                if (table.selectedRow >= 0) {
-                    val device = devices[table.selectedRow]
-                    if (isTrue(isOnlineMap[device])) {
-                        callback.onlineDeviceSelected(device)
-                    } else {
-                        callback.offlineDeviceSelected(device)
-                    }
-
-                    unSelectButton.isEnabled = true
-                } else {
-                    unSelectButton.isEnabled = false
-                    callback.noDeviceSelected()
-                }
+                unSelectButton.isEnabled = table.selectedRow >= 0
+                callback.deviceSelected(table.selectedRow)
             }
         }
 
@@ -69,8 +55,12 @@ class DeviceListPanel(callback: DeviceSelectionCallback) : JPanel(), LazyLogging
         buttonPanel.add(refreshButton)
 
         unSelectButton.isEnabled = false
-        unSelectButton.addActionListener { table.clearSelection() }
-        refreshButton.addActionListener { refreshStatus() }
+        unSelectButton.addActionListener {
+            table.clearSelection()
+            callback.unSelectButtonClicked()
+        }
+
+        refreshButton.addActionListener { callback.refreshButtonClicked() }
     }
 
     fun renderDevices(devices: List<Device>) {
@@ -81,33 +71,14 @@ class DeviceListPanel(callback: DeviceSelectionCallback) : JPanel(), LazyLogging
         devices.forEach { device ->
             tableModel.addRow(listOf("", device.name).toTypedArray())
         }
-
-        refreshStatus()
     }
 
-    // TODO: disable refresh button
-    // TODO: move to controller
-    private fun refreshStatus() {
-        val clients = devices.map { device -> DeviceClient.forDevice(device) }
+    fun setOnlineStatus(isOnlineNow: Boolean, i: Int) {
+        tableModel.setValueAt(if (isOnlineNow) "online" else "offline", i, 0)
+    }
 
-        clients.forEach { client ->
-            val i = devices.indexOf(client.device)
-            tableModel.setValueAt("trying to connect...", i, 0)
-        }
-
-        clients.forEach { client ->
-            thread {
-                val i = devices.indexOf(client.device)
-                val isOnlineBefore = isOnlineMap[client.device]
-                val isOnlineNow = client.isReachable()
-                isOnlineMap[client.device] = isOnlineNow
-                tableModel.setValueAt(if (isOnlineNow) "online" else "offline", i, 0)
-
-                if (isOnlineBefore != isOnlineNow) {
-                    // TODO: update rom list if device came online and is selected
-                }
-            }
-        }
+    fun setConnectingStatus(i: Int) {
+        tableModel.setValueAt("trying to connect...", i, 0)
     }
 
 }

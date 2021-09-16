@@ -1,6 +1,6 @@
 package be.encelade.vaporwave.gui.api
 
-interface ActionButtonCallback {
+interface ActionPanelCallback {
 
     fun downloadSavesFromDevice()
 

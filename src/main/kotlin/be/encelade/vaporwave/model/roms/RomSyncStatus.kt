@@ -15,6 +15,10 @@ enum class RomSyncStatus {
                 .lowercase()
     }
 
+    fun canDownloadFromDevice(): Boolean {
+        return this == ROM_SYNCED || this == ROM_ONLY_ON_DEVICE
+    }
+
     fun canUploadOnDevice(): Boolean {
         return this == ROM_SYNCED || this == ROM_ONLY_ON_COMPUTER
     }

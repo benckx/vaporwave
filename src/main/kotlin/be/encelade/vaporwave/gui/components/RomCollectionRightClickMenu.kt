@@ -10,11 +10,15 @@ import javax.swing.JPopupMenu
 
 class RomCollectionRightClickMenu : JPopupMenu() {
 
-    private val uploadRomToDeviceItem = JMenuItem("Upload rom(s) to device")
+    private val downloadRomsFromDeviceItem = JMenuItem("Download rom(s) from device")
+    private val downloadSaveFilesFromDeviceItem = JMenuItem("Download save file(s) from device")
+    private val uploadRomsToDeviceItem = JMenuItem("Upload rom(s) to device")
     private val uploadSaveFilesToDeviceItem = JMenuItem("Upload save file(s) to device")
 
     private val allItems = listOf(
-            uploadRomToDeviceItem,
+            downloadRomsFromDeviceItem,
+            downloadSaveFilesFromDeviceItem,
+            uploadRomsToDeviceItem,
             uploadSaveFilesToDeviceItem
     )
 
@@ -22,22 +26,24 @@ class RomCollectionRightClickMenu : JPopupMenu() {
         allItems.forEach { item ->
             item.ui = CustomItemMenuUI()
             item.border = createEmptyBorder(top = 3, bottom = 3, left = 5, right = 5)
+            item.isEnabled = false
         }
 
-        add(uploadRomToDeviceItem)
+        add(downloadRomsFromDeviceItem)
+        add(downloadSaveFilesFromDeviceItem)
+        addSeparator()
+        add(uploadRomsToDeviceItem)
         add(uploadSaveFilesToDeviceItem)
-
-        uploadRomToDeviceItem.isEnabled = false
-        uploadSaveFilesToDeviceItem.isEnabled = false
     }
 
-    fun format(selectedRomIds: List<RomId>, syncStatus: DeviceSyncStatus?) {
+    fun format(romIds: List<RomId>, syncStatus: DeviceSyncStatus?) {
         if (syncStatus == null) {
-            uploadRomToDeviceItem.isEnabled = false
-            uploadSaveFilesToDeviceItem.isEnabled = false
+            allItems.forEach { item -> item.isEnabled = false }
         } else {
-            uploadRomToDeviceItem.isEnabled = selectedRomIds.exists { syncStatus.romSyncStatus(it).canUploadOnDevice() }
-            uploadSaveFilesToDeviceItem.isEnabled = selectedRomIds.exists { syncStatus.saveSyncStatus(it).canUploadOnDevice() }
+            downloadRomsFromDeviceItem.isEnabled = romIds.exists { syncStatus.romSyncStatus(it).canDownloadFromDevice() }
+            downloadSaveFilesFromDeviceItem.isEnabled = romIds.exists { syncStatus.saveSyncStatus(it).canDownloadFromDevice() }
+            uploadRomsToDeviceItem.isEnabled = romIds.exists { syncStatus.romSyncStatus(it).canUploadOnDevice() }
+            uploadSaveFilesToDeviceItem.isEnabled = romIds.exists { syncStatus.saveSyncStatus(it).canUploadOnDevice() }
         }
     }
 

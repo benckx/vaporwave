@@ -51,13 +51,16 @@ class GuiController(deviceManager: DeviceManager,
         if (idx >= 0) {
             this.selectedDevice = devices[idx]
             if (isTrue(isOnlineMap[devices[idx]])) {
+                // online device -> render device sync
                 renderDeviceSyncStatus()
                 actionPanel.enableButtons()
             } else {
+                // offline device -> empty table
                 romCollectionPanel.clearTable()
                 actionPanel.disableButtons()
             }
         } else {
+            // no device selected -> render local roms
             this.selectedDevice = null
             renderLocalRoms()
             actionPanel.disableButtons()
@@ -71,6 +74,28 @@ class GuiController(deviceManager: DeviceManager,
     override fun unSelectDeviceButtonClicked() {
         this.selectedDevice = null
         renderLocalRoms()
+    }
+
+    override fun romTableHeaderColumnClicked() {
+        // Re-render what is already being displayed, without fetching or calculating
+        renderedLocalRoms?.let { romCollectionPanel.render(it) }
+        renderedDeviceSyncStatus?.let { romCollectionPanel.render(it) }
+    }
+
+    override fun romTableSelectionChanged() {
+        val selectedRomIds = romCollectionPanel.listSelectedRomIds()
+        rightClickMenu.updateEnabledItems(selectedRomIds, renderedDeviceSyncStatus)
+    }
+
+    override fun downloadSavesFromDeviceButtonClicked() {
+        if (selectedDevice != null && renderedDeviceSyncStatus != null) {
+            saveFilesManager.downloadAllSavesFromDevice(selectedDevice!!, renderedDeviceSyncStatus!!)
+            renderDeviceSyncStatus()
+        }
+    }
+
+    override fun uploadSavesToDeviceButtonClick() {
+        logger.warn("TODO: uploadSavesToDevice")
     }
 
     private fun refreshOnlineStatus() {
@@ -110,27 +135,6 @@ class GuiController(deviceManager: DeviceManager,
             this.renderedLocalRoms = null
             this.renderedDeviceSyncStatus = deviceSyncStatus
         }
-    }
-
-    override fun romTableHeaderColumnClicked() {
-        renderedLocalRoms?.let { romCollectionPanel.render(it) }
-        renderedDeviceSyncStatus?.let { romCollectionPanel.render(it) }
-    }
-
-    override fun romTableSelectionChanged() {
-        val selectedRomIds = romCollectionPanel.listSelectedRomIds()
-        rightClickMenu.updateEnabledItems(selectedRomIds, renderedDeviceSyncStatus)
-    }
-
-    override fun downloadSavesFromDeviceButtonClicked() {
-        if (selectedDevice != null && renderedDeviceSyncStatus != null) {
-            saveFilesManager.downloadAllSavesFromDevice(selectedDevice!!, renderedDeviceSyncStatus!!)
-            renderDeviceSyncStatus()
-        }
-    }
-
-    override fun uploadSavesToDeviceButtonClick() {
-        logger.warn("TODO: uploadSavesToDevice")
     }
 
 }

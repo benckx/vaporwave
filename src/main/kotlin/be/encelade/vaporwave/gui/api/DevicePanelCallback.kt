@@ -4,8 +4,8 @@ interface DevicePanelCallback {
 
     fun deviceSelected(idx: Int)
 
-    fun refreshButtonClicked()
+    fun refreshDevicesButtonClicked()
 
-    fun unSelectButtonClicked()
+    fun unSelectDeviceButtonClicked()
 
 }

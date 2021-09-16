@@ -68,11 +68,11 @@ class RomCollectionPanel(rightClickMenu: RomCollectionRightClickMenu,
 
             clearHeaderArrows()
             column.headerValue = "$noArrowHeader ${arrow(asc)}"
-            callback.headerColumnClicked()
+            callback.romTableHeaderColumnClicked()
         }
 
         table.selectionModel.addListSelectionListener {
-            callback.tableSelectionChanged()
+            callback.romRableSelectionChanged()
         }
     }
 

@@ -2,8 +2,8 @@ package be.encelade.vaporwave.gui.api
 
 interface ActionPanelCallback {
 
-    fun downloadSavesFromDevice()
+    fun downloadSavesFromDeviceButtonClicked()
 
-    fun uploadSavesToDevice()
+    fun uploadSavesToDeviceButtonClick()
 
 }

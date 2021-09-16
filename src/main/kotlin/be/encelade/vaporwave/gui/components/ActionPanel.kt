@@ -17,11 +17,11 @@ class ActionPanel(callback: ActionPanelCallback) : JPanel() {
         disableButtons()
 
         downloadSavesButton.addActionListener {
-            callback.downloadSavesFromDevice()
+            callback.downloadSavesFromDeviceButtonClicked()
         }
 
         uploadSavesButton.addActionListener {
-            callback.uploadSavesToDevice()
+            callback.uploadSavesToDeviceButtonClick()
         }
     }
 

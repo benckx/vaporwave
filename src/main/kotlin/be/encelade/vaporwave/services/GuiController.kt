@@ -18,13 +18,14 @@ class GuiController(deviceManager: DeviceManager,
                     private val saveFilesManager: SaveFilesManager) :
         DevicePanelCallback, ActionPanelCallback, RomCollectionCallback, LazyLogging {
 
-    private val rightClickMenu = RomCollectionRightClickMenu()
-
+    // gui components
     private val deviceListPanel = DeviceListPanel(this)
+    private val rightClickMenu = RomCollectionRightClickMenu()
     private val romCollectionPanel = RomCollectionPanel(rightClickMenu, this)
     private val actionPanel = ActionPanel(this)
     private val mainPanel = MainPanel(deviceListPanel, romCollectionPanel, actionPanel)
 
+    // shown states
     private var devices = listOf<Device>()
     private val isOnlineMap = mutableMapOf<Device, Boolean>()
     private var selectedDevice: Device? = null
@@ -36,7 +37,7 @@ class GuiController(deviceManager: DeviceManager,
         deviceListPanel.renderDevices(devices)
 
         renderLocalRoms()
-        refreshStatus()
+        refreshOnlineStatus()
     }
 
     fun start() {
@@ -61,7 +62,7 @@ class GuiController(deviceManager: DeviceManager,
         fun onlineDeviceSelected(device: Device) {
             this.selectedDevice = device
             logger.debug("online device selected $device")
-            renderDeviceSyncStatus(device)
+            renderDeviceSyncStatus()
             actionPanel.enableButtons()
         }
 
@@ -79,16 +80,16 @@ class GuiController(deviceManager: DeviceManager,
         }
     }
 
-    override fun refreshButtonClicked() {
-        refreshStatus()
+    override fun refreshDevicesButtonClicked() {
+        refreshOnlineStatus()
     }
 
-    override fun unSelectButtonClicked() {
+    override fun unSelectDeviceButtonClicked() {
         this.selectedDevice = null
         romCollectionPanel.clearTable()
     }
 
-    private fun refreshStatus() {
+    private fun refreshOnlineStatus() {
         val clients = devices.map { device -> DeviceClient.forDevice(device) }
 
         clients.forEach { client ->
@@ -118,31 +119,33 @@ class GuiController(deviceManager: DeviceManager,
         this.renderedDeviceSyncStatus = null
     }
 
-    private fun renderDeviceSyncStatus(device: Device) {
-        val deviceSyncStatus = localRomManager.calculateDeviceSyncStatus(device)
-        romCollectionPanel.render(deviceSyncStatus)
-        this.renderedLocalRoms = null
-        this.renderedDeviceSyncStatus = deviceSyncStatus
+    private fun renderDeviceSyncStatus() {
+        selectedDevice?.let { device ->
+            val deviceSyncStatus = localRomManager.calculateDeviceSyncStatus(device)
+            romCollectionPanel.render(deviceSyncStatus)
+            this.renderedLocalRoms = null
+            this.renderedDeviceSyncStatus = deviceSyncStatus
+        }
     }
 
-    override fun headerColumnClicked() {
+    override fun romTableHeaderColumnClicked() {
         renderedLocalRoms?.let { romCollectionPanel.render(it) }
         renderedDeviceSyncStatus?.let { romCollectionPanel.render(it) }
     }
 
-    override fun tableSelectionChanged() {
+    override fun romRableSelectionChanged() {
         val selectedRomIds = romCollectionPanel.listSelectedRomIds()
         rightClickMenu.updateEnabledItems(selectedRomIds, renderedDeviceSyncStatus)
     }
 
-    override fun downloadSavesFromDevice() {
+    override fun downloadSavesFromDeviceButtonClicked() {
         if (selectedDevice != null && renderedDeviceSyncStatus != null) {
             saveFilesManager.downloadAllSavesFromDevice(selectedDevice!!, renderedDeviceSyncStatus!!)
-            renderDeviceSyncStatus(selectedDevice!!)
+            renderDeviceSyncStatus()
         }
     }
 
-    override fun uploadSavesToDevice() {
+    override fun uploadSavesToDeviceButtonClick() {
         logger.warn("TODO: uploadSavesToDevice")
     }
 

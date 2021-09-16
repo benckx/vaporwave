@@ -2,8 +2,8 @@ package be.encelade.vaporwave.gui.api
 
 interface RomCollectionCallback {
 
-    fun headerColumnClicked()
+    fun romTableHeaderColumnClicked()
 
-    fun tableSelectionChanged()
+    fun romRableSelectionChanged()
 
 }

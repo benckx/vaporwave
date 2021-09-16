@@ -19,7 +19,7 @@ class MainGui(private val deviceManager: DeviceManager,
     private val romCollectionPanel = RomCollectionPanel()
     private val actionPanel = ActionPanel(this)
 
-    private var selectedDevice: Device? = null
+    private var selectedDevice: Device? = null // FIXME: move to device panel
     private var renderedLocalRoms = false
     private var renderedDeviceSyncStatus: DeviceSyncStatus? = null // FIXME: redundant with variable in RomCollectionPanel?
 
@@ -96,7 +96,7 @@ class MainGui(private val deviceManager: DeviceManager,
     }
 
     override fun uploadSavesToDevice() {
-        TODO("Not yet implemented")
+        logger.warn("TODO: uploadSavesToDevice")
     }
 
 }

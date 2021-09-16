@@ -25,11 +25,11 @@ data class DeviceSyncStatus(private val localRoms: List<LocalRom>,
         return remoteRoms.find { rom -> rom.matchesBy(romId) }
     }
 
-    fun romSyncStatusOf(romId: RomId): RomSyncStatus {
+    fun romSyncStatus(romId: RomId): RomSyncStatus {
         return romSyncDiff.findStatusBy(romId)
     }
 
-    fun saveSyncStatusOf(romId: RomId): SaveSyncStatus {
+    fun saveSyncStatus(romId: RomId): SaveSyncStatus {
         return saveSyncMap[romId] ?: SAVE_STATUS_UNKNOWN
     }
 

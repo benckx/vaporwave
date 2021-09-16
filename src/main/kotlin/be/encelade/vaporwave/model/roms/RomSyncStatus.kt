@@ -1,7 +1,7 @@
 package be.encelade.vaporwave.model.roms
 
 enum class RomSyncStatus {
-    
+
     ROM_SYNCED,
     ROM_ONLY_ON_DEVICE,
     ROM_ONLY_ON_COMPUTER,
@@ -13,6 +13,10 @@ enum class RomSyncStatus {
                 .replace("_", " ")
                 .trim()
                 .lowercase()
+    }
+
+    fun canUploadOnDevice(): Boolean {
+        return this == ROM_SYNCED || this == ROM_ONLY_ON_COMPUTER
     }
 
 }

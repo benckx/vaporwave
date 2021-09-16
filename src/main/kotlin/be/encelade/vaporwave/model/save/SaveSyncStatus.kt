@@ -18,4 +18,11 @@ enum class SaveSyncStatus {
                 .lowercase()
     }
 
+    fun canUploadOnDevice(): Boolean {
+        return this == SAVE_SYNCED ||
+                this == SAVE_ONLY_ON_COMPUTER ||
+                this == SAVE_MORE_RECENT_ON_COMPUTER ||
+                this == SAVE_MORE_RECENT_ON_DEVICE
+    }
+
 }

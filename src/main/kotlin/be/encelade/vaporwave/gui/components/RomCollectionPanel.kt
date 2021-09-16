@@ -1,6 +1,5 @@
 package be.encelade.vaporwave.gui.components
 
-import be.encelade.vaporwave.gui.MouseClickListener
 import be.encelade.vaporwave.gui.RomRow
 import be.encelade.vaporwave.gui.SwingExtensions.addTableHeaderClickListener
 import be.encelade.vaporwave.gui.SwingExtensions.listColumns
@@ -18,7 +17,6 @@ import java.awt.BorderLayout.CENTER
 import javax.swing.JPanel
 import javax.swing.JScrollPane
 import javax.swing.JTable
-import javax.swing.SwingUtilities
 import javax.swing.table.DefaultTableModel
 import javax.swing.table.TableColumn
 
@@ -77,16 +75,6 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
             renderedDeviceSyncStatus?.let { render(it) }
         }
 
-        // select row with right click, if no interval is selected
-        table.addMouseListener(MouseClickListener { e ->
-            if (SwingUtilities.isRightMouseButton(e)) {
-                if (table.selectedRows.size <= 1) {
-                    val rowIdx = table.rowAtPoint(e.point)
-                    table.setRowSelectionInterval(rowIdx, rowIdx)
-                }
-            }
-        })
-
         table.selectionModel.addListSelectionListener {
             updateRightClickMenu()
         }
@@ -134,9 +122,9 @@ internal class RomCollectionPanel : JPanel(), LazyLogging {
                 .mapNotNull { romId ->
                     val localRom = syncStatus.findLocalRom(romId)
                     val remoteRom = syncStatus.findRemoteRom(romId)
-                    val romSyncStatus = syncStatus.romSyncStatusOf(romId)
+                    val romSyncStatus = syncStatus.romSyncStatus(romId)
                     if ((localRom != null || remoteRom != null) && romSyncStatus != ROM_STATUS_UNKNOWN) {
-                        val saveSyncStatus = syncStatus.saveSyncStatusOf(romId)
+                        val saveSyncStatus = syncStatus.saveSyncStatus(romId)
                         RomRow(localRom, remoteRom, romSyncStatus, saveSyncStatus)
                     } else {
                         null

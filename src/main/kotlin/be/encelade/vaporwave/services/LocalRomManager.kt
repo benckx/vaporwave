@@ -48,18 +48,13 @@ class LocalRomManager(private val localRomFolder: File) : LazyLogging {
                 .sortedWith(ConsoleAndNameRomComparator)
     }
 
-    fun calculateDeviceSyncStatus(device: Device): DeviceSyncStatus? {
+    fun calculateDeviceSyncStatus(device: Device): DeviceSyncStatus {
+        val localRoms = listLocalRoms()
         val client = DeviceClient.forDevice(device)
-
-        return if (client != null) {
-            val localRoms = listLocalRoms()
-            val remoteRoms = client.listRoms()
-            val romSyncDiff = calculateSyncDiff(localRoms, remoteRoms)
-            val saveSyncMap = calculateSaveSyncStatusMap(localRoms, remoteRoms, romSyncDiff)
-            DeviceSyncStatus(localRoms, remoteRoms, romSyncDiff, saveSyncMap)
-        } else {
-            null
-        }
+        val remoteRoms = client.listRoms()
+        val romSyncDiff = calculateSyncDiff(localRoms, remoteRoms)
+        val saveSyncMap = calculateSaveSyncStatusMap(localRoms, remoteRoms, romSyncDiff)
+        return DeviceSyncStatus(localRoms, remoteRoms, romSyncDiff, saveSyncMap)
     }
 
     fun calculateSyncDiff(localRoms: List<LocalRom>, remoteRoms: List<RemoteRom>): RomSyncDiff {

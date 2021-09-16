@@ -31,13 +31,12 @@ abstract class DeviceClient<D : Device>(val device: D) : LazyLogging {
 
     companion object : LazyLogging {
 
-        fun forDevice(device: Device): DeviceClient<*>? {
+        fun forDevice(device: Device): DeviceClient<*> {
             return when (device) {
                 is MockDevice -> MockDeviceClient(device)
                 is SshDevice -> SshDeviceClient(device)
                 else -> {
-                    logger.error("can not create client for $device")
-                    null
+                    throw NotImplementedError("can not create client for $device")
                 }
             }
         }

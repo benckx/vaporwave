@@ -86,7 +86,7 @@ internal class DeviceListPanel(callback: DeviceSelectionGuiCallback) : JPanel(),
 
     // TODO: disable refresh button
     private fun refreshStatus() {
-        val clients = devices.mapNotNull { device -> DeviceClient.forDevice(device) }
+        val clients = devices.map { device -> DeviceClient.forDevice(device) }
 
         clients.forEach { client ->
             val i = devices.indexOf(client.device)

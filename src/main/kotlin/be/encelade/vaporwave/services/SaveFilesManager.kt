@@ -12,30 +12,30 @@ import java.nio.file.attribute.FileTime
 class SaveFilesManager(private val localRomFolder: File) : LazyLogging {
 
     fun downloadAllSavesFromDevice(device: Device, deviceSyncStatus: DeviceSyncStatus) {
-        DeviceClient.forDevice(device)?.let { client ->
-            val allEntries = deviceSyncStatus.listSaveFilesToDownloadFromDevice().flatMap { remoteRom -> remoteRom.saveFiles }
-            allEntries.forEach { entry -> logger.debug("to download: ${entry.filePath}") }
+        val client = DeviceClient.forDevice(device)
 
-            allEntries
-                    .groupBy { entry -> entry.console() }
-                    .toList()
-                    .sortedBy { (console, _) -> console }
-                    .forEach { (console, consoleEntries) ->
-                        val filePaths = consoleEntries.map { entry -> entry.filePath }
-                        val targetFolder = "${localRomFolder.absolutePath}$separator${console}$separator"
-                        val files = client.downloadFilesFromDevice(filePaths, targetFolder)
-                        if (files.size == consoleEntries.size) {
-                            files.indices.forEach { i ->
-                                val fileTime = FileTime.fromMillis(consoleEntries[i].lastModified.millis)
-                                val path = files[i].toPath()
-                                Files.setLastModifiedTime(path, fileTime)
-                            }
-                        } else {
-                            logger.error("inconsistent number of files!")
-                            files.forEach { file -> file.delete() }
+        deviceSyncStatus
+                .listSaveFilesToDownloadFromDevice()
+                .flatMap { remoteRom -> remoteRom.saveFiles }
+                .groupBy { entry -> entry.console() }
+                .toList()
+                .sortedBy { (console, _) -> console }
+                .forEach { (console, consoleEntries) ->
+                    consoleEntries.forEach { entry -> logger.debug("to download: ${entry.filePath}") }
+                    val filePaths = consoleEntries.map { entry -> entry.filePath }
+                    val targetFolder = "${localRomFolder.absolutePath}$separator${console}$separator"
+                    val files = client.downloadFilesFromDevice(filePaths, targetFolder)
+                    if (files.size == consoleEntries.size) {
+                        files.indices.forEach { i ->
+                            val fileTime = FileTime.fromMillis(consoleEntries[i].lastModified.millis)
+                            val path = files[i].toPath()
+                            Files.setLastModifiedTime(path, fileTime)
                         }
+                    } else {
+                        logger.error("inconsistent number of files!")
+                        files.forEach { file -> file.delete() }
                     }
-        }
+                }
     }
 
 }

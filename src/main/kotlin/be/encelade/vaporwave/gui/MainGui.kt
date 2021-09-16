@@ -76,13 +76,10 @@ class MainGui(private val deviceManager: DeviceManager,
     }
 
     private fun renderDeviceSyncStatus(device: Device) {
-        localRomManager
-                .calculateDeviceSyncStatus(device)
-                ?.let { syncStatus ->
-                    romCollectionPanel.render(syncStatus)
-                    renderedLocalRoms = false
-                    renderedDeviceSyncStatus = syncStatus
-                }
+        val syncStatus = localRomManager.calculateDeviceSyncStatus(device)
+        romCollectionPanel.render(syncStatus)
+        renderedLocalRoms = false
+        renderedDeviceSyncStatus = syncStatus
     }
 
     private fun clearTable() {

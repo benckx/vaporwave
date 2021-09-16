@@ -60,7 +60,9 @@ class DeviceListPanel(callback: DevicePanelCallback) : JPanel(), LazyLogging {
             callback.unSelectDeviceButtonClicked()
         }
 
-        refreshButton.addActionListener { callback.refreshDevicesButtonClicked() }
+        refreshButton.addActionListener {
+            callback.refreshDevicesButtonClicked()
+        }
     }
 
     fun renderDevices(devices: List<Device>) {

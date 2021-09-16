@@ -20,4 +20,8 @@ class SshDeviceClient(device: SshDevice) : DeviceClient<SshDevice>(device) {
         return sshClient.downloadFiles(filePaths, targetFolder)
     }
 
+    override fun uploadFilesToDevice(files: List<Pair<File, String>>) {
+        sshClient.uploadFiles(files)
+    }
+
 }

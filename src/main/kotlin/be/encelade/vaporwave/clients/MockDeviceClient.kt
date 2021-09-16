@@ -48,4 +48,11 @@ class MockDeviceClient(device: MockDevice) : DeviceClient<MockDevice>(device), L
         return result
     }
 
+    override fun uploadFilesToDevice(files: List<Pair<File, String>>) {
+        files.forEach { (file, filePath) ->
+            Thread.sleep(200L)
+            logger.debug("uploading ${file.absolutePath} to $filePath")
+        }
+    }
+
 }

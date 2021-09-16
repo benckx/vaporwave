@@ -100,12 +100,12 @@ class GuiController(deviceManager: DeviceManager,
         clients.forEach { client ->
             thread {
                 val i = devices.indexOf(client.device)
-                val isOnlineBefore = isOnlineMap[client.device]
-                val isOnlineNow = client.isReachable()
-                isOnlineMap[client.device] = isOnlineNow
-                deviceListPanel.setOnlineStatus(isOnlineNow, i)
+                val isDeviceOnlineBefore = isOnlineMap[client.device]
+                val isDeviceOnlineNow = client.isReachable()
+                isOnlineMap[client.device] = isDeviceOnlineNow
+                deviceListPanel.setOnlineStatus(isDeviceOnlineNow, i)
 
-                if (isOnlineBefore != isOnlineNow) {
+                if (isDeviceOnlineBefore != isDeviceOnlineNow) {
                     // TODO: update rom list if device came online and is selected
                 }
             }

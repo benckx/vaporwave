@@ -14,10 +14,12 @@ internal class SshClient(private val username: String,
 
     constructor(conn: SshConnection) : this(conn.username, conn.password, conn.host, conn.port)
 
+    private val timeoutMillis = 5 * 1000
+
     fun isReachable(): Boolean {
         return try {
             val session = buildSession()
-            session.connect() // send Exception if offline
+            session.connect(timeoutMillis) // send Exception if offline
             session.disconnect()
             true
         } catch (t: Throwable) {
@@ -81,7 +83,7 @@ internal class SshClient(private val username: String,
         var channel: C? = null
         try {
             session = buildSession()
-            session.connect()
+            session.connect(timeoutMillis)
             channel = session.openChannel(channelType) as C
             block(channel)
         } finally {

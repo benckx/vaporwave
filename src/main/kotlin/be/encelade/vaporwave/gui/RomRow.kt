@@ -23,7 +23,7 @@ internal data class RomRow(val localRom: LocalRom?,
     private val rom: Rom<*> = allRoms.first()
 
     fun render(): Array<String> {
-        val lastModified = lastModified()
+        val lastModified = saveLastModified()
 
         val row = mutableListOf<String>()
         row += romSyncStatus.lowerCase()
@@ -44,7 +44,7 @@ internal data class RomRow(val localRom: LocalRom?,
         return row.toTypedArray()
     }
 
-    private fun lastModified(): LocalDateTime? {
+    fun saveLastModified(): LocalDateTime? {
         return when (saveSyncStatus) {
             SAVE_SYNCED,
             SAVE_ONLY_ON_COMPUTER,
@@ -60,6 +60,10 @@ internal data class RomRow(val localRom: LocalRom?,
     fun simpleFileName(): String = rom.simpleFileName()
 
     fun romFilesSize() = rom.romFilesSize()
+
+    fun nbrOfRomFiles() = rom.romFiles.size
+
+    fun nbrOfSaveFiles() = rom.saveFiles.size
 
     private companion object {
 

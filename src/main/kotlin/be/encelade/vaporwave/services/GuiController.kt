@@ -3,6 +3,7 @@ package be.encelade.vaporwave.services
 import be.encelade.vaporwave.clients.DeviceClient
 import be.encelade.vaporwave.gui.api.ActionPanelCallback
 import be.encelade.vaporwave.gui.api.DevicePanelCallback
+import be.encelade.vaporwave.gui.api.RightClickMenuCallback
 import be.encelade.vaporwave.gui.api.RomCollectionCallback
 import be.encelade.vaporwave.gui.components.*
 import be.encelade.vaporwave.model.DeviceSyncStatus
@@ -19,11 +20,11 @@ import kotlin.concurrent.thread
 class GuiController(deviceManager: DeviceManager,
                     private val localRomManager: LocalRomManager,
                     private val saveFilesManager: SaveFilesManager) :
-        DevicePanelCallback, ActionPanelCallback, RomCollectionCallback, LazyLogging {
+        DevicePanelCallback, RomCollectionCallback, RightClickMenuCallback, ActionPanelCallback, LazyLogging {
 
     // gui components
     private val deviceListPanel = DeviceListPanel(this)
-    private val rightClickMenu = RomCollectionRightClickMenu()
+    private val rightClickMenu = RomCollectionRightClickMenu(this)
     private val romCollectionPanel = RomCollectionPanel(rightClickMenu, this)
     private val actionPanel = ActionPanel(this)
     private val mainPanel = MainPanel(deviceListPanel, romCollectionPanel, actionPanel)
@@ -85,6 +86,30 @@ class GuiController(deviceManager: DeviceManager,
     override fun romTableSelectionChanged() {
         val selectedRomIds = romCollectionPanel.listSelectedRomIds()
         rightClickMenu.updateEnabledItems(selectedRomIds, renderedDeviceSyncStatus)
+    }
+
+    override fun downloadRomsFromDevice() {
+        logger.debug("download roms from device")
+        val selectedRomIds = romCollectionPanel.listSelectedRomIds()
+        selectedRomIds.forEach { println(it) }
+    }
+
+    override fun downloadSaveFilesFromDevice() {
+        logger.debug("download save files from device")
+        val selectedRomIds = romCollectionPanel.listSelectedRomIds()
+        selectedRomIds.forEach { println(it) }
+    }
+
+    override fun uploadRomsToDevice() {
+        logger.debug("upload roms to device")
+        val selectedRomIds = romCollectionPanel.listSelectedRomIds()
+        selectedRomIds.forEach { println(it) }
+    }
+
+    override fun uploadSaveFilesToDevice() {
+        logger.debug("upload save files to device")
+        val selectedRomIds = romCollectionPanel.listSelectedRomIds()
+        selectedRomIds.forEach { println(it) }
     }
 
     override fun downloadSavesFromDeviceButtonClicked() {

@@ -2,13 +2,14 @@ package be.encelade.vaporwave.gui.components
 
 import be.encelade.vaporwave.gui.CustomItemMenuUI
 import be.encelade.vaporwave.gui.SwingExtensions.createEmptyBorder
+import be.encelade.vaporwave.gui.api.RightClickMenuCallback
 import be.encelade.vaporwave.model.DeviceSyncStatus
 import be.encelade.vaporwave.model.roms.RomId
 import be.encelade.vaporwave.utils.CollectionUtils.exists
 import javax.swing.JMenuItem
 import javax.swing.JPopupMenu
 
-class RomCollectionRightClickMenu : JPopupMenu() {
+class RomCollectionRightClickMenu(callback: RightClickMenuCallback) : JPopupMenu() {
 
     private val downloadRomsFromDeviceItem = JMenuItem("Download rom(s) from device")
     private val downloadSaveFilesFromDeviceItem = JMenuItem("Download save file(s) from device")
@@ -34,6 +35,11 @@ class RomCollectionRightClickMenu : JPopupMenu() {
         addSeparator()
         add(uploadRomsToDeviceItem)
         add(uploadSaveFilesToDeviceItem)
+
+        downloadRomsFromDeviceItem.addActionListener { callback.downloadRomsFromDevice() }
+        downloadSaveFilesFromDeviceItem.addActionListener { callback.downloadSaveFilesFromDevice() }
+        uploadRomsToDeviceItem.addActionListener { callback.uploadRomsToDevice() }
+        uploadSaveFilesToDeviceItem.addActionListener { callback.uploadSaveFilesToDevice() }
     }
 
     /**

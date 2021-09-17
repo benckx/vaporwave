@@ -12,6 +12,7 @@ import be.encelade.vaporwave.model.roms.LocalRom
 import be.encelade.vaporwave.persistence.DeviceManager
 import be.encelade.vaporwave.utils.LazyLogging
 import org.apache.commons.lang3.BooleanUtils.isTrue
+import java.io.File
 import kotlin.concurrent.thread
 
 /**
@@ -90,8 +91,13 @@ class GuiController(deviceManager: DeviceManager,
 
     override fun downloadRomsFromDevice() {
         logger.debug("download roms from device")
-        val selectedRomIds = romCollectionPanel.listSelectedRomIds()
-        selectedRomIds.forEach { println(it) }
+        renderedDeviceSyncStatus?.let { deviceSyncStatus ->
+            val selectedRomIds = romCollectionPanel.listSelectedRomIds()
+            val remoteRoms = selectedRomIds.mapNotNull { romId -> deviceSyncStatus.findRemoteRom(romId) }
+            remoteRoms
+                    .flatMap { it.allFiles() }
+                    .forEach { println(it.filePath) }
+        }
     }
 
     override fun downloadSaveFilesFromDevice() {
@@ -102,14 +108,31 @@ class GuiController(deviceManager: DeviceManager,
 
     override fun uploadRomsToDevice() {
         logger.debug("upload roms to device")
-        val selectedRomIds = romCollectionPanel.listSelectedRomIds()
-        selectedRomIds.forEach { println(it) }
+        uploadFilesToDevice { localRom -> localRom.allFiles() }
     }
 
     override fun uploadSaveFilesToDevice() {
         logger.debug("upload save files to device")
-        val selectedRomIds = romCollectionPanel.listSelectedRomIds()
-        selectedRomIds.forEach { println(it) }
+        uploadFilesToDevice { localRom -> localRom.saveFiles }
+    }
+
+    private fun uploadFilesToDevice(fileSelector: (LocalRom) -> List<File>) {
+        renderedDeviceSyncStatus?.let { deviceSyncStatus ->
+            val client = DeviceClient.forDevice(selectedDevice!!)
+            val pairs = romCollectionPanel
+                    .listSelectedRomIds()
+                    .mapNotNull { romId -> deviceSyncStatus.findLocalRom(romId) }
+                    .flatMap { localRom ->
+                        fileSelector(localRom).map { file ->
+                            val consoleFolder = client.consoleFolder(localRom.console())
+                            val filePath = consoleFolder + file.name
+                            file to filePath
+                        }
+                    }
+
+            client.uploadFilesToDevice(pairs)
+            renderDeviceSyncStatus()
+        }
     }
 
     override fun downloadSavesFromDeviceButtonClicked() {

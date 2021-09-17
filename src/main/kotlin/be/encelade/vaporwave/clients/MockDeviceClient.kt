@@ -12,6 +12,10 @@ import kotlin.text.Charsets.UTF_8
 
 class MockDeviceClient(device: MockDevice) : DeviceClient<MockDevice>(device), LazyLogging {
 
+    override fun consoleFolder(console: String): String {
+        return "/roms/$console/"
+    }
+
     override fun isReachable(): Boolean {
         Thread.sleep(nextInt(1, 6) * 500L)
         return true
@@ -51,7 +55,7 @@ class MockDeviceClient(device: MockDevice) : DeviceClient<MockDevice>(device), L
     override fun uploadFilesToDevice(files: List<Pair<File, String>>) {
         files.forEach { (file, filePath) ->
             Thread.sleep(200L)
-            logger.debug("uploading ${file.absolutePath} to $filePath")
+            logger.debug("uploading '${file.absolutePath}' to '$filePath'")
         }
     }
 

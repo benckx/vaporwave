@@ -11,6 +11,8 @@ import java.io.File
 
 abstract class DeviceClient<D : Device>(val device: D) : LazyLogging {
 
+    abstract fun consoleFolder(console: String): String
+
     abstract fun isReachable(): Boolean
 
     /**

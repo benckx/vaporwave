@@ -17,9 +17,6 @@ import javax.swing.table.DefaultTableModel
 
 class DeviceListPanel(callback: DevicePanelCallback) : JPanel(), LazyLogging {
 
-    private var devices = listOf<Device>()
-    private val isOnlineMap = mutableMapOf<Device, Boolean>()
-
     private val tableModel = DefaultTableModel()
     private val table = JTable(tableModel)
     private val scrollPane = JScrollPane(table)
@@ -66,9 +63,6 @@ class DeviceListPanel(callback: DevicePanelCallback) : JPanel(), LazyLogging {
     }
 
     fun renderDevices(devices: List<Device>) {
-        this.devices = devices
-        this.isOnlineMap.clear()
-
         tableModel.rowCount = 0
         devices.forEach { device ->
             tableModel.addRow(listOf("", device.name).toTypedArray())

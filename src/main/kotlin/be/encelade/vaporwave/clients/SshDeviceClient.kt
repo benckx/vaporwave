@@ -7,6 +7,10 @@ class SshDeviceClient(device: SshDevice) : DeviceClient<SshDevice>(device) {
 
     private val sshClient = SshClient(device.conn)
 
+    override fun consoleFolder(console: String): String {
+        return "/roms/$console/"
+    }
+
     override fun isReachable(): Boolean {
         return sshClient.isReachable()
     }

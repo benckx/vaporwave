@@ -2,12 +2,12 @@ package be.encelade.vaporwave.gui.api
 
 interface RightClickMenuCallback {
 
-    fun downloadRomsFromDevice()
+    fun downloadSelectedRomsFromDevice()
 
-    fun downloadSaveFilesFromDevice()
+    fun downloadSelectedRomsSaveFilesFromDevice()
 
-    fun uploadRomsToDevice()
+    fun uploadSelectedRomsToDevice()
 
-    fun uploadSaveFilesToDevice()
+    fun uploadSelectedRomsSaveFilesToDevice()
 
 }

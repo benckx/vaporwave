@@ -91,73 +91,24 @@ class GuiController(deviceManager: DeviceManager,
         rightClickMenu.updateEnabledItems(selectedRomIds, renderedDeviceSyncStatus)
     }
 
-    override fun downloadRomsFromDevice() {
+    override fun downloadSelectedRomsFromDevice() {
         logger.debug("download roms from device")
         downloadSelectedRomFilesFromDevice { localRom -> localRom.allFiles() }
     }
 
-    override fun downloadSaveFilesFromDevice() {
+    override fun downloadSelectedRomsSaveFilesFromDevice() {
         logger.debug("download save files from device")
         downloadSelectedRomFilesFromDevice { localRom -> localRom.saveFiles }
     }
 
-    override fun uploadRomsToDevice() {
+    override fun uploadSelectedRomsToDevice() {
         logger.debug("upload roms to device")
         uploadSelectedRomFilesToDevice { localRom -> localRom.allFiles() }
     }
 
-    override fun uploadSaveFilesToDevice() {
+    override fun uploadSelectedRomsSaveFilesToDevice() {
         logger.debug("upload save files to device")
         uploadSelectedRomFilesToDevice { localRom -> localRom.saveFiles }
-    }
-
-    private fun downloadSelectedRomFilesFromDevice(fileSelector: (RemoteRom) -> List<LsEntry>) {
-        renderedDeviceSyncStatus?.let { deviceSyncStatus ->
-            val entryToFolderPairs = romCollectionPanel
-                    .listSelectedRomIds()
-                    .mapNotNull { romId -> deviceSyncStatus.findRemoteRom(romId) }
-                    .flatMap { remoteRom ->
-                        fileSelector(remoteRom).map { lsEntry ->
-                            val localConsoleFolder = localRomManager.consoleFolder(remoteRom.console())
-                            lsEntry to localConsoleFolder
-                        }
-                    }
-
-            val filePairs = entryToFolderPairs.map { (entry, folder) -> entry.filePath to folder }
-            val client = DeviceClient.forDevice(selectedDevice!!)
-            val downloadedFiles = client.downloadFilesFromDevice(filePairs)
-
-            if (downloadedFiles.size == entryToFolderPairs.size) {
-                downloadedFiles.indices.forEach { i ->
-                    val lsEntry = entryToFolderPairs[i].first
-                    downloadedFiles[i].setLastModified(lsEntry.lastModified)
-                }
-            } else {
-                logger.error("inconsistent number of files!")
-                downloadedFiles.forEach { file -> file.delete() }
-            }
-
-            renderDeviceSyncStatus()
-        }
-    }
-
-    private fun uploadSelectedRomFilesToDevice(fileSelector: (LocalRom) -> List<File>) {
-        renderedDeviceSyncStatus?.let { deviceSyncStatus ->
-            val client = DeviceClient.forDevice(selectedDevice!!)
-            val pairs = romCollectionPanel
-                    .listSelectedRomIds()
-                    .mapNotNull { romId -> deviceSyncStatus.findLocalRom(romId) }
-                    .flatMap { localRom ->
-                        fileSelector(localRom).map { file ->
-                            val consoleFolder = client.consoleFolder(localRom.console())
-                            val filePath = consoleFolder + file.name
-                            file to filePath
-                        }
-                    }
-
-            client.uploadFilesToDevice(pairs)
-            renderDeviceSyncStatus()
-        }
     }
 
     override fun downloadSavesFromDeviceButtonClicked() {
@@ -204,6 +155,57 @@ class GuiController(deviceManager: DeviceManager,
             romCollectionPanel.render(deviceSyncStatus)
             this.renderedLocalRoms = null
             this.renderedDeviceSyncStatus = deviceSyncStatus
+        }
+    }
+
+    private fun downloadSelectedRomFilesFromDevice(fileSelector: (RemoteRom) -> List<LsEntry>) {
+        renderedDeviceSyncStatus?.let { deviceSyncStatus ->
+            val entryToFolderPairs =
+                    romCollectionPanel
+                            .listSelectedRomIds()
+                            .mapNotNull { romId -> deviceSyncStatus.findRemoteRom(romId) }
+                            .flatMap { remoteRom ->
+                                fileSelector(remoteRom).map { lsEntry ->
+                                    val localConsoleFolder = localRomManager.consoleFolder(remoteRom.console())
+                                    lsEntry to localConsoleFolder
+                                }
+                            }
+
+            val filePairs = entryToFolderPairs.map { (lsEntry, folder) -> lsEntry.filePath to folder }
+            val client = DeviceClient.forDevice(selectedDevice!!)
+            val downloadedFiles = client.downloadFilesFromDevice(filePairs)
+
+            if (downloadedFiles.size == entryToFolderPairs.size) {
+                downloadedFiles.indices.forEach { i ->
+                    val lsEntry = entryToFolderPairs[i].first
+                    downloadedFiles[i].setLastModified(lsEntry.lastModified)
+                }
+            } else {
+                logger.error("inconsistent number of files!")
+                downloadedFiles.forEach { file -> file.delete() }
+            }
+
+            renderDeviceSyncStatus()
+        }
+    }
+
+    private fun uploadSelectedRomFilesToDevice(fileSelector: (LocalRom) -> List<File>) {
+        renderedDeviceSyncStatus?.let { deviceSyncStatus ->
+            val client = DeviceClient.forDevice(selectedDevice!!)
+            val pairs =
+                    romCollectionPanel
+                            .listSelectedRomIds()
+                            .mapNotNull { romId -> deviceSyncStatus.findLocalRom(romId) }
+                            .flatMap { localRom ->
+                                fileSelector(localRom).map { file ->
+                                    val consoleFolder = client.consoleFolder(localRom.console())
+                                    val filePath = consoleFolder + file.name
+                                    file to filePath
+                                }
+                            }
+
+            client.uploadFilesToDevice(pairs)
+            renderDeviceSyncStatus()
         }
     }
 

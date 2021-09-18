@@ -36,10 +36,10 @@ class RomCollectionRightClickMenu(callback: RightClickMenuCallback) : JPopupMenu
         add(uploadRomsToDeviceItem)
         add(uploadSaveFilesToDeviceItem)
 
-        downloadRomsFromDeviceItem.addActionListener { callback.downloadRomsFromDevice() }
-        downloadSaveFilesFromDeviceItem.addActionListener { callback.downloadSaveFilesFromDevice() }
-        uploadRomsToDeviceItem.addActionListener { callback.uploadRomsToDevice() }
-        uploadSaveFilesToDeviceItem.addActionListener { callback.uploadSaveFilesToDevice() }
+        downloadRomsFromDeviceItem.addActionListener { callback.downloadSelectedRomsFromDevice() }
+        downloadSaveFilesFromDeviceItem.addActionListener { callback.downloadSelectedRomsSaveFilesFromDevice() }
+        uploadRomsToDeviceItem.addActionListener { callback.uploadSelectedRomsToDevice() }
+        uploadSaveFilesToDeviceItem.addActionListener { callback.uploadSelectedRomsSaveFilesToDevice() }
     }
 
     /**

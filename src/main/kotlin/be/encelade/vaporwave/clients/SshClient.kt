@@ -7,7 +7,6 @@ import com.jcraft.jsch.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.File.separator
-import java.io.FileInputStream
 
 internal class SshClient(private val username: String,
                          private val password: String,
@@ -46,6 +45,9 @@ internal class SshClient(private val username: String,
         return String(responseStream.toByteArray())
     }
 
+    /**
+     * @param filePairs [Pair] of <sourceFilePath, targetFolder>
+     */
     fun downloadFiles(filePairs: List<Pair<String, File>>): List<File> {
         if (filePairs.exists { (_, folder) -> !folder.exists() || !folder.isDirectory }) {
             throw IllegalArgumentException()
@@ -54,11 +56,11 @@ internal class SshClient(private val username: String,
         val result = mutableListOf<File>()
 
         openSftpChannel { channel ->
-            filePairs.forEach { (filePath, targetFolder) ->
-                val fileName = filePath.split("/").last()
+            filePairs.forEach { (sourceFilePath, targetFolder) ->
+                val fileName = sourceFilePath.split("/").last()
                 val targetFilePath = "$targetFolder$separator$fileName"
-                logger.debug("downloading $filePath to $targetFilePath...")
-                channel.get(filePath, targetFilePath)
+                logger.debug("downloading $sourceFilePath to $targetFilePath...")
+                channel.get(sourceFilePath, targetFilePath)
                 result += File(targetFilePath)
             }
         }
@@ -69,8 +71,8 @@ internal class SshClient(private val username: String,
     fun uploadFiles(filePairs: List<Pair<File, String>>) {
         openSftpChannel { channel ->
             filePairs.forEach { (file, targetFilePath) ->
-                logger.debug("uploading ${file.absolutePath} to $targetFilePath...")
-                channel.put(FileInputStream(file), targetFilePath)
+                logger.debug("uploading '${file.absolutePath}' to '$targetFilePath'...")
+                channel.put(file.absolutePath, targetFilePath)
             }
         }
     }
@@ -91,6 +93,9 @@ internal class SshClient(private val username: String,
             session = buildSession()
             session.connect(timeoutMillis)
             channel = session.openChannel(channelType) as C
+            if (channelType == "sftp") {
+                channel.connect(timeoutMillis)
+            }
             block(channel)
         } finally {
             session?.disconnect()

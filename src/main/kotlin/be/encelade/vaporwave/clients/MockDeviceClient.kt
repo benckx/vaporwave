@@ -25,24 +25,24 @@ class MockDeviceClient(device: MockDevice) : DeviceClient<MockDevice>(device), L
         return readFileToString(File("data$separator${device.mockDataFileName}"), UTF_8)
     }
 
-    override fun downloadFilesFromDevice(filePaths: List<String>, targetFolder: String): List<File> {
+    override fun downloadFilesFromDevice(filePairs: List<Pair<String, File>>): List<File> {
+        val result = mutableListOf<File>()
         val roms = listRoms()
 
-        val result = mutableListOf<File>()
-        filePaths.forEach { filePath ->
+        filePairs.forEach { (filePath, targetFolder) ->
             // locate the LsEntry
             val fileName = filePath.split("/").last()
-            val console = targetFolder.split("/").filterNot { it.isEmpty() }.last()
+            val console = targetFolder.absolutePath.split("/").filterNot { it.isEmpty() }.last()
             val simpleFileName = fileName.substring(0, fileName.lastIndexOf('.'))
             logger.debug("remote file path: $filePath")
             logger.debug("target folder: $targetFolder")
             logger.debug("looking up for: <$console, $simpleFileName>")
             val remoteRom = roms.find { it.matchesBy(RomId(console, simpleFileName)) }!!
-            val saveFileEntry = remoteRom.saveFiles.find { it.fileName() == fileName }!!
+            val lsEntry = remoteRom.allFiles().find { entry -> entry.fileName() == fileName }!!
 
             // write a text file of the same size as the remote save file
             Thread.sleep(200L)
-            val mockText = (0 until saveFileEntry.fileSize).map { "x" }.joinToString("")
+            val mockText = (0 until lsEntry.fileSize).map { "x" }.joinToString("")
             val targetFile = File("$targetFolder$separator/$fileName")
             writeStringToFile(targetFile, mockText, UTF_8)
             logger.debug("created mock file $targetFile")
@@ -52,8 +52,8 @@ class MockDeviceClient(device: MockDevice) : DeviceClient<MockDevice>(device), L
         return result
     }
 
-    override fun uploadFilesToDevice(files: List<Pair<File, String>>) {
-        files.forEach { (file, filePath) ->
+    override fun uploadFilesToDevice(filePairs: List<Pair<File, String>>) {
+        filePairs.forEach { (file, filePath) ->
             Thread.sleep(200L)
             logger.debug("uploading '${file.absolutePath}' to '$filePath'")
         }

@@ -3,7 +3,6 @@ package be.encelade.vaporwave
 import be.encelade.vaporwave.persistence.DeviceManager
 import be.encelade.vaporwave.services.GuiController
 import be.encelade.vaporwave.services.LocalRomManager
-import be.encelade.vaporwave.services.SaveFilesManager
 import java.io.File
 import javax.swing.UIManager
 
@@ -16,7 +15,6 @@ fun main() {
     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
     val deviceManager = DeviceManager()
     val localRomManager = LocalRomManager(localRomFolder)
-    val saveFilesManager = SaveFilesManager(localRomFolder)
-    val controller = GuiController(deviceManager, localRomManager, saveFilesManager)
+    val controller = GuiController(deviceManager, localRomManager)
     controller.start()
 }

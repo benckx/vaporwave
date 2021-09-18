@@ -1,10 +1,12 @@
 package be.encelade.vaporwave.clients
 
 import be.encelade.vaporwave.model.devices.SshConnection
+import be.encelade.vaporwave.utils.CollectionUtils.exists
 import be.encelade.vaporwave.utils.LazyLogging
 import com.jcraft.jsch.*
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.File.separator
 import java.io.FileInputStream
 
 internal class SshClient(private val username: String,
@@ -44,13 +46,17 @@ internal class SshClient(private val username: String,
         return String(responseStream.toByteArray())
     }
 
-    fun downloadFiles(filePaths: List<String>, targetFolder: String): List<File> {
+    fun downloadFiles(filePairs: List<Pair<String, File>>): List<File> {
+        if (filePairs.exists { (_, folder) -> !folder.exists() || !folder.isDirectory }) {
+            throw IllegalArgumentException()
+        }
+
         val result = mutableListOf<File>()
 
         openSftpChannel { channel ->
-            filePaths.forEach { filePath ->
+            filePairs.forEach { (filePath, targetFolder) ->
                 val fileName = filePath.split("/").last()
-                val targetFilePath = "$targetFolder${File.separator}/$fileName"
+                val targetFilePath = "$targetFolder$separator$fileName"
                 logger.debug("downloading $filePath to $targetFilePath...")
                 channel.get(filePath, targetFilePath)
                 result += File(targetFilePath)
@@ -60,9 +66,9 @@ internal class SshClient(private val username: String,
         return result
     }
 
-    fun uploadFiles(files: List<Pair<File, String>>) {
+    fun uploadFiles(filePairs: List<Pair<File, String>>) {
         openSftpChannel { channel ->
-            files.forEach { (file, targetFilePath) ->
+            filePairs.forEach { (file, targetFilePath) ->
                 logger.debug("uploading ${file.absolutePath} to $targetFilePath...")
                 channel.put(FileInputStream(file), targetFilePath)
             }

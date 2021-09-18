@@ -9,7 +9,10 @@ import be.encelade.vaporwave.gui.components.*
 import be.encelade.vaporwave.model.DeviceSyncStatus
 import be.encelade.vaporwave.model.devices.Device
 import be.encelade.vaporwave.model.roms.LocalRom
+import be.encelade.vaporwave.model.roms.LsEntry
+import be.encelade.vaporwave.model.roms.RemoteRom
 import be.encelade.vaporwave.persistence.DeviceManager
+import be.encelade.vaporwave.utils.FileUtils.setLastModified
 import be.encelade.vaporwave.utils.LazyLogging
 import org.apache.commons.lang3.BooleanUtils.isTrue
 import java.io.File
@@ -19,8 +22,7 @@ import kotlin.concurrent.thread
  * Logic executed behind the GUI elements.
  */
 class GuiController(deviceManager: DeviceManager,
-                    private val localRomManager: LocalRomManager,
-                    private val saveFilesManager: SaveFilesManager) :
+                    private val localRomManager: LocalRomManager) :
         DevicePanelCallback, RomCollectionCallback, RightClickMenuCallback, ActionPanelCallback, LazyLogging {
 
     // gui components
@@ -91,32 +93,53 @@ class GuiController(deviceManager: DeviceManager,
 
     override fun downloadRomsFromDevice() {
         logger.debug("download roms from device")
-        renderedDeviceSyncStatus?.let { deviceSyncStatus ->
-            val selectedRomIds = romCollectionPanel.listSelectedRomIds()
-            val remoteRoms = selectedRomIds.mapNotNull { romId -> deviceSyncStatus.findRemoteRom(romId) }
-            remoteRoms
-                    .flatMap { it.allFiles() }
-                    .forEach { println(it.filePath) }
-        }
+        downloadSelectedRomFilesFromDevice { localRom -> localRom.allFiles() }
     }
 
     override fun downloadSaveFilesFromDevice() {
         logger.debug("download save files from device")
-        val selectedRomIds = romCollectionPanel.listSelectedRomIds()
-        selectedRomIds.forEach { println(it) }
+        downloadSelectedRomFilesFromDevice { localRom -> localRom.saveFiles }
     }
 
     override fun uploadRomsToDevice() {
         logger.debug("upload roms to device")
-        uploadFilesToDevice { localRom -> localRom.allFiles() }
+        uploadSelectedRomFilesToDevice { localRom -> localRom.allFiles() }
     }
 
     override fun uploadSaveFilesToDevice() {
         logger.debug("upload save files to device")
-        uploadFilesToDevice { localRom -> localRom.saveFiles }
+        uploadSelectedRomFilesToDevice { localRom -> localRom.saveFiles }
     }
 
-    private fun uploadFilesToDevice(fileSelector: (LocalRom) -> List<File>) {
+    private fun downloadSelectedRomFilesFromDevice(fileSelector: (RemoteRom) -> List<LsEntry>) {
+        renderedDeviceSyncStatus?.let { deviceSyncStatus ->
+            val entryToFolderPairs = romCollectionPanel
+                    .listSelectedRomIds()
+                    .mapNotNull { romId -> deviceSyncStatus.findRemoteRom(romId) }
+                    .flatMap { remoteRom ->
+                        fileSelector(remoteRom).map { lsEntry ->
+                            val localConsoleFolder = localRomManager.consoleFolder(remoteRom.console())
+                            lsEntry to localConsoleFolder
+                        }
+                    }
+
+            val filePairs = entryToFolderPairs.map { (entry, folder) -> entry.filePath to folder }
+            val client = DeviceClient.forDevice(selectedDevice!!)
+            val downloadedFiles = client.downloadFilesFromDevice(filePairs)
+
+            if (downloadedFiles.size == entryToFolderPairs.size) {
+                downloadedFiles.indices.forEach { i ->
+                    val lsEntry = entryToFolderPairs[i].first
+                    downloadedFiles[i].setLastModified(lsEntry.lastModified)
+                }
+            } else {
+                logger.error("inconsistent number of files!")
+                downloadedFiles.forEach { file -> file.delete() }
+            }
+        }
+    }
+
+    private fun uploadSelectedRomFilesToDevice(fileSelector: (LocalRom) -> List<File>) {
         renderedDeviceSyncStatus?.let { deviceSyncStatus ->
             val client = DeviceClient.forDevice(selectedDevice!!)
             val pairs = romCollectionPanel
@@ -136,10 +159,7 @@ class GuiController(deviceManager: DeviceManager,
     }
 
     override fun downloadSavesFromDeviceButtonClicked() {
-        if (selectedDevice != null && renderedDeviceSyncStatus != null) {
-            saveFilesManager.downloadAllSavesFromDevice(selectedDevice!!, renderedDeviceSyncStatus!!)
-            renderDeviceSyncStatus()
-        }
+        logger.warn("TODO: downloadSavesFromDeviceButtonClicked")
     }
 
     override fun uploadSavesToDeviceButtonClick() {

@@ -20,9 +20,9 @@ abstract class DeviceClient<D : Device>(val device: D) : LazyLogging {
      */
     abstract fun listRomFolderFiles(): String
 
-    abstract fun downloadFilesFromDevice(filePaths: List<String>, targetFolder: String): List<File>
+    abstract fun downloadFilesFromDevice(filePairs: List<Pair<String, File>>): List<File>
 
-    abstract fun uploadFilesToDevice(files: List<Pair<File, String>>)
+    abstract fun uploadFilesToDevice(filePairs: List<Pair<File, String>>)
 
     fun listRoms(): List<RemoteRom> {
         val result = listRomFolderFiles()

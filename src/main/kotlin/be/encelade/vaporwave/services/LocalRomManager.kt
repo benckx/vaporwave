@@ -15,8 +15,21 @@ import be.encelade.vaporwave.services.SaveComparator.compareSaveFiles
 import be.encelade.vaporwave.utils.CollectionUtils.exists
 import be.encelade.vaporwave.utils.LazyLogging
 import java.io.File
+import java.io.File.separator
 
 class LocalRomManager(private val localRomFolder: File) : LazyLogging {
+
+    fun consoleFolder(console: String): File {
+        if (!consoleKeys.contains(console)) {
+            throw IllegalArgumentException("Unknown console $console")
+        }
+
+        val folder = File("${localRomFolder.absolutePath}$console$separator")
+        if (!folder.exists()) {
+            folder.mkdir()
+        }
+        return folder
+    }
 
     @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     fun listLocalRoms(): List<LocalRom> {

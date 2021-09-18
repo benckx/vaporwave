@@ -2,7 +2,6 @@ package be.encelade.vaporwave.model.roms
 
 import be.encelade.vaporwave.services.CueParser.parseCueFile
 import org.joda.time.DateTime
-import org.joda.time.LocalDateTime
 import java.io.File
 
 class LocalRom(romId: RomId,
@@ -10,12 +9,12 @@ class LocalRom(romId: RomId,
                saveFiles: List<File>) :
         Rom<File>(romId, romFiles, saveFiles) {
 
-    override fun romFilesSize(): Long {
-        return romFiles.sumOf { file -> file.length() }
+    override fun lastModified(entry: File): DateTime {
+        return DateTime(entry.lastModified())
     }
 
-    override fun toLocalDateTime(entry: File): LocalDateTime {
-        return DateTime(entry.lastModified()).toLocalDateTime()
+    override fun romFilesSize(): Long {
+        return romFiles.sumOf { file -> file.length() }
     }
 
     /**

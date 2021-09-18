@@ -1,19 +1,18 @@
 package be.encelade.vaporwave.model.roms
 
 import org.joda.time.DateTime
-import org.joda.time.LocalDateTime
 
 class RemoteRom(romId: RomId,
                 romFiles: List<LsEntry>,
                 saveFiles: List<LsEntry>) :
         Rom<LsEntry>(romId, romFiles, saveFiles) {
 
-    override fun romFilesSize(): Long {
-        return romFiles.sumOf { entry -> entry.fileSize }
+    override fun lastModified(entry: LsEntry): DateTime {
+        return entry.lastModified
     }
 
-    override fun toLocalDateTime(entry: LsEntry): LocalDateTime {
-        return DateTime(entry.lastModified).toLocalDateTime()
+    override fun romFilesSize(): Long {
+        return romFiles.sumOf { entry -> entry.fileSize }
     }
 
     override fun toString(): String {

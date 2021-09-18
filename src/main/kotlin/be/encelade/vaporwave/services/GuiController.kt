@@ -136,6 +136,8 @@ class GuiController(deviceManager: DeviceManager,
                 logger.error("inconsistent number of files!")
                 downloadedFiles.forEach { file -> file.delete() }
             }
+
+            renderDeviceSyncStatus()
         }
     }
 

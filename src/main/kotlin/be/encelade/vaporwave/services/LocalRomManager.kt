@@ -19,15 +19,25 @@ import java.io.File.separator
 
 class LocalRomManager(private val localRomFolder: File) : LazyLogging {
 
+    /**
+     * Create it doesn't exist locally
+     */
     fun consoleFolder(console: String): File {
         if (!consoleKeys.contains(console)) {
             throw IllegalArgumentException("Unknown console $console")
         }
 
-        val folder = File("${localRomFolder.absolutePath}$console$separator")
-        if (!folder.exists()) {
+        val folder = File("${localRomFolder.absolutePath}$separator$console")
+
+        if (folder.exists()) {
+            if (!folder.mkdir()) {
+                folder.delete()
+                folder.mkdir()
+            }
+        } else {
             folder.mkdir()
         }
+
         return folder
     }
 

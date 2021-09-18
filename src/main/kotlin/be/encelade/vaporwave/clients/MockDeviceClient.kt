@@ -43,7 +43,7 @@ class MockDeviceClient(device: MockDevice) : DeviceClient<MockDevice>(device), L
             // write a text file of the same size as the remote save file
             Thread.sleep(200L)
             val mockText = (0 until lsEntry.fileSize).map { "x" }.joinToString("")
-            val targetFile = File("$targetFolder$separator/$fileName")
+            val targetFile = File("$targetFolder$separator$fileName")
             writeStringToFile(targetFile, mockText, UTF_8)
             logger.debug("created mock file $targetFile")
             result += targetFile

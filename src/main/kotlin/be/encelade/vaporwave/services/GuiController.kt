@@ -160,7 +160,7 @@ class GuiController(deviceManager: DeviceManager,
 
     private fun downloadSelectedRomFilesFromDevice(fileSelector: (RemoteRom) -> List<LsEntry>) {
         renderedDeviceSyncStatus?.let { deviceSyncStatus ->
-            val entryToFolderPairs =
+            val entryToFolderPairs: List<Pair<LsEntry, File>> =
                     romCollectionPanel
                             .listSelectedRomIds()
                             .mapNotNull { romId -> deviceSyncStatus.findRemoteRom(romId) }

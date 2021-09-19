@@ -6,13 +6,9 @@ import be.encelade.vaporwave.model.roms.RomId
 import be.encelade.vaporwave.services.ExtensionMap.romExtensions
 import be.encelade.vaporwave.services.ExtensionMap.saveFilesExtension
 import be.encelade.vaporwave.utils.LazyLogging
-import org.joda.time.format.DateTimeFormat
+import be.encelade.vaporwave.utils.TimeUtils.commandDateTimeFormat
 
 object LSParser : LazyLogging {
-
-    private val dateTimeFormat = DateTimeFormat
-            .forPattern("YYYY-MM-dd HH:mm:ss.SSSSSSSSS Z")
-            .withZoneUTC()
 
     fun parseLsResult(result: String): List<LsEntry> {
         return result
@@ -23,7 +19,7 @@ object LSParser : LazyLogging {
                     // last modified date time
                     val split = rawEntry.split(" ").map { it.trim() }.filterNot { it.isEmpty() }
                     val iso = listOf(5, 6, 7).map { split[it] }.joinToString(" ")
-                    val lastModified = dateTimeFormat.parseDateTime(iso)
+                    val lastModified = commandDateTimeFormat.parseDateTime(iso)
 
                     // size
                     val fileSize = split[4].toLong()

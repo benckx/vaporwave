@@ -33,6 +33,12 @@ internal class SshClient(private val username: String,
         val responseStream = ByteArrayOutputStream()
 
         openExecChannel { channel ->
+            if (command.contains("\n")) {
+                logger.debug("sending command:\n$command")
+            } else {
+                logger.debug("sending command: $command")
+            }
+
             channel.setCommand(command)
             channel.outputStream = responseStream
             channel.connect()

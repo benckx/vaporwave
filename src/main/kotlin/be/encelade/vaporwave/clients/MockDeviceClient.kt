@@ -57,6 +57,9 @@ class MockDeviceClient(device: MockDevice) : DeviceClient<MockDevice>(device), L
             Thread.sleep(200L)
             logger.debug("uploading '${file.absolutePath}' to '$filePath'")
         }
+
+        val command = buildUpdateLastModifiedCommand(filePairs)
+        logger.debug("would send commands:\n$command")
     }
 
 }

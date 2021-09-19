@@ -1,5 +1,7 @@
 package be.encelade.vaporwave.utils
 
+import com.google.common.hash.Hashing
+import com.google.common.io.Files.asByteSource
 import org.joda.time.DateTime
 import java.io.File
 import java.nio.file.Files
@@ -12,6 +14,11 @@ object FileUtils {
         val path = this.toPath()
         Files.setLastModifiedTime(path, fileTime)
 
+    }
+
+    @Suppress("UnstableApiUsage")
+    fun File.md5Digest(): String {
+        return asByteSource(File(absolutePath)).hash(Hashing.md5()).toString()
     }
 
 }

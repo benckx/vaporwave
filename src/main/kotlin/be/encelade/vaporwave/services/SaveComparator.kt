@@ -34,7 +34,7 @@ object SaveComparator {
     }
 
     private fun areSynced(localRom: LocalRom, remoteRom: RemoteRom): Boolean {
-        return if (sameFiles(localRom, remoteRom)) {
+        return if (sameFileNames(localRom, remoteRom)) {
             localRom.saveFiles.map { file -> file.name }.all { fileName ->
                 val local = localRom.saveFiles.find { it.name == fileName }!!
                 val remote = remoteRom.saveFiles.find { it.fileName() == fileName }!!
@@ -46,7 +46,7 @@ object SaveComparator {
     }
 
     private fun isRemoteMoreRecent(localRom: LocalRom, remoteRom: RemoteRom): Boolean {
-        return if (sameFiles(localRom, remoteRom)) {
+        return if (sameFileNames(localRom, remoteRom)) {
             localRom.saveFiles.map { file -> file.name }.all { fileName ->
                 val local = localRom.saveFiles.find { it.name == fileName }!!
                 val remote = remoteRom.saveFiles.find { it.fileName() == fileName }!!
@@ -58,7 +58,7 @@ object SaveComparator {
     }
 
     private fun isLocalMoreRecent(localRom: LocalRom, remoteRom: RemoteRom): Boolean {
-        return if (sameFiles(localRom, remoteRom)) {
+        return if (sameFileNames(localRom, remoteRom)) {
             localRom.saveFiles.map { file -> file.name }.all { fileName ->
                 val local = localRom.saveFiles.find { it.name == fileName }!!
                 val remote = remoteRom.saveFiles.find { it.fileName() == fileName }!!
@@ -69,7 +69,7 @@ object SaveComparator {
         }
     }
 
-    private fun sameFiles(localRom: LocalRom, remoteRom: RemoteRom): Boolean {
+    private fun sameFileNames(localRom: LocalRom, remoteRom: RemoteRom): Boolean {
         return localRom.saveFiles.map { file -> file.name }.sorted() ==
                 remoteRom.saveFiles.map { entry -> entry.fileName() }.sorted()
     }

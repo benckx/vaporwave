@@ -79,6 +79,7 @@ internal class SshClient(private val username: String,
             filePairs.forEach { (file, targetFilePath) ->
                 logger.debug("uploading '${file.absolutePath}' to '$targetFilePath'...")
                 channel.put(file.absolutePath, targetFilePath)
+//                channel.setMtime(targetFilePath, (file.lastModified() / 1000).toInt())
             }
         }
     }

@@ -9,7 +9,7 @@ class LsParserTest : LazyLogging {
 
     @Test
     fun parseEntriesTest01() {
-        val remoteRoms = readAsRemoteRoms("data${separator}ls-result-test-01")
+        val remoteRoms = readAsRemoteRoms("data${separator}ls-result-test-02", "data/md5-test-02")
 
         // TODO: some asserts
 //        entries.forEach { logger.info(it.toString()) }

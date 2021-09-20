@@ -8,10 +8,10 @@ import be.encelade.vaporwave.services.ExtensionMap.saveFilesExtension
 import be.encelade.vaporwave.utils.LazyLogging
 import be.encelade.vaporwave.utils.TimeUtils.commandDateTimeFormat
 
-object LSParser : LazyLogging {
+object CommandResultParser : LazyLogging {
 
-    fun parseLsResult(result: String): List<LsEntry> {
-        return result
+    fun parseLsResult(commandResult: String): List<LsEntry> {
+        return commandResult
                 .split("\n")
                 .map { it.trim() }
                 .filterNot { it.isEmpty() }
@@ -32,7 +32,21 @@ object LSParser : LazyLogging {
                 }
     }
 
-    fun findRemoteRoms(entries: List<LsEntry>): List<RemoteRom> {
+    fun parseMd5Result(commandResult: String): Map<String, String> {
+        val fileToHashMap = mutableMapOf<String, String>()
+
+        commandResult
+                .split("\n")
+                .map { line ->
+                    val hash = line.split(" ").first()
+                    val filePath = line.removePrefix(hash).trim()
+                    fileToHashMap[filePath] = hash
+                }
+
+        return fileToHashMap
+    }
+
+    fun lsEntriesToRemoteRoms(entries: List<LsEntry>, md5Map: Map<String, String>): List<RemoteRom> {
         return entries
                 .filter { entry -> entry.isConsole() }
                 .filter { entry ->

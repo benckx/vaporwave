@@ -4,8 +4,9 @@ import be.encelade.vaporwave.model.devices.Device
 import be.encelade.vaporwave.model.devices.MockDevice
 import be.encelade.vaporwave.model.devices.SshDevice
 import be.encelade.vaporwave.model.roms.RemoteRom
-import be.encelade.vaporwave.services.LSParser.findRemoteRoms
-import be.encelade.vaporwave.services.LSParser.parseLsResult
+import be.encelade.vaporwave.services.CommandResultParser.lsEntriesToRemoteRoms
+import be.encelade.vaporwave.services.CommandResultParser.parseLsResult
+import be.encelade.vaporwave.services.CommandResultParser.parseMd5Result
 import be.encelade.vaporwave.utils.LazyLogging
 import be.encelade.vaporwave.utils.TimeUtils.commandDateTimeFormat
 import org.joda.time.DateTime
@@ -20,17 +21,25 @@ abstract class DeviceClient<D : Device>(val device: D) : LazyLogging {
     /**
      * send 'ls' command to the device
      */
-    abstract fun listRomFolderFiles(): String
+    abstract fun lsCommandRomFolder(): String
+
+    /**
+     * send 'md5sum' to the device
+     */
+    abstract fun md5sumCommandRomFolder(): String
 
     abstract fun downloadFilesFromDevice(filePairs: List<Pair<String, File>>): List<File>
 
     abstract fun uploadFilesToDevice(filePairs: List<Pair<File, String>>)
 
     fun listRoms(): List<RemoteRom> {
-        val result = listRomFolderFiles()
-        logger.debug("command result:\n$result")
-        val entries = parseLsResult(result)
-        return findRemoteRoms(entries)
+        val lsCommandResult = lsCommandRomFolder()
+        val md5CommandResult = md5sumCommandRomFolder()
+        logger.debug("ls command result:\n$lsCommandResult")
+        logger.debug("md5 command result:\n$md5CommandResult")
+        val lsEntries = parseLsResult(lsCommandResult)
+        val md5Map = parseMd5Result(md5CommandResult)
+        return lsEntriesToRemoteRoms(lsEntries, md5Map)
     }
 
     companion object : LazyLogging {

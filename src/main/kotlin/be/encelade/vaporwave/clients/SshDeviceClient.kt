@@ -1,6 +1,7 @@
 package be.encelade.vaporwave.clients
 
 import be.encelade.vaporwave.model.devices.SshDevice
+import be.encelade.vaporwave.services.ExtensionMap.saveFilesExtension
 import java.io.File
 
 class SshDeviceClient(device: SshDevice) : DeviceClient<SshDevice>(device) {
@@ -15,8 +16,15 @@ class SshDeviceClient(device: SshDevice) : DeviceClient<SshDevice>(device) {
         return sshClient.isReachable()
     }
 
-    override fun listRomFolderFiles(): String {
+    override fun lsCommandRomFolder(): String {
+        // TODO: use consoleFolder?
         val command = "ls -l --time-style=full-iso /roms/*/*.*"
+        return sshClient.sendCommand(command)
+    }
+
+    override fun md5sumCommandRomFolder(): String {
+        // TODO: use consoleFolder?
+        val command = "/roms/*/*.{${saveFilesExtension.joinToString(",")}}"
         return sshClient.sendCommand(command)
     }
 

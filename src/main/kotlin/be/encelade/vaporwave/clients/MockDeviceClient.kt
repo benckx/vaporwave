@@ -21,8 +21,12 @@ class MockDeviceClient(device: MockDevice) : DeviceClient<MockDevice>(device), L
         return true
     }
 
-    override fun listRomFolderFiles(): String {
-        return readFileToString(File("data$separator${device.mockDataFileName}"), UTF_8)
+    override fun lsCommandRomFolder(): String {
+        return loadFile(device.mockDataFileName)
+    }
+
+    override fun md5sumCommandRomFolder(): String {
+        return loadFile(device.mockDataMd5)
     }
 
     override fun downloadFilesFromDevice(filePairs: List<Pair<String, File>>): List<File> {
@@ -57,9 +61,10 @@ class MockDeviceClient(device: MockDevice) : DeviceClient<MockDevice>(device), L
             Thread.sleep(200L)
             logger.debug("uploading '${file.absolutePath}' to '$filePath'")
         }
+    }
 
-//        val command = buildUpdateLastModifiedCommand(filePairs)
-//        logger.debug("would send commands:\n$command")
+    private fun loadFile(fileName: String): String {
+        return readFileToString(File("data$separator$fileName"), UTF_8)
     }
 
 }

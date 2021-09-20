@@ -13,7 +13,7 @@ class LocalRomManagerTest {
 
     @Test
     fun calculateSyncDiffTest01() {
-        val remoteRoms = readAsRemoteRoms("data/ls-result-test-01")
+        val remoteRoms = readAsRemoteRoms("data/ls-result-test-02", "data/md5-test-02")
         val diff = manager.calculateSyncDiff(listOf(), remoteRoms)
 
         assertEquals(0, diff.synced.size)
@@ -25,7 +25,7 @@ class LocalRomManagerTest {
     fun calculateSyncDiffTest02() {
         val files = listOf(File("/home/user/roms/gba/MegaMan & Bass.gba)"))
         val localRom = LocalRom(RomId("gba", "MegaMan & Bass"), files, listOf())
-        val remoteRoms = readAsRemoteRoms("data/ls-result-test-01")
+        val remoteRoms = readAsRemoteRoms("data/ls-result-test-02", "data/md5-test-02")
         val diff = manager.calculateSyncDiff(listOf(localRom), remoteRoms)
 
         assertEquals(1, diff.synced.size)
@@ -43,7 +43,7 @@ class LocalRomManagerTest {
         )
 
         val localRom = LocalRom(RomId("psx", "Castlevania - Symphony of the Night (USA)"), files, listOf())
-        val remoteRoms = readAsRemoteRoms("data/ls-result-test-01")
+        val remoteRoms = readAsRemoteRoms("data/ls-result-test-02", "data/md5-test-02")
         val diff = manager.calculateSyncDiff(listOf(localRom), remoteRoms)
 
         assertEquals(1, diff.synced.size)

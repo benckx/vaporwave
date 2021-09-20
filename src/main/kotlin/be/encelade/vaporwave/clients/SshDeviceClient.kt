@@ -17,14 +17,14 @@ class SshDeviceClient(device: SshDevice) : DeviceClient<SshDevice>(device) {
     }
 
     override fun lsCommandRomFolder(): String {
-        // TODO: use consoleFolder?
-        val command = "ls -l --time-style=full-iso /roms/*/*.*"
+        val fileLocator = "${consoleFolder("*")}*.*"
+        val command = "ls -l --time-style=full-iso $fileLocator"
         return sshClient.sendCommand(command)
     }
 
     override fun md5sumCommandRomFolder(): String {
-        // TODO: use consoleFolder?
-        val command = "/roms/*/*.{${saveFilesExtension.joinToString(",")}}"
+        val fileLocator = "${consoleFolder("*")}*.{${saveFilesExtension.joinToString(",")}}"
+        val command = "md5sum $fileLocator"
         return sshClient.sendCommand(command)
     }
 

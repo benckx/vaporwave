@@ -11,13 +11,13 @@ object GuiUtils {
     val titleFont: Font = Font("Arial", Font.PLAIN, 19)
 
     fun createTitleBorder(): EmptyBorder {
-        return createEmptyBorder(left = 2, right = 2, bottom = 3, top = 3)
+        return createBorder(left = 2, right = 2, bottom = 3, top = 3)
     }
 
     /**
      * Convenience method with Kotlin named parameters
      */
-    fun createEmptyBorder(top: Int = 0, left: Int = 0, bottom: Int = 0, right: Int = 0): EmptyBorder {
+    fun createBorder(top: Int = 0, left: Int = 0, bottom: Int = 0, right: Int = 0): EmptyBorder {
         return BorderFactory.createEmptyBorder(top, left, bottom, right) as EmptyBorder
     }
 

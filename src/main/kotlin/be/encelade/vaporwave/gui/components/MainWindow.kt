@@ -5,9 +5,9 @@ import java.awt.BorderLayout
 import java.awt.BorderLayout.*
 import javax.swing.JFrame
 
-class MainPanel(deviceListPanel: DeviceListPanel,
-                romCollectionPanel: RomCollectionPanel,
-                actionPanel: ActionPanel) : JFrame(), LazyLogging {
+class MainWindow(deviceListPanel: DeviceListPanel,
+                 romCollectionPanel: RomCollectionPanel,
+                 actionPanel: ActionPanel) : JFrame(), LazyLogging {
 
     init {
         val x = 200

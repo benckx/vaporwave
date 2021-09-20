@@ -1,7 +1,7 @@
 package be.encelade.vaporwave.gui.components
 
 import be.encelade.vaporwave.gui.CustomItemMenuUI
-import be.encelade.vaporwave.gui.GuiUtils.createEmptyBorder
+import be.encelade.vaporwave.gui.GuiUtils.createBorder
 import be.encelade.vaporwave.gui.api.RightClickMenuCallback
 import be.encelade.vaporwave.model.DeviceSyncStatus
 import be.encelade.vaporwave.model.roms.RomId
@@ -26,7 +26,7 @@ class RomCollectionRightClickMenu(callback: RightClickMenuCallback) : JPopupMenu
     init {
         allItems.forEach { item ->
             item.ui = CustomItemMenuUI()
-            item.border = createEmptyBorder(top = 3, bottom = 3, left = 5, right = 5)
+            item.border = createBorder(top = 3, bottom = 3, left = 5, right = 5)
             item.isEnabled = false
         }
 

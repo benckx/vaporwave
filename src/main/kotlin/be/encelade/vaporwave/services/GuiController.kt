@@ -1,13 +1,11 @@
 package be.encelade.vaporwave.services
 
 import be.encelade.vaporwave.clients.DeviceClient
-import be.encelade.vaporwave.gui.api.ActionPanelCallback
-import be.encelade.vaporwave.gui.api.DevicePanelCallback
-import be.encelade.vaporwave.gui.api.RightClickMenuCallback
-import be.encelade.vaporwave.gui.api.RomCollectionCallback
+import be.encelade.vaporwave.gui.api.*
 import be.encelade.vaporwave.gui.components.*
 import be.encelade.vaporwave.model.DeviceSyncStatus
 import be.encelade.vaporwave.model.devices.Device
+import be.encelade.vaporwave.model.devices.SshConnection
 import be.encelade.vaporwave.model.roms.LocalRom
 import be.encelade.vaporwave.model.roms.LsEntry
 import be.encelade.vaporwave.model.roms.RemoteRom
@@ -23,14 +21,14 @@ import kotlin.concurrent.thread
  */
 class GuiController(deviceManager: DeviceManager,
                     private val localRomManager: LocalRomManager) :
-        DevicePanelCallback, RomCollectionCallback, RightClickMenuCallback, ActionPanelCallback, LazyLogging {
+        DevicePanelCallback, AddDevicePanelCallback, RomCollectionCallback, RightClickMenuCallback, ActionPanelCallback, LazyLogging {
 
     // gui components
     private val deviceListPanel = DeviceListPanel(this)
     private val rightClickMenu = RomCollectionRightClickMenu(this)
     private val romCollectionPanel = RomCollectionPanel(rightClickMenu, this)
     private val actionPanel = ActionPanel(this)
-    private val mainPanel = MainPanel(deviceListPanel, romCollectionPanel, actionPanel)
+    private val mainWindow = MainWindow(deviceListPanel, romCollectionPanel, actionPanel)
 
     // shown states
     private var devices = listOf<Device>()
@@ -48,7 +46,7 @@ class GuiController(deviceManager: DeviceManager,
     }
 
     fun start() {
-        mainPanel.isVisible = true
+        mainWindow.isVisible = true
     }
 
     override fun deviceSelected(idx: Int) {
@@ -72,7 +70,7 @@ class GuiController(deviceManager: DeviceManager,
     }
 
     override fun addDeviceButtonClicked() {
-        AddDevicePanel()
+        AddDeviceWindow(mainWindow.bounds, this)
     }
 
     override fun refreshDevicesButtonClicked() {
@@ -82,6 +80,14 @@ class GuiController(deviceManager: DeviceManager,
     override fun unSelectDeviceButtonClicked() {
         this.selectedDevice = null
         renderLocalRoms()
+    }
+
+    override fun testConnectionButtonClicked(sshConnection: SshConnection) {
+        logger.warn("TODO: test connection $sshConnection")
+    }
+
+    override fun addDeviceButtonClicked(name:  String, sshConnection: SshConnection) {
+        logger.warn("TODO: add device $sshConnection")
     }
 
     override fun romTableHeaderColumnClicked() {

@@ -15,9 +15,9 @@ object SaveComparator {
         return if (localRom.saveFiles.isNotEmpty() && remoteRom.saveFiles.isNotEmpty()) {
             if (areSynced(localRom, remoteRom)) {
                 SAVE_SYNCED
-            } else if (isRemoteMoreRecent(localRom, remoteRom)) {
+            } else if (!sameFileNamesAndHashes(localRom, remoteRom) && isRemoteMoreRecent(localRom, remoteRom)) {
                 SAVE_MORE_RECENT_ON_DEVICE
-            } else if (isLocalMoreRecent(localRom, remoteRom)) {
+            } else if (!sameFileNamesAndHashes(localRom, remoteRom) && isLocalMoreRecent(localRom, remoteRom)) {
                 SAVE_MORE_RECENT_ON_COMPUTER
             } else {
                 SAVE_STATUS_UNKNOWN
@@ -34,36 +34,38 @@ object SaveComparator {
     }
 
     private fun areSynced(localRom: LocalRom, remoteRom: RemoteRom): Boolean {
-        return if (sameFileNames(localRom, remoteRom)) {
-            localRom.saveFilesWithoutHash().map { file -> file.name }.all { fileName ->
-                val local = localRom.saveFilesWithoutHash().find { it.name == fileName }!!
-                val remote = remoteRom.saveFilesWithoutHash().find { it.fileName() == fileName }!!
-                deltaInMillis(local.lastModified(), remote.lastModified) < DELTA_THRESHOLD && local.length() == remote.fileSize
-            }
-        } else {
-            false
+        return sameFileNamesAndHashes(localRom, remoteRom) &&
+                (areDateTimesIdentical(localRom, remoteRom) || isRemoteMoreRecent(localRom, remoteRom))
+    }
+
+    private fun areDateTimesIdentical(localRom: LocalRom, remoteRom: RemoteRom): Boolean {
+        return compareDateTimes(localRom, remoteRom) { localLastModified: Long, remoteLastModified: DateTime ->
+            deltaInMillis(localLastModified, remoteLastModified) < DELTA_THRESHOLD
         }
     }
 
     private fun isRemoteMoreRecent(localRom: LocalRom, remoteRom: RemoteRom): Boolean {
-        return if (sameFileNames(localRom, remoteRom)) {
-            localRom.saveFilesWithoutHash().map { file -> file.name }.all { fileName ->
-                val local = localRom.saveFilesWithoutHash().find { it.name == fileName }!!
-                val remote = remoteRom.saveFilesWithoutHash().find { it.fileName() == fileName }!!
-                DateTime(local.lastModified()).isBefore(remote.lastModified)
-            }
-        } else {
-            false
+        return compareDateTimes(localRom, remoteRom) { localLastModified: Long, remoteLastModified: DateTime ->
+            DateTime(localLastModified).isBefore(remoteLastModified)
         }
     }
 
     private fun isLocalMoreRecent(localRom: LocalRom, remoteRom: RemoteRom): Boolean {
+        return compareDateTimes(localRom, remoteRom) { localLastModified: Long, remoteLastModified: DateTime ->
+            DateTime(localLastModified).isAfter(remoteLastModified)
+        }
+    }
+
+    private fun compareDateTimes(localRom: LocalRom, remoteRom: RemoteRom, comparisonPredicate: (Long, DateTime) -> Boolean): Boolean {
         return if (sameFileNames(localRom, remoteRom)) {
-            localRom.saveFilesWithoutHash().map { file -> file.name }.all { fileName ->
-                val local = localRom.saveFilesWithoutHash().find { it.name == fileName }!!
-                val remote = remoteRom.saveFilesWithoutHash().find { it.fileName() == fileName }!!
-                DateTime(local.lastModified()).isAfter(remote.lastModified)
-            }
+            localRom
+                    .saveFilesWithoutHash()
+                    .map { file -> file.name }
+                    .all { fileName ->
+                        val local = localRom.saveFilesWithoutHash().find { it.name == fileName }!!
+                        val remote = remoteRom.saveFilesWithoutHash().find { it.fileName() == fileName }!!
+                        comparisonPredicate(local.lastModified(), remote.lastModified)
+                    }
         } else {
             false
         }
@@ -72,6 +74,21 @@ object SaveComparator {
     private fun sameFileNames(localRom: LocalRom, remoteRom: RemoteRom): Boolean {
         return localRom.saveFilesWithoutHash().map { file -> file.name }.sorted() ==
                 remoteRom.saveFilesWithoutHash().map { entry -> entry.fileName() }.sorted()
+    }
+
+    private fun sameFileNamesAndHashes(localRom: LocalRom, remoteRom: RemoteRom): Boolean {
+        if (sameFileNames(localRom, remoteRom)) {
+            return localRom
+                    .saveFilesWithoutHash()
+                    .map { file -> file.name }
+                    .all { fileName ->
+                        val localHash = localRom.saveFiles.find { (file, _) -> fileName == file.name }!!.second
+                        val remoteHash = remoteRom.saveFiles.find { (lsEntry, _) -> fileName == lsEntry.fileName() }!!.second
+                        localHash == remoteHash
+                    }
+        }
+
+        return false
     }
 
     private fun deltaInMillis(millis: Long, dateTime: DateTime): Long {

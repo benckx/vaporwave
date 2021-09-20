@@ -78,7 +78,7 @@ class AddDeviceWindow(parentBound: Rectangle, callback: AddDevicePanelCallback) 
                 // TODO: show error in message
                 errors.forEach { error -> logger.error(error) }
             } else {
-                callback.addDeviceButtonClicked(nameTextField.name, toSshConnection())
+                callback.addDeviceButtonClicked(nameTextField.text, toSshConnection())
             }
         }
 

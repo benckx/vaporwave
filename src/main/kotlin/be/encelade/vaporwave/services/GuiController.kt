@@ -1,11 +1,13 @@
 package be.encelade.vaporwave.services
 
 import be.encelade.vaporwave.clients.DeviceClient
+import be.encelade.vaporwave.clients.SshClient
 import be.encelade.vaporwave.gui.api.*
 import be.encelade.vaporwave.gui.components.*
 import be.encelade.vaporwave.model.DeviceSyncStatus
 import be.encelade.vaporwave.model.devices.Device
 import be.encelade.vaporwave.model.devices.SshConnection
+import be.encelade.vaporwave.model.devices.SshDevice
 import be.encelade.vaporwave.model.roms.LocalRom
 import be.encelade.vaporwave.model.roms.LsEntry
 import be.encelade.vaporwave.model.roms.RemoteRom
@@ -14,17 +16,24 @@ import be.encelade.vaporwave.utils.FileUtils.setLastModified
 import be.encelade.vaporwave.utils.LazyLogging
 import org.apache.commons.lang3.BooleanUtils.isTrue
 import java.io.File
+import javax.swing.JOptionPane.*
 import kotlin.concurrent.thread
 
 /**
  * Logic executed behind the GUI elements.
  */
-class GuiController(deviceManager: DeviceManager,
+class GuiController(private val deviceManager: DeviceManager,
                     private val localRomManager: LocalRomManager) :
-        DevicePanelCallback, AddDevicePanelCallback, RomCollectionCallback, RightClickMenuCallback, ActionPanelCallback, LazyLogging {
+        DevicePanelCallback,
+        AddDevicePanelCallback,
+        RomCollectionCallback,
+        RightClickMenuCallback,
+        ActionPanelCallback,
+        LazyLogging {
 
     // gui components
     private val deviceListPanel = DeviceListPanel(this)
+    private var addDeviceWindow: AddDeviceWindow? = null
     private val rightClickMenu = RomCollectionRightClickMenu(this)
     private val romCollectionPanel = RomCollectionPanel(rightClickMenu, this)
     private val actionPanel = ActionPanel(this)
@@ -70,7 +79,7 @@ class GuiController(deviceManager: DeviceManager,
     }
 
     override fun addDeviceButtonClicked() {
-        AddDeviceWindow(mainWindow.bounds, this)
+        addDeviceWindow = AddDeviceWindow(mainWindow.bounds, this)
     }
 
     override fun refreshDevicesButtonClicked() {
@@ -83,11 +92,21 @@ class GuiController(deviceManager: DeviceManager,
     }
 
     override fun testConnectionButtonClicked(sshConnection: SshConnection) {
-        logger.warn("TODO: test connection $sshConnection")
+        val client = SshClient(sshConnection)
+        if (client.isReachable()) {
+            showMessageDialog(addDeviceWindow, "Connection Successful!", "Test Connection", INFORMATION_MESSAGE)
+        } else {
+            showMessageDialog(addDeviceWindow, "Connection Failed", "Test Connection", WARNING_MESSAGE)
+        }
     }
 
-    override fun addDeviceButtonClicked(name:  String, sshConnection: SshConnection) {
-        logger.warn("TODO: add device $sshConnection")
+    override fun addDeviceButtonClicked(name: String, sshConnection: SshConnection) {
+        val device = SshDevice(name, sshConnection)
+        devices = devices + device
+        deviceManager.saveDevices(devices)
+        deviceListPanel.renderDevices(devices)
+        refreshOnlineStatus()
+        addDeviceWindow?.let { window -> window.isVisible = false }
     }
 
     override fun romTableHeaderColumnClicked() {
@@ -159,6 +178,7 @@ class GuiController(deviceManager: DeviceManager,
         this.renderedDeviceSyncStatus = null
     }
 
+    // TODO: we could also fetch each device status async, in the background
     private fun renderDeviceSyncStatus() {
         selectedDevice?.let { device ->
             val deviceSyncStatus = localRomManager.calculateDeviceSyncStatus(device)

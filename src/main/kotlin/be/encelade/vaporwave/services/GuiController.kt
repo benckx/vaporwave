@@ -198,7 +198,7 @@ class GuiController(deviceManager: DeviceManager,
                             .mapNotNull { romId -> deviceSyncStatus.findLocalRom(romId) }
                             .flatMap { localRom ->
                                 fileSelector(localRom).map { file ->
-                                    val consoleFolder = client.consoleFolder(localRom.console())
+                                    val consoleFolder = client.romConsoleFolder(localRom.console())
                                     val filePath = consoleFolder + file.name
                                     file to filePath
                                 }

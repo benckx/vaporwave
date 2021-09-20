@@ -8,7 +8,7 @@ class SshDeviceClient(device: SshDevice) : DeviceClient<SshDevice>(device) {
 
     private val sshClient = SshClient(device.conn)
 
-    override fun consoleFolder(console: String): String {
+    override fun romConsoleFolder(console: String): String {
         return "/roms/$console/"
     }
 
@@ -17,13 +17,14 @@ class SshDeviceClient(device: SshDevice) : DeviceClient<SshDevice>(device) {
     }
 
     override fun lsCommandRomFolder(): String {
-        val fileLocator = "${consoleFolder("*")}*.*"
+        val fileLocator = "${romConsoleFolder("*")}*.*"
         val command = "ls -l --time-style=full-iso $fileLocator"
         return sshClient.sendCommand(command)
     }
 
     override fun md5sumCommandRomFolder(): String {
-        val fileLocator = "${consoleFolder("*")}*.{${saveFilesExtension.joinToString(",")}}"
+        val extensions = saveFilesExtension.joinToString(",")
+        val fileLocator = "${romConsoleFolder("*")}*.{$extensions}"
         val command = "md5sum $fileLocator"
         return sshClient.sendCommand(command)
     }

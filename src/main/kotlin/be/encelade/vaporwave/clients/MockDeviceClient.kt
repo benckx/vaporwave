@@ -12,7 +12,7 @@ import kotlin.text.Charsets.UTF_8
 
 class MockDeviceClient(device: MockDevice) : DeviceClient<MockDevice>(device), LazyLogging {
 
-    override fun consoleFolder(console: String): String {
+    override fun romConsoleFolder(console: String): String {
         return "/roms/$console/"
     }
 

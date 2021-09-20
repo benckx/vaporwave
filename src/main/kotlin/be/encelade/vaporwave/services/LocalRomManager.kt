@@ -13,6 +13,7 @@ import be.encelade.vaporwave.services.ExtensionMap.getRomExtensionsPerConsole
 import be.encelade.vaporwave.services.ExtensionMap.saveFilesExtension
 import be.encelade.vaporwave.services.SaveComparator.compareSaveFiles
 import be.encelade.vaporwave.utils.CollectionUtils.exists
+import be.encelade.vaporwave.utils.FileUtils.md5Digest
 import be.encelade.vaporwave.utils.LazyLogging
 import java.io.File
 import java.io.File.separator
@@ -59,7 +60,10 @@ class LocalRomManager(private val localRomFolder: File) : LazyLogging {
                             .groupBy { file -> file.nameWithoutExtension }
                             .map { (simpleFileName, files) ->
                                 val romFiles = files.filter { file -> romExtensionsForConsole.contains(file.extension) }
-                                val saveFiles = files.filter { file -> saveFilesExtension.contains(file.extension) }
+                                val saveFiles = files
+                                        .filter { file -> saveFilesExtension.contains(file.extension) }
+                                        .map { file -> file to file.md5Digest() }
+
                                 LocalRom(RomId(consoleFolder.name, simpleFileName), romFiles, saveFiles)
                             }
                 }

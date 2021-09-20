@@ -98,7 +98,7 @@ class GuiController(deviceManager: DeviceManager,
 
     override fun downloadSelectedRomsSaveFilesFromDevice() {
         logger.debug("download save files from device")
-        downloadSelectedRomFilesFromDevice { localRom -> localRom.saveFiles }
+        downloadSelectedRomFilesFromDevice { localRom -> localRom.saveFilesWithoutHash() }
     }
 
     override fun uploadSelectedRomsToDevice() {
@@ -108,7 +108,7 @@ class GuiController(deviceManager: DeviceManager,
 
     override fun uploadSelectedRomsSaveFilesToDevice() {
         logger.debug("upload save files to device")
-        uploadSelectedRomFilesToDevice { localRom -> localRom.saveFiles }
+        uploadSelectedRomFilesToDevice { localRom -> localRom.saveFilesWithoutHash() }
     }
 
     override fun downloadSavesFromDeviceButtonClicked() {

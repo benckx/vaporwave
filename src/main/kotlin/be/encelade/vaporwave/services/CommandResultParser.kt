@@ -59,7 +59,11 @@ object CommandResultParser : LazyLogging {
                             .groupBy { entry -> entry.simpleFileName() }
                             .map { (fileName, entries) ->
                                 val romFiles = entries.filter { entry -> romExtensions.contains(entry.extension()) }
-                                val saveFiles = entries.filter { entry -> saveFilesExtension.contains(entry.extension()) }
+                                val saveFiles = entries
+                                        .filter { lsEntry -> saveFilesExtension.contains(lsEntry.extension()) }
+                                        .filter { lsEntry -> md5Map.containsKey(lsEntry.filePath) }
+                                        .map { lsEntry -> lsEntry to md5Map[lsEntry.filePath]!! }
+
                                 RemoteRom(RomId(console, fileName), romFiles, saveFiles)
                             }
                 }

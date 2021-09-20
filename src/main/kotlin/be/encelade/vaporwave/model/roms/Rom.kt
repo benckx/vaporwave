@@ -6,7 +6,7 @@ import org.joda.time.LocalDateTime
 
 abstract class Rom<T>(val romId: RomId,
                       val romFiles: List<T>,
-                      val saveFiles: List<T>) {
+                      val saveFiles: List<Pair<T, String>>) {
 
     abstract fun lastModified(entry: T): DateTime
 
@@ -25,12 +25,16 @@ abstract class Rom<T>(val romId: RomId,
     }
 
     fun allFiles(): List<T> {
-        return romFiles + saveFiles
+        return romFiles + saveFilesWithoutHash()
+    }
+
+    fun saveFilesWithoutHash(): List<T> {
+        return saveFiles.map { (file, _) -> file }
     }
 
     fun saveFileLastModified(): LocalDateTime? {
         return saveFiles
-                .map { saveFileEntry -> toLocalDateTime(lastModified(saveFileEntry)) }
+                .map { (saveFileEntry, _) -> toLocalDateTime(lastModified(saveFileEntry)) }
                 .maxOrNull()
     }
 

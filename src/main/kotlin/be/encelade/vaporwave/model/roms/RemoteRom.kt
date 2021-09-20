@@ -4,7 +4,7 @@ import org.joda.time.DateTime
 
 class RemoteRom(romId: RomId,
                 romFiles: List<LsEntry>,
-                saveFiles: List<LsEntry>) :
+                saveFiles: List<Pair<LsEntry, String>>) :
         Rom<LsEntry>(romId, romFiles, saveFiles) {
 
     override fun lastModified(entry: LsEntry): DateTime {

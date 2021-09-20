@@ -6,7 +6,7 @@ import java.io.File
 
 class LocalRom(romId: RomId,
                romFiles: List<File>,
-               saveFiles: List<File>) :
+               saveFiles: List<Pair<File, String>>) :
         Rom<File>(romId, romFiles, saveFiles) {
 
     override fun lastModified(entry: File): DateTime {

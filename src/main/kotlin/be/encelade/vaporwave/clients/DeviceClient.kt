@@ -8,8 +8,6 @@ import be.encelade.vaporwave.services.CommandResultParser.lsEntriesToRemoteRoms
 import be.encelade.vaporwave.services.CommandResultParser.parseLsResult
 import be.encelade.vaporwave.services.CommandResultParser.parseMd5Result
 import be.encelade.vaporwave.utils.LazyLogging
-import be.encelade.vaporwave.utils.TimeUtils.commandDateTimeFormat
-import org.joda.time.DateTime
 import java.io.File
 
 abstract class DeviceClient<D : Device>(val device: D) : LazyLogging {
@@ -52,15 +50,6 @@ abstract class DeviceClient<D : Device>(val device: D) : LazyLogging {
                     throw NotImplementedError("can not create client for $device")
                 }
             }
-        }
-
-        fun buildUpdateLastModifiedCommand(filePairs: List<Pair<File, String>>): String {
-            val lines = filePairs.map { (file, filePath) ->
-                val timestamp = commandDateTimeFormat.print(DateTime(file.lastModified()))
-                "touch -m -d \"$timestamp\" '$filePath'"
-            }
-
-            return lines.joinToString("\n")
         }
 
     }

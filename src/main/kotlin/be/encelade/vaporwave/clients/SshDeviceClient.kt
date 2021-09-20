@@ -34,7 +34,6 @@ class SshDeviceClient(device: SshDevice) : DeviceClient<SshDevice>(device) {
 
     override fun uploadFilesToDevice(filePairs: List<Pair<File, String>>) {
         sshClient.uploadFiles(filePairs)
-//        sshClient.sendCommand(buildUpdateLastModifiedCommand(filePairs))
     }
 
 }

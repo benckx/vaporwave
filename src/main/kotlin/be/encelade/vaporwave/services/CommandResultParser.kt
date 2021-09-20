@@ -32,18 +32,19 @@ object CommandResultParser : LazyLogging {
                 }
     }
 
+    /**
+     * @return Map of <filePath to MD5 hash>
+     */
     fun parseMd5Result(commandResult: String): Map<String, String> {
-        val fileToHashMap = mutableMapOf<String, String>()
-
-        commandResult
+        return commandResult
                 .split("\n")
-                .map { line ->
+                .map { line -> line.trim() }
+                .filterNot { line -> line.isEmpty() }
+                .associate { line ->
                     val hash = line.split(" ").first()
                     val filePath = line.removePrefix(hash).trim()
-                    fileToHashMap[filePath] = hash
+                    filePath to hash
                 }
-
-        return fileToHashMap
     }
 
     fun lsEntriesToRemoteRoms(entries: List<LsEntry>, md5Map: Map<String, String>): List<RemoteRom> {

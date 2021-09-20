@@ -1,5 +1,7 @@
 package be.encelade.vaporwave.gui.components
 
+import be.encelade.vaporwave.gui.GuiUtils.createTitleBorder
+import be.encelade.vaporwave.gui.GuiUtils.titleFont
 import be.encelade.vaporwave.gui.RomRow
 import be.encelade.vaporwave.gui.SwingExtensions.addTableHeaderClickListener
 import be.encelade.vaporwave.gui.SwingExtensions.listColumns
@@ -15,6 +17,8 @@ import be.encelade.vaporwave.model.save.SaveSyncStatus.SAVE_ONLY_ON_COMPUTER
 import be.encelade.vaporwave.utils.LazyLogging
 import java.awt.BorderLayout
 import java.awt.BorderLayout.CENTER
+import java.awt.BorderLayout.NORTH
+import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.JScrollPane
 import javax.swing.JTable
@@ -34,6 +38,12 @@ class RomCollectionPanel(rightClickMenu: RomCollectionRightClickMenu,
 
     init {
         layout = BorderLayout()
+
+        val titleLabel = JLabel("ROMs")
+        titleLabel.border = createTitleBorder()
+        titleLabel.font = titleFont
+
+        add(titleLabel, NORTH)
         add(scrollPane, CENTER)
 
         table.componentPopupMenu = rightClickMenu

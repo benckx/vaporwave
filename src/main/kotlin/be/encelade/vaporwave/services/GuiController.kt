@@ -71,6 +71,10 @@ class GuiController(deviceManager: DeviceManager,
         }
     }
 
+    override fun addDeviceButtonClicked() {
+        AddDevicePanel()
+    }
+
     override fun refreshDevicesButtonClicked() {
         refreshOnlineStatus()
     }

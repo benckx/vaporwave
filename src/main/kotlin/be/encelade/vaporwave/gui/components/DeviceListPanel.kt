@@ -1,17 +1,15 @@
 package be.encelade.vaporwave.gui.components
 
+import be.encelade.vaporwave.gui.GuiUtils.createTitleBorder
+import be.encelade.vaporwave.gui.GuiUtils.titleFont
 import be.encelade.vaporwave.gui.api.DevicePanelCallback
 import be.encelade.vaporwave.model.devices.Device
 import be.encelade.vaporwave.utils.LazyLogging
 import java.awt.BorderLayout
-import java.awt.BorderLayout.CENTER
-import java.awt.BorderLayout.EAST
+import java.awt.BorderLayout.*
 import java.awt.Dimension
 import java.awt.GridLayout
-import javax.swing.JButton
-import javax.swing.JPanel
-import javax.swing.JScrollPane
-import javax.swing.JTable
+import javax.swing.*
 import javax.swing.ListSelectionModel.SINGLE_SELECTION
 import javax.swing.table.DefaultTableModel
 
@@ -22,11 +20,18 @@ class DeviceListPanel(callback: DevicePanelCallback) : JPanel(), LazyLogging {
     private val scrollPane = JScrollPane(table)
 
     private val buttonPanel = JPanel()
+    private val addDeviceButton = JButton("Add Device")
     private val unSelectButton = JButton("Unselect")
     private val refreshButton = JButton("Refresh")
 
     init {
         layout = BorderLayout()
+
+        val titleLabel = JLabel("Devices")
+        titleLabel.border = createTitleBorder()
+        titleLabel.font = titleFont
+
+        add(titleLabel, NORTH)
         add(scrollPane, CENTER)
         add(buttonPanel, EAST)
         preferredSize = Dimension(800, 150)
@@ -48,8 +53,13 @@ class DeviceListPanel(callback: DevicePanelCallback) : JPanel(), LazyLogging {
         }
 
         buttonPanel.layout = GridLayout(0, 1)
+        buttonPanel.add(addDeviceButton)
         buttonPanel.add(unSelectButton)
         buttonPanel.add(refreshButton)
+
+        addDeviceButton.addActionListener {
+            callback.addDeviceButtonClicked()
+        }
 
         unSelectButton.isEnabled = false
         unSelectButton.addActionListener {

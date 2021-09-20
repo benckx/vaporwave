@@ -1,7 +1,6 @@
 package be.encelade.vaporwave.gui
 
 import java.awt.event.MouseEvent
-import javax.swing.BorderFactory
 import javax.swing.JTable
 import javax.swing.border.EmptyBorder
 import javax.swing.table.TableColumn
@@ -47,13 +46,6 @@ internal object SwingExtensions {
         val b = bottom ?: borderInsets.bottom
         val r = right ?: borderInsets.right
         return EmptyBorder(t, l, b, r)
-    }
-
-    /**
-     * Convenience method with Kotlin named parameters
-     */
-    fun createEmptyBorder(top: Int = 0, left: Int = 0, bottom: Int = 0, right: Int = 0): EmptyBorder {
-        return BorderFactory.createEmptyBorder(top, left, bottom, right) as EmptyBorder
     }
 
 }

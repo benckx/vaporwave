@@ -8,8 +8,8 @@ _Vaporwave_ is a tool to manage, synchronize and backup ROMs and save files betw
 handhelds, smartphone, etc.) It's inspired in part from the e-books
 manager [calibre](https://github.com/kovidgoyal/calibre).
 
-Name is based on _Steam_ (as the idea is to manage game and save files between devices). *Vaporwave* is also a term
-associated with 80's/90's nostalgia, and therefore with retro gaming.
+Name is based on _Steam_ (as the idea is to manage games and save files consistently between devices). *Vaporwave* is
+also a term associated with 80's/90's nostalgia, and therefore with retro gaming.
 
 ![](img/ui1.png)
 
@@ -63,7 +63,3 @@ For now, it must be run from IDE. Executables for all OS will be added later.
 - Download/Upload ROMs files from/to devices
 - Download/Upload save files from/to devices
 - Tested on [ArkOS](https://github.com/christianhaitian/arkos/wiki) and RG351M device.
-
-# Related Projects:
-
-TODO: ArkOS, RetroOz, sync tool 

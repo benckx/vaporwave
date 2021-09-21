@@ -23,7 +23,7 @@ internal data class RomRow(val localRom: LocalRom?,
     private val rom: Rom<*> = allRoms.first()
 
     fun render(): Array<String> {
-        val lastModified = saveLastModified()
+        val saveLastModified = saveLastModified()
 
         val row = mutableListOf<String>()
         row += romSyncStatus.lowerCase()
@@ -36,8 +36,8 @@ internal data class RomRow(val localRom: LocalRom?,
         } else {
             saveSyncStatus.lowerCase()
         }
-        row += if (lastModified != null) {
-            dateFormat.print(lastModified)
+        row += if (saveLastModified != null) {
+            dateFormat.print(saveLastModified)
         } else {
             NO_VALUE_CELL
         }
@@ -48,9 +48,9 @@ internal data class RomRow(val localRom: LocalRom?,
         return when (saveSyncStatus) {
             SAVE_SYNCED,
             SAVE_ONLY_ON_COMPUTER,
-            SAVE_MORE_RECENT_ON_COMPUTER -> localRom!!.saveFileLastModified()
+            SAVE_MORE_RECENT_ON_COMPUTER -> localRom?.saveFileLastModified()
             SAVE_ONLY_ON_DEVICE,
-            SAVE_MORE_RECENT_ON_DEVICE -> remoteRom!!.saveFileLastModified()
+            SAVE_MORE_RECENT_ON_DEVICE -> remoteRom?.saveFileLastModified()
             else -> null
         }
     }

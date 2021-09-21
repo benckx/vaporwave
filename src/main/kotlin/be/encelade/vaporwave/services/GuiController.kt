@@ -2,7 +2,10 @@ package be.encelade.vaporwave.services
 
 import be.encelade.vaporwave.clients.DeviceClient
 import be.encelade.vaporwave.clients.SshClient
-import be.encelade.vaporwave.gui.api.*
+import be.encelade.vaporwave.gui.api.AddDevicePanelCallback
+import be.encelade.vaporwave.gui.api.DevicePanelCallback
+import be.encelade.vaporwave.gui.api.RightClickMenuCallback
+import be.encelade.vaporwave.gui.api.RomCollectionCallback
 import be.encelade.vaporwave.gui.components.*
 import be.encelade.vaporwave.model.DeviceSyncStatus
 import be.encelade.vaporwave.model.devices.Device
@@ -28,7 +31,6 @@ class GuiController(private val deviceManager: DeviceManager,
         AddDevicePanelCallback,
         RomCollectionCallback,
         RightClickMenuCallback,
-        ActionPanelCallback,
         LazyLogging {
 
     // gui components
@@ -36,8 +38,7 @@ class GuiController(private val deviceManager: DeviceManager,
     private var addDeviceWindow: AddDeviceWindow? = null
     private val rightClickMenu = RomCollectionRightClickMenu(this)
     private val romCollectionPanel = RomCollectionPanel(rightClickMenu, this)
-    private val actionPanel = ActionPanel(this)
-    private val mainWindow = MainWindow(deviceListPanel, romCollectionPanel, actionPanel)
+    private val mainWindow = MainWindow(deviceListPanel, romCollectionPanel)
 
     // shown states
     private var devices = listOf<Device>()
@@ -64,17 +65,14 @@ class GuiController(private val deviceManager: DeviceManager,
             if (isTrue(isOnlineMap[devices[idx]])) {
                 // online device -> render device sync
                 renderDeviceSyncStatus()
-                actionPanel.enableButtons()
             } else {
                 // offline device -> empty table
                 romCollectionPanel.clearTable()
-                actionPanel.disableButtons()
             }
         } else {
             // no device selected -> render local roms
             this.selectedDevice = null
             renderLocalRoms()
-            actionPanel.disableButtons()
         }
     }
 
@@ -138,14 +136,6 @@ class GuiController(private val deviceManager: DeviceManager,
     override fun uploadSelectedRomsSaveFilesToDevice() {
         logger.debug("upload save files to device")
         uploadSelectedRomFilesToDevice { localRom -> localRom.saveFilesWithoutHash() }
-    }
-
-    override fun downloadSavesFromDeviceButtonClicked() {
-        logger.warn("TODO: downloadSavesFromDeviceButtonClicked")
-    }
-
-    override fun uploadSavesToDeviceButtonClick() {
-        logger.warn("TODO: uploadSavesToDevice")
     }
 
     private fun refreshOnlineStatus() {

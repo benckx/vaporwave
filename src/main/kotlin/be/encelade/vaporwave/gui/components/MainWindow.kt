@@ -2,12 +2,12 @@ package be.encelade.vaporwave.gui.components
 
 import be.encelade.vaporwave.utils.LazyLogging
 import java.awt.BorderLayout
-import java.awt.BorderLayout.*
+import java.awt.BorderLayout.CENTER
+import java.awt.BorderLayout.NORTH
 import javax.swing.JFrame
 
 class MainWindow(deviceListPanel: DeviceListPanel,
-                 romCollectionPanel: RomCollectionPanel,
-                 actionPanel: ActionPanel) : JFrame(), LazyLogging {
+                 romCollectionPanel: RomCollectionPanel) : JFrame(), LazyLogging {
 
     init {
         val x = 200
@@ -20,7 +20,6 @@ class MainWindow(deviceListPanel: DeviceListPanel,
         layout = BorderLayout()
         add(deviceListPanel, NORTH)
         add(romCollectionPanel, CENTER)
-        add(actionPanel, SOUTH)
         defaultCloseOperation = EXIT_ON_CLOSE
     }
 

@@ -26,7 +26,7 @@ class MockDeviceClient(device: MockDevice) : DeviceClient<MockDevice>(device), L
     }
 
     override fun md5sumCommandRomFolder(): String {
-        return loadFile(device.mockDataMd5)
+        return loadFile(device.mockDataMd5FileName)
     }
 
     override fun downloadFilesFromDevice(filePairs: List<Pair<String, File>>): List<File> {

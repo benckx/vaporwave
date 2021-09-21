@@ -21,7 +21,7 @@ also a term associated with 80's/90's nostalgia, and therefore with retro gaming
 - Compare save files between local computer and devices, and detect where the more recent save is stored
 - Download/Upload ROMs files from/to devices
 - Download/Upload save files from/to devices
-- Tested with [ArkOS](https://github.com/christianhaitian/arkos/wiki) running on a RG351M device.
+- Tested on [ArkOS](https://github.com/christianhaitian/arkos/wiki) with a RG351M device.
 
 # Future Changes
 
@@ -52,6 +52,21 @@ For now, it must be run from IDE. Executables for all OS will be added later.
  ./gradlew dependencyUpdates --refresh-dependencies
 ```
 
+## Add a mocked device
+
+For test purpose, it's possible to add mock devices. Add the following to `data/devices.json`.
+
+```json
+{
+  "type": "be.encelade.vaporwave.model.devices.MockDevice",
+  "name": "mock",
+  "mockDataFileName": "ls-result-test-02",
+  "mockDataMd5FileName": "md5-test-02"
+}
+```
+
+Test files can be customized.
+
 # Change logs
 
 ## Version 1.0
@@ -62,4 +77,4 @@ For now, it must be run from IDE. Executables for all OS will be added later.
 - Compare save files between local computer and devices, and detect where the more recent save is stored
 - Download/Upload ROMs files from/to devices
 - Download/Upload save files from/to devices
-- Tested on [ArkOS](https://github.com/christianhaitian/arkos/wiki) and RG351M device.
+- Tested on [ArkOS](https://github.com/christianhaitian/arkos/wiki) with a RG351M device.

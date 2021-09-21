@@ -13,3 +13,4 @@ generated/
 *.zip
 *.csv
 data/devices.json
+data/preferences.properties

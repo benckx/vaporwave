@@ -17,28 +17,29 @@ Name is based on _Steam_ (as the idea is to manage games and save files consiste
 
 - Navigate local ROMs collection
 - Add device based on its SSH connection
-- Compare ROMs between local computer and devices
-- Compare save files between local computer and devices, and detect where the more recent save is stored
+- Compare ROMs between computer and devices
+- Compare save files between computer and devices, and detect where the more recent save files are stored
 - Download/Upload ROMs files from/to devices
 - Download/Upload save files from/to devices
-- Tested on [ArkOS](https://github.com/christianhaitian/arkos/wiki) with a RG351M device.
+- Tested on [ArkOS](https://github.com/christianhaitian/arkos/wiki) with a RG351M device
 
 # Future Changes
 
-- Add proper executable for Windows and Linux
-- Test/Add support for other devices and OS. It's likely some OS store their ROMs differently.
+- Add proper executable for Windows, Linux and macOS
+- Test/Add support for other devices and device OS (it's likely some OS store their ROMs differently)
 - Add/Remove ROMs from collection
 - Update local ROMs folder
 - Improve UI/UX (file transfer progress bars, warning when user override save files that seems more recent, etc.)
-- Add a function that detects, for each ROM, the most recent save from all the devices, and upload it to all devices.
-- Sync with local RetroArch installation as well.
+- Save sync: Add a function that detects - for each ROM - the most recent save from all the locations, and uploads it to
+  all locations. This could run in the background and sync on regular basis
+- Sync with local RetroArch installation
 - Add a nice app icon
 
 # How To
 
 ## Run
 
-For now, it must be run from IDE. Executables for all OS will be added later.
+For now, it must be run from the code or IDE. Executables for all OS will be added later.
 
 ## Build
 
@@ -73,8 +74,8 @@ Test files can be customized.
 
 - Navigate local ROMs collection
 - Add device based on its SSH connection
-- Compare ROMs between local computer and devices
-- Compare save files between local computer and devices, and detect where the more recent save is stored
+- Compare ROMs between computer and devices
+- Compare save files between computer and devices, and detect where the more recent save files are stored
 - Download/Upload ROMs files from/to devices
 - Download/Upload save files from/to devices
-- Tested on [ArkOS](https://github.com/christianhaitian/arkos/wiki) with a RG351M device.
+- Tested on [ArkOS](https://github.com/christianhaitian/arkos/wiki) with a RG351M device

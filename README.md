@@ -4,12 +4,12 @@
 
 # About
 
-_Vaporwave_ is a tool to manage, synchronize and backup ROMs and save files between different devices (computer, retro
+*Vaporwave* is a tool to manage, synchronize and backup ROMs and save files between different devices (computer, retro
 handhelds, smartphone, etc.) It's inspired in part from the e-books
 manager [calibre](https://github.com/kovidgoyal/calibre).
 
-Name is based on _Steam_ (as the idea is to manage games and save files consistently between devices). *Vaporwave* is
-also a term associated with 80's/90's nostalgia, and therefore with retro gaming.
+Name is based on _Steam_ (as the idea is to manage games and save files consistently between devices); the term
+*vaporwave* is also commonly associated with 80's/90's nostalgia, and therefore with retro gaming.
 
 ![](img/ui1.png)
 

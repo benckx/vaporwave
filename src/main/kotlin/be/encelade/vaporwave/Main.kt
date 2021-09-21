@@ -35,17 +35,17 @@ fun main() {
         val controller = GuiController(deviceManager, localRomManager)
         controller.start()
     } else {
-        logger.error("local rom folder unknown, leaving app")
+        logger.error("local rom folder could not be determined, leaving app")
         exitProcess(0)
     }
 }
 
 private fun locateLocalRomFolder(): String? {
     var localRomFolderPath: String? = null
+
     val propertiesFile = PropertiesFile(PREFERENCES_FILE_LOCATION)
     if (!propertiesFile.isDefined(LOCAL_ROM_FOLDER)) {
         showMessageDialog(null, "Local Rom Folder not defined\nPlease select local rom folder", "Local Rom Folder", WARNING_MESSAGE)
-
         val fileChooser = JFileChooser()
         fileChooser.fileSelectionMode = DIRECTORIES_ONLY
         val returnValue = fileChooser.showOpenDialog(null)
@@ -55,9 +55,10 @@ private fun locateLocalRomFolder(): String? {
                 propertiesFile.persistProperty(LOCAL_ROM_FOLDER, folder.absolutePath)
                 localRomFolderPath = folder.absolutePath
             }
-        } else {
-            localRomFolderPath = propertiesFile.getProperty(LOCAL_ROM_FOLDER)!!
         }
+    } else {
+        localRomFolderPath = propertiesFile.getProperty(LOCAL_ROM_FOLDER)!!
     }
+
     return localRomFolderPath
 }

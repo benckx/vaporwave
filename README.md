@@ -11,6 +11,8 @@ manager [calibre](https://github.com/kovidgoyal/calibre).
 Name is based on _Steam_ (as the idea is to manage game and save files between devices). *Vaporwave* is also a term
 associated with 80's/90's nostalgia, and therefore with retro gaming.
 
+![](img/ui1.png)
+
 # Features
 
 - Navigate local ROMs collection

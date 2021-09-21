@@ -6,7 +6,7 @@ import java.awt.event.MouseListener
 internal class MouseClickListener(private val callback: (MouseEvent) -> Unit) : MouseListener {
 
     override fun mouseClicked(e: MouseEvent?) {
-        callback(e!!)
+        e?.let { callback(it) }
     }
 
     override fun mousePressed(p0: MouseEvent?) {

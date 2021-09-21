@@ -11,9 +11,9 @@ import javax.swing.JPopupMenu
 
 class RomCollectionRightClickMenu(callback: RightClickMenuCallback) : JPopupMenu() {
 
-    private val downloadRomsFromDeviceItem = JMenuItem("Download rom(s) from device")
+    private val downloadRomsFromDeviceItem = JMenuItem("Download ROM(s) from device")
     private val downloadSaveFilesFromDeviceItem = JMenuItem("Download save file(s) from device")
-    private val uploadRomsToDeviceItem = JMenuItem("Upload rom(s) to device")
+    private val uploadRomsToDeviceItem = JMenuItem("Upload ROM(s) to device")
     private val uploadSaveFilesToDeviceItem = JMenuItem("Upload save file(s) to device")
 
     private val allItems = listOf(

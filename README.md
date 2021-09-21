@@ -53,7 +53,7 @@ For now, it must be run from the code or IDE. Executables for all OS will be add
  ./gradlew dependencyUpdates --refresh-dependencies
 ```
 
-## Add a mocked device
+## Add a mock device
 
 For test purpose, it's possible to add mock devices. Add the following to `data/devices.json`.
 

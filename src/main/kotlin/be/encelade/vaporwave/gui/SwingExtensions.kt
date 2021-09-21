@@ -2,7 +2,6 @@ package be.encelade.vaporwave.gui
 
 import java.awt.event.MouseEvent
 import javax.swing.JTable
-import javax.swing.border.EmptyBorder
 import javax.swing.table.TableColumn
 
 internal object SwingExtensions {
@@ -35,17 +34,6 @@ internal object SwingExtensions {
 
     fun JTable.listColumns(): List<TableColumn> {
         return (0 until columnCount).map { i -> columnModel.getColumn(i) }
-    }
-
-    /**
-     * Convenience method with Kotlin named parameters
-     */
-    fun EmptyBorder.copy(top: Int? = null, left: Int? = null, bottom: Int? = null, right: Int? = null): EmptyBorder {
-        val t = top ?: borderInsets.top
-        val l = left ?: borderInsets.left
-        val b = bottom ?: borderInsets.bottom
-        val r = right ?: borderInsets.right
-        return EmptyBorder(t, l, b, r)
     }
 
 }

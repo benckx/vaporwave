@@ -11,7 +11,7 @@ object GuiUtils {
     val titleFont: Font = Font("Arial", Font.PLAIN, 19)
 
     fun createTitleBorder(): EmptyBorder {
-        return createBorder(left = 2, right = 2, bottom = 3, top = 3)
+        return createBorder(left = 2, right = 2, bottom = 5, top = 5)
     }
 
     /**

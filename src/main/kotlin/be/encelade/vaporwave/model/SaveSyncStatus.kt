@@ -1,4 +1,4 @@
-package be.encelade.vaporwave.model.save
+package be.encelade.vaporwave.model
 
 enum class SaveSyncStatus {
 

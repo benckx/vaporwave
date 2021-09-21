@@ -1,12 +1,12 @@
 package be.encelade.vaporwave.gui
 
 import be.encelade.vaporwave.gui.GuiUtils.humanReadableByteCountBin
+import be.encelade.vaporwave.model.SaveSyncStatus
+import be.encelade.vaporwave.model.SaveSyncStatus.*
 import be.encelade.vaporwave.model.roms.LocalRom
 import be.encelade.vaporwave.model.roms.RemoteRom
 import be.encelade.vaporwave.model.roms.Rom
 import be.encelade.vaporwave.model.roms.RomSyncStatus
-import be.encelade.vaporwave.model.save.SaveSyncStatus
-import be.encelade.vaporwave.model.save.SaveSyncStatus.*
 import org.joda.time.LocalDateTime
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter

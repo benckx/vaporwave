@@ -8,12 +8,12 @@ import be.encelade.vaporwave.gui.SwingExtensions.listColumns
 import be.encelade.vaporwave.gui.api.RomCollectionCallback
 import be.encelade.vaporwave.gui.comparators.*
 import be.encelade.vaporwave.model.DeviceSyncStatus
+import be.encelade.vaporwave.model.SaveSyncStatus.NO_SAVE_FOUND
+import be.encelade.vaporwave.model.SaveSyncStatus.SAVE_ONLY_ON_COMPUTER
 import be.encelade.vaporwave.model.roms.LocalRom
 import be.encelade.vaporwave.model.roms.RomId
 import be.encelade.vaporwave.model.roms.RomSyncStatus.ROM_ONLY_ON_COMPUTER
 import be.encelade.vaporwave.model.roms.RomSyncStatus.ROM_STATUS_UNKNOWN
-import be.encelade.vaporwave.model.save.SaveSyncStatus.NO_SAVE_FOUND
-import be.encelade.vaporwave.model.save.SaveSyncStatus.SAVE_ONLY_ON_COMPUTER
 import be.encelade.vaporwave.utils.LazyLogging
 import java.awt.BorderLayout
 import java.awt.BorderLayout.CENTER

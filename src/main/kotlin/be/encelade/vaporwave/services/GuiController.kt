@@ -108,9 +108,9 @@ class GuiController(private val deviceManager: DeviceManager,
     }
 
     override fun romTableHeaderColumnClicked() {
-        // Re-render what is already being displayed, without fetching or calculating
-        renderedLocalRoms?.let { romCollectionPanel.render(it) }
-        renderedDeviceSyncStatus?.let { romCollectionPanel.render(it) }
+        // re-render what is already being displayed, without fetching or calculating
+        renderedLocalRoms?.let { localRoms -> romCollectionPanel.render(localRoms) }
+        renderedDeviceSyncStatus?.let { deviceSyncStatus -> romCollectionPanel.render(deviceSyncStatus) }
     }
 
     override fun romTableSelectionChanged() {
@@ -178,6 +178,7 @@ class GuiController(private val deviceManager: DeviceManager,
         }
     }
 
+    // TODO: ensure selected device != null
     private fun downloadSelectedRomFilesFromDevice(fileSelector: (RemoteRom) -> List<LsEntry>) {
         renderedDeviceSyncStatus?.let { deviceSyncStatus ->
             val entryToFolderPairs: List<Pair<LsEntry, File>> =

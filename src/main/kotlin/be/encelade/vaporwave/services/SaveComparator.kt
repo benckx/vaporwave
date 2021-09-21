@@ -1,9 +1,9 @@
 package be.encelade.vaporwave.services
 
+import be.encelade.vaporwave.model.SaveSyncStatus
+import be.encelade.vaporwave.model.SaveSyncStatus.*
 import be.encelade.vaporwave.model.roms.LocalRom
 import be.encelade.vaporwave.model.roms.RemoteRom
-import be.encelade.vaporwave.model.save.SaveSyncStatus
-import be.encelade.vaporwave.model.save.SaveSyncStatus.*
 import org.joda.time.DateTime
 import kotlin.math.absoluteValue
 

@@ -45,7 +45,7 @@ private fun locateLocalRomFolder(): String? {
 
     val propertiesFile = PropertiesFile(PREFERENCES_FILE_LOCATION)
     if (!propertiesFile.isDefined(LOCAL_ROM_FOLDER)) {
-        showMessageDialog(null, "Local Rom Folder not defined\nPlease select local rom folder", "Local Rom Folder", WARNING_MESSAGE)
+        showMessageDialog(null, "Local ROM folder not defined\nPlease select local ROM folder", "Local ROM Folder", WARNING_MESSAGE)
         val fileChooser = JFileChooser()
         fileChooser.fileSelectionMode = DIRECTORIES_ONLY
         val returnValue = fileChooser.showOpenDialog(null)

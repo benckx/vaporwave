@@ -21,7 +21,7 @@ import java.io.File.separator
 class LocalRomManager(private val localRomFolder: File) : LazyLogging {
 
     /**
-     * Create it doesn't exist locally
+     * Create if it doesn't exist locally
      */
     fun consoleFolder(console: String): File {
         if (!consoleKeys.contains(console)) {
@@ -31,7 +31,7 @@ class LocalRomManager(private val localRomFolder: File) : LazyLogging {
         val folder = File("${localRomFolder.absolutePath}$separator$console")
 
         if (folder.exists()) {
-            if (!folder.mkdir()) {
+            if (!folder.isDirectory) {
                 folder.delete()
                 folder.mkdir()
             }

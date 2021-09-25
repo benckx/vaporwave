@@ -30,6 +30,8 @@ Name is based on _Steam_ (as the idea is to manage games and save files consiste
 - Add/Remove ROMs from collection
 - Update local ROMs folder
 - Improve UI/UX (file transfer progress bars, warning when user override save files that seems more recent, etc.)
+- Improve save file comparison logic to better take into account cases where only the srm file was modified (the state
+  file being the one actually containing the save states)
 - Save sync: Add a function that detects - for each ROM - the most recent save from all the locations, and uploads it to
   all locations. This could run in the background and sync on regular basis
 - Sync with local RetroArch installation
@@ -79,3 +81,4 @@ Test files can be customized.
 - Download/Upload ROMs files from/to devices
 - Download/Upload save files from/to devices
 - Tested on [ArkOS](https://github.com/christianhaitian/arkos/wiki) with a RG351M device
+- Tested on [RetroOZ](https://github.com/southoz/RetroOZ/wiki) with a PowKiddy RGB10Max 

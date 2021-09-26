@@ -11,7 +11,7 @@ repositories {
     mavenCentral()
 }
 
-def jacksonVersion = "2.12.4"
+def jacksonVersion = "2.12.5"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -22,8 +22,8 @@ dependencies {
 
     // logging
     compile "org.slf4j:slf4j-api:1.7.32"
-    compile "ch.qos.logback:logback-classic:1.2.5"
-    compile "ch.qos.logback:logback-core:1.2.5"
+    compile "ch.qos.logback:logback-classic:1.2.6"
+    compile "ch.qos.logback:logback-core:1.2.6"
 
     // utils
     compile "joda-time:joda-time:2.10.10"

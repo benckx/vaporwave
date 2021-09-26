@@ -3,8 +3,8 @@ sh dist-clean.sh
 gradleVersion=$(grep version gradle.properties)
 appVersion=${gradleVersion#"version="}
 jarFile=vaporwave-"${appVersion}".jar
-distLinuxFolder=dist-linux-"${appVersion}"
-distWin64Folder=dist-win64-jre-"${appVersion}"
+distLinuxFolder=vaporwave-linux-"${appVersion}"
+distWin64Folder=vaporwave-win64-jre-"${appVersion}"
 
 echo "release: ${appVersion}"
 echo "jarFile: ${jarFile}"

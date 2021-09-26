@@ -32,8 +32,12 @@ Name is based on _Steam_ (as the idea is to manage games and save files consiste
 - Improve UI/UX (file transfer progress bars, warning when user override save files that seems more recent, etc.)
 - Improve save file comparison logic to better take into account cases where only the srm file was modified (the state
   file being the one actually containing the save states)
+- Manage PPSSPP save files
 - Save sync: Add a function that detects - for each ROM - the most recent save from all the locations, and uploads it to
   all locations. This could run in the background and sync on regular basis
+- Manage multiple ROMs folders
+- Manage save files and ROMs as 2 separate folders (to make it easier to backup save files on Dropbox, without uploading
+  ROMs files )
 - Sync with local RetroArch installation
 - Add a nice app icon
 
@@ -41,12 +45,32 @@ Name is based on _Steam_ (as the idea is to manage games and save files consiste
 
 ## Run
 
-For now, it must be run from the code or IDE. Executables for all OS will be added later.
+* Download the last zip on [releases page](https://github.com/benckx/vaporwave/releases).
+  * `dist-win64-jre-*` contains the JAR, a JRE version 8 and an executable bat file. The bat file is a simple shortcut
+    that launches the JAR file on the packaged JRE.
+  * `dist-linux-*` contains the JAR and a sh file, which simply contains the command `java -jar vaporwave.jar`.
+  * The JAR file is identical in the 2 zip files. The one containing the JRE is just easier to use.
+* Decompress somewhere on your computer (it can be moved later)
+* On Windows:
+  * Run the bat file `vaporwave.bat`
+  * On the Windows 10 warning message, click "More Info", then "Run anyway"
+* On Linux / macOS:
+  * Run the JAR file on Java 8: `java -jar vaporwave.jar`
+* From the code:
+  * Import the project as a Gradle project in your IDE of choice, and run the Main
 
 ## Build
 
+### Build the project
+
 ```
 ./gradlew clean build
+```
+
+### Package the zip files
+
+```
+./dist.sh
 ```
 
 ## Update dependencies

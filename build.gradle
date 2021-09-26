@@ -55,3 +55,22 @@ test {
         }
     }
 }
+
+def mainClass = "be.encelade.vaporwave.MainKt"
+
+jar {
+    setArchivesBaseName("vaporwave")
+    manifest {
+        attributes 'Main-Class': "$mainClass"
+    }
+
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+
+    exclude 'org/testng/**'
+    exclude 'org/opentest4j/**'
+    exclude 'module-info.class'
+}

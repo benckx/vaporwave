@@ -46,18 +46,20 @@ Name is based on _Steam_ (as the idea is to manage games and save files consiste
 ## Run
 
 * Download the last zip on [releases page](https://github.com/benckx/vaporwave/releases).
-  * `dist-win64-jre-*` contains the JAR, a JRE version 8 and an executable bat file. The bat file is a simple shortcut
-    that launches the JAR file on the packaged JRE.
-  * `dist-linux-*` contains the JAR and a sh file, which simply contains the command `java -jar vaporwave.jar`.
-  * The JAR file is identical in the 2 zip files. The one containing the JRE is just easier to use.
+    * `dist-win64-jre-<version>` contains the JAR (i.e. the executable), a JRE version 8 and an executable bat file. The
+      bat file is a simple shortcut that launches the JAR file on the packaged JRE.
+    * `dist-linux-<version>` contains the JAR and a sh file (which simply contains the
+      command `java -jar vaporwave.jar`).
+    * The JAR file is identical in the 2 zip files. The one containing the JRE is just easier to use. You can use
+      the `dist-linux-<version>` on Windows as well, as long as you know how to run a JAR.
 * Decompress somewhere on your computer (it can be moved later)
 * On Windows:
-  * Run the bat file `vaporwave.bat`
-  * On the Windows 10 warning message, click "More Info", then "Run anyway"
+    * Run the bat file `vaporwave.bat`
+    * On the Windows 10 warning message, click "More Info", then "Run anyway"
 * On Linux / macOS:
-  * Run the JAR file on Java 8: `java -jar vaporwave.jar`
+    * Run the JAR file on Java 8: `java -jar vaporwave.jar`
 * From the code:
-  * Import the project as a Gradle project in your IDE of choice, and run the Main
+    * Import the project as a Gradle project in your IDE of choice, and run the Main
 
 ## Build
 

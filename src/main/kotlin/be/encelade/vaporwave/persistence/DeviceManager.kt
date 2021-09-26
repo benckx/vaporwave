@@ -28,8 +28,12 @@ class DeviceManager {
     }
 
     fun loadDevices(): List<Device> {
-        val json = readFileToString(deviceFile(), UTF_8)
-        return jsonMapper.readValue(json, listOfDevicesTypeRef)
+        return if (deviceFile().exists()) {
+            val json = readFileToString(deviceFile(), UTF_8)
+            jsonMapper.readValue(json, listOfDevicesTypeRef)
+        } else {
+            listOf()
+        }
     }
 
 }

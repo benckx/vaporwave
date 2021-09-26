@@ -20,19 +20,16 @@ cp build/libs/"${jarFile}" "${distWin64Folder}"/"${jarFile}"
 mkdir "${distLinuxFolder}"/data
 mkdir "${distWin64Folder}"/data
 
-cp -rv data/extensions.csv "${distLinuxFolder}"/extensions.csv
-cp -rv data/extensions.csv "${distWin64Folder}"/extensions.csv
+cp -rv data/extensions.csv "${distLinuxFolder}"/data/extensions.csv
+cp -rv data/extensions.csv "${distWin64Folder}"/data/extensions.csv
 
 cp -rv README.md "${distLinuxFolder}"
 cp -rv README.md "${distWin64Folder}"
 
-echo "java -jar ${jarFile}" >"${distLinuxFolder}"/game_jme.sh
-echo 'jre1.8.0_251\\bin\\java -jar '"${jarFile}"'' >"${distWin64Folder}"/game_jme.bat
+echo "java -jar ${jarFile}" >"${distLinuxFolder}"/vaporwave.sh
+echo 'jre1.8.0_251\\bin\\java -jar '"${jarFile}"'' >"${distWin64Folder}"/vaporwave.bat
 
 chmod +x "${distLinuxFolder}"/*.sh
-
-echo 'jre1.8.0_251\\bin\\java -jar '"${jarFile}"'' >dist-win64-"${appVersion}"/vaporwave.bat
-
 cp -r ~/Dev/jre1.8.0_251 "${distWin64Folder}"/
 
 zip -r "${distLinuxFolder}".zip "${distLinuxFolder}"

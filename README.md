@@ -70,7 +70,7 @@ Name is based on _Steam_ (as the idea is to manage games and save files consiste
         1            /usr/lib/jvm/java-11-openjdk-amd64/bin/java      1111      manual mode
         2            /usr/lib/jvm/java-14-openjdk-amd64/bin/java      1411      manual mode
         3            /usr/lib/jvm/java-15-oracle/bin/java             1091      manual mode
-      * 4            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      manual mode
+        4            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      manual mode
         
       Press <enter> to keep the current choice[*], or type selection number: 4
       ```

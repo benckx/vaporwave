@@ -22,6 +22,7 @@ Name is based on _Steam_ (as the idea is to manage games and save files consiste
 - Download/Upload ROMs files from/to devices
 - Download/Upload save files from/to devices
 - Tested on [ArkOS](https://github.com/christianhaitian/arkos/wiki) with a RG351M device
+- Tested on [RetroOZ](https://github.com/southoz/RetroOZ/wiki) with a PowKiddy RGB10Max device
 
 # Future Changes
 
@@ -45,37 +46,37 @@ Name is based on _Steam_ (as the idea is to manage games and save files consiste
 
 ## Run
 
-* Download the last version on [releases page](https://github.com/benckx/vaporwave/releases).
-    * `vaporwave-win64-jre-<version>` contains the JAR (i.e. the executable), a JRE version 8 and an executable bat
-      file. The bat file is a simple shortcut that launches the JAR file on the packaged JRE.
-    * `vaporwave-linux-<version>` contains the JAR and a sh file (which simply contains the
+* Download the latest version on [releases page](https://github.com/benckx/vaporwave/releases).
+    * `vaporwave-win64-jre-<version>.zip` contains the JAR (i.e. the executable), a JRE and an executable bat file. The
+      bat file is a simple shortcut that launches the JAR file on the packaged JRE.
+    * `vaporwave-linux-<version>.zip` contains the JAR and a sh file (which simply contains the
       command `java -jar vaporwave.jar`).
-    * Both zip files are basically identical. The one containing the JRE is just easier to use. You can use
-      the `vaporwave-linux-<version>` on Windows as well, as long as you know how to run the JAR.
+    * Both zip files are basically identical. The one containing the JRE is just easier to use. You can download
+      the `vaporwave-linux-<version>.zip` on Windows as well, as long as you know how to run the JAR.
 * Decompress somewhere on your computer (it can be moved later to any folder)
 * On Windows:
     * Run the bat file `vaporwave.bat`
     * On the Windows 10 warning message, click "More Info", then "Run anyway"
-    * On Linux / macOS:
-        * Run the JAR file on Java 8: `java -jar vaporwave.jar`. Ensure default JRE is version 8.
-        * On Linux, the following command allows you select the default Java:
-       ```
-       ➜  ~ sudo update-alternatives --config java                    
-      [sudo] password for benoit:          
-      There are 4 choices for the alternative java (providing /usr/bin/java).
-      
-       Selection    Path                                            Priority   Status
-      ------------------------------------------------------------
-        0            /usr/lib/jvm/java-14-openjdk-amd64/bin/java      1411      auto mode
-        1            /usr/lib/jvm/java-11-openjdk-amd64/bin/java      1111      manual mode
-        2            /usr/lib/jvm/java-14-openjdk-amd64/bin/java      1411      manual mode
-        3            /usr/lib/jvm/java-15-oracle/bin/java             1091      manual mode
-        4            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      manual mode
-        
-      Press <enter> to keep the current choice[*], or type selection number: 4
-      ```
+* On Linux / macOS:
+    * Run the JAR file on Java 8 using `java -jar vaporwave.jar`. Ensure default JRE is version 8.
+    * On Linux, the following command allows you select the default Java:
+   ```
+   ➜  ~ sudo update-alternatives --config java                    
+  [sudo] password for benoit:          
+  There are 4 choices for the alternative java (providing /usr/bin/java).
+  
+   Selection    Path                                            Priority   Status
+  ------------------------------------------------------------
+    0            /usr/lib/jvm/java-14-openjdk-amd64/bin/java      1411      auto mode
+    1            /usr/lib/jvm/java-11-openjdk-amd64/bin/java      1111      manual mode
+    2            /usr/lib/jvm/java-14-openjdk-amd64/bin/java      1411      manual mode
+    3            /usr/lib/jvm/java-15-oracle/bin/java             1091      manual mode
+    4            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      manual mode
+    
+  Press <enter> to keep the current choice[*], or type selection number: 4
+  ```
 * From the code:
-    * Import the project as a Gradle project in your IDE of choice, and run the Main
+    * Import the project as a Gradle project in your IDE of choice, and run the Main.
 
 ## Build
 
@@ -116,7 +117,7 @@ Test files can be customized.
 
 # Change logs
 
-## Version 1.0
+## Version alpha-1.0
 
 - Navigate local ROMs collection
 - Add device based on its SSH connection
@@ -125,4 +126,4 @@ Test files can be customized.
 - Download/Upload ROMs files from/to devices
 - Download/Upload save files from/to devices
 - Tested on [ArkOS](https://github.com/christianhaitian/arkos/wiki) with a RG351M device
-- Tested on [RetroOZ](https://github.com/southoz/RetroOZ/wiki) with a PowKiddy RGB10Max 
+- Tested on [RetroOZ](https://github.com/southoz/RetroOZ/wiki) with a PowKiddy RGB10Max device

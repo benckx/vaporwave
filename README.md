@@ -51,7 +51,7 @@ Name is based on _Steam_ (as the idea is to manage games and save files consiste
       bat file is a simple shortcut that launches the JAR file on the packaged JRE.
     * `vaporwave-linux-<version>.zip` contains the JAR and a sh file (which simply contains the
       command `java -jar vaporwave.jar`).
-    * Both zip files are basically identical. The one containing the JRE is just easier to use. You can download
+    * Both zip files are basically identical. The one containing the Windows JRE is just easier to use. You can download
       the `vaporwave-linux-<version>.zip` on Windows as well, as long as you know how to run the JAR.
 * Decompress somewhere on your computer (it can be moved later to any folder)
 * On Windows:

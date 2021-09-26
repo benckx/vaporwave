@@ -46,19 +46,19 @@ Name is based on _Steam_ (as the idea is to manage games and save files consiste
 
 ## Run
 
-* Download the last version on [releases page](https://github.com/benckx/vaporwave/releases).
-    * `vaporwave-win64-jre-<version>` contains the JAR (i.e. the executable), a JRE version 8 and an executable bat
-      file. The bat file is a simple shortcut that launches the JAR file on the packaged JRE.
-    * `vaporwave-linux-<version>` contains the JAR and a sh file (which simply contains the
+* Download the latest version on [releases page](https://github.com/benckx/vaporwave/releases).
+    * `vaporwave-win64-jre-<version>.zip` contains the JAR (i.e. the executable), a JRE and an executable bat file. The
+      bat file is a simple shortcut that launches the JAR file on the packaged JRE.
+    * `vaporwave-linux-<version>.zip` contains the JAR and a sh file (which simply contains the
       command `java -jar vaporwave.jar`).
-    * Both zip files are basically identical. The one containing the JRE is just easier to use. You can use
-      the `vaporwave-linux-<version>` on Windows as well, as long as you know how to run the JAR.
+    * Both zip files are basically identical. The one containing the JRE is just easier to use. You can download
+      the `vaporwave-linux-<version>.zip` on Windows as well, as long as you know how to run the JAR.
 * Decompress somewhere on your computer (it can be moved later to any folder)
 * On Windows:
     * Run the bat file `vaporwave.bat`
     * On the Windows 10 warning message, click "More Info", then "Run anyway"
 * On Linux / macOS:
-    * Run the JAR file on Java 8: `java -jar vaporwave.jar`. Ensure default JRE is version 8.
+    * Run the JAR file on Java 8 using `java -jar vaporwave.jar`. Ensure default JRE is version 8.
     * On Linux, the following command allows you select the default Java:
    ```
    ➜  ~ sudo update-alternatives --config java                    
@@ -76,7 +76,7 @@ Name is based on _Steam_ (as the idea is to manage games and save files consiste
   Press <enter> to keep the current choice[*], or type selection number: 4
   ```
 * From the code:
-    * Import the project as a Gradle project in your IDE of choice, and run the Main
+    * Import the project as a Gradle project in your IDE of choice, and run the Main.
 
 ## Build
 
@@ -117,7 +117,7 @@ Test files can be customized.
 
 # Change logs
 
-## Version 1.0
+## Version alpha-1.0
 
 - Navigate local ROMs collection
 - Add device based on its SSH connection

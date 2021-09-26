@@ -34,3 +34,6 @@ cp -r ~/Dev/jre1.8.0_251 "${distWin64Folder}"/
 
 zip -r "${distLinuxFolder}".zip "${distLinuxFolder}"
 zip -r "${distWin64Folder}".zip "${distWin64Folder}"
+
+rm -r "${distLinuxFolder}"
+rm -r "${distWin64Folder}"

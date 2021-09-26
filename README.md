@@ -71,6 +71,8 @@ Name is based on _Steam_ (as the idea is to manage games and save files consiste
 
 ### Package the zip files
 
+The script assumes a copy of the Win64 JRE is located at ` ~/Dev/jre1.8.0_251`. Change that line if necessary.
+
 ```
 ./dist.sh
 ```

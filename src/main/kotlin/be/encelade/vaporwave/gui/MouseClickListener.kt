@@ -3,6 +3,9 @@ package be.encelade.vaporwave.gui
 import java.awt.event.MouseEvent
 import java.awt.event.MouseListener
 
+/**
+ * Syntactic sugar on top of [MouseListener].
+ */
 internal class MouseClickListener(private val callback: (MouseEvent) -> Unit) : MouseListener {
 
     override fun mouseClicked(e: MouseEvent?) {

@@ -4,6 +4,9 @@ import java.awt.event.MouseEvent
 import javax.swing.JTable
 import javax.swing.table.TableColumn
 
+/**
+ * Syntactic sugar on top of <pre>javax.swing</pre>
+ */
 internal object SwingExtensions {
 
     fun JTable.addTableHeaderClickListener(callback: (MouseEvent, TableColumn) -> Unit) {

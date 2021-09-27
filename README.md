@@ -26,7 +26,6 @@ Name is based on _Steam_ (as the idea is to manage games and save files consiste
 
 # Future Changes
 
-- Add proper executable for Windows, Linux and macOS
 - Test/Add support for other devices and device OS (it's likely some OS store their ROMs differently)
 - Add/Remove ROMs from collection
 - Update local ROMs folder

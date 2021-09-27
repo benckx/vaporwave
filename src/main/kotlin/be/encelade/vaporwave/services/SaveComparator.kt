@@ -62,9 +62,9 @@ object SaveComparator {
                     .saveFilesWithoutHash()
                     .map { file -> file.name }
                     .all { fileName ->
-                        val local = localRom.saveFilesWithoutHash().find { it.name == fileName }!!
-                        val remote = remoteRom.saveFilesWithoutHash().find { it.fileName() == fileName }!!
-                        comparisonPredicate(local.lastModified(), remote.lastModified)
+                        val localFile = localRom.saveFilesWithoutHash().find { it.name == fileName }!!
+                        val remoteLsEntry = remoteRom.saveFilesWithoutHash().find { it.fileName() == fileName }!!
+                        comparisonPredicate(localFile.lastModified(), remoteLsEntry.lastModified)
                     }
         } else {
             false

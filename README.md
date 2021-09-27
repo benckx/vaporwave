@@ -116,6 +116,10 @@ Test files can be customized.
 
 # Change logs
 
+## Version alpha-1.1
+
+- Update Kotlin 1.5.30 to 1.5.31
+
 ## Version alpha-1.0
 
 - Navigate local ROMs collection
